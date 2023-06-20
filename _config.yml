@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Ryan A Anderson"
 title_separator          : "-"
 name                     : &name "Ryan A Anderson"
-description              : &description "PhD Student at UCLA Statistics in Guido Montufar's group, studying mathematics of machine learning"
+description              : &description "PhD Student at UCLA Statistics"
 url                      : https://ryan-a-anderson.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "ryan-a-anderson/ryan-a-anderson.github.io"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Ryan A Anderson"
   avatar           : "profile.png"
-  bio              : "PhD Student in Statistics, UCLA"
+  bio              : "PhD Student at UCLA Statistics in Guido Montufar's group, studying mathematics of machine learning"
   location         : "Los Angeles 🌆🏖"
   employer         :
   pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
