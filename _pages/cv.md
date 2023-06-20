@@ -11,21 +11,19 @@ redirect_from:
 
 Education
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+* B.S. in Mathematics & History, University of Pennsylvania, 2016
+* Ph.D in Statistics, University of California, Los Angeles, 2027 (expected)
 
 Work experience
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* Summer 2013: Undergraduate Research Assistant at Harvard School of Public Health
+  * Supervisor: Professor Alkes Price
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* 2016-2018: Trader, Corporate Credit at Goldman Sachs & Co.
+
+* 2018-2019: Research Associate, Bridgewater Associates
+
+* 2020-2022: Associate Manager, Strategy & Operations, Doordash
   
 Skills
 ======
