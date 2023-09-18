@@ -34,6 +34,7 @@ X \geq 0, E[X^2] \leq \infty \rightarrow P(|X - E[X]| \geq t) \leq \frac{var(X)}
 $$
 
 One more basic and useful statement is known as the Chernoff trick - take a standard normal RV $Z_n$. Then $\forall \lambda > 0$,
+
 $$
 P(Z_n \geq t) = P(exp(\lambda Z_n) \geq exp(\lambda t)) \leq \frac{E[exp(\lambda Z_n)]}{exp(\lambda t)}
 $$
@@ -57,15 +58,19 @@ $$
 All bounded RVs are sub-Gaussian - if $X$ takes its values in the interval $[a,b]$, then $X$ is sub-G with parameter $\frac{b-a}{2}$.
 
 We can further characterize sub-Gaussian RVs via the following result: for an RV $X$, the following are equivalent for $K_1, \dots, K_4 > 0$:
+
 $$
 \text{Tails of X satisfy } P(|X| \geq t) \leq 2 exp(-\frac{t^2}{K_1^2}), \forall t \geq 0
 $$
+
 $$
 \text{Moments of X satisfy } \|X\|_p = (E[|X|^p])^{\frac{1}{p}} \leq K_2\sqrt{p}, \forall p \geq 1
 $$
+
 $$
 \text{MGF of X satisfies } E[exp(\lambda^2 X^2)] \leq exp(K_3^2 \lambda^2), \forall |\lambda| \leq \frac{1}{K_3}
 $$
+
 $$
 \text{MGF of } X^2 \text{ satisfies } E[exp(\frac{X^2}{K_4})] \leq 2
 $$
@@ -77,16 +82,19 @@ Let $P(|X| \geq t) \leq 2e^{-t^2}$. Then take $E[|X|^p] = \int_0^{\infty} P(|X|^
 Let $u = t^p$ - then $du = pt^{p-1} dt$ and $|X|^p \geq u \rightarrow |X| \geq t$.
 
 Now
+
 $$
 E(|X|^p) = \int_0^{\infty} P(|X|^p \geq u) pt^{p-1} dt \leq \int_0^{\infty} 2e^{-t^2} pt^{p-1} dt \text{ by assumption.}
 $$
 
 But now note that our last integral on right is just the gamma function evaluated at $\frac{p}{2}$! It turns out that $p \Gamma(\frac{p}{2}) \leq 3(\frac{p}{2})^{\frac{p}{2}}$, so we have
+
 $$
 E[|X|^p] \leq 3(\frac{p}{2})^{\frac{p}{2}} \rightarrow (E[|X|^p])^{\frac{1}{p}} \leq K_1\sqrt{p}.
 $$
 
 We will also need for basically every result the notion of a sub-Gaussian norm. The sub-Gaussian norm $\|X\|_{\psi_2}$ is given by 
+
 $$
 \|X\|_{\psi_2} = \inf(t > 0 | E[exp(\frac{X^2}{t^2}) \leq 2]).
 $$
@@ -95,9 +103,11 @@ Proving this is a real norm is really hard! Need to use Fatou's lemma to obtain 
 $$
 P(|X| > t) \leq 2 exp(-c\frac{t^2}{\|X\|_{\psi_2}})
 $$
+
 $$
 \|X\|_p \leq C\|X\|_{\psi_2}\sqrt{p}
 $$
+
 $$
 E[exp(X^2 / \|X\|_{\psi_2})] \leq 2
 $$
@@ -105,6 +115,7 @@ $$
 ### Sub-Gaussianity and Concentration Inequalities
 
 We can get a really easy result on sub-Gaussian RVs using the Chernoff trick. Let $X$ be sub-G. Then $P(X \geq t) \leq exp({\frac{-t^2}{2\sigma^2}})$. The proof is as follows:
+
 $$
 P(X \geq t) \leq \inf_{\lambda > 0} (exp(-\lambda t) E[exp(\lambda X)]) = inf_{\lambda > 0}(exp(-\lambda t) exp(\sigma^2\frac{\lambda^2}{2})) \leq inf_{\lambda > 0} (exp(-\lambda t + \sigma^2\frac{\lambda^2}{2})).
 $$
