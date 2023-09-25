@@ -15,9 +15,9 @@ We can make this explicit – although the most fun example comes from June Huh 
 
 Consider a 2x2 contingency table, which just counts the number of times each event $X_1, X_2$ occur. The entries of this table are $p_{i,j} = P(X_1 = i, X_2 = j)$. Under (unconditional) independence, the joint probability factorizes as $p_{ij} = p_i p_j$. But also, since $p_i = 1- p_{ii}$, this matrix must have rank 1, meaning its determinant $p_{00}p_{11} - p_{01}p_{10}$ vanishes. This determinant vanishing defines a variety, which the algebraic geometers go on to study further, asking questions about its irreducibility, dimension, etc.
 
-\heading{Estimation & Optimization}
+## Estimation & Optimization
 
-Carlos Amendola and Julia Lindberg gave the talks on estimation and optimization. Both talks were centered around the ML degree and the method of moments. Say we have data which we summarize in a vector of counts $u$, with $u_i = #$ of times that the $i$th state occurs. Statisticians are taught to maximize the likelihood function $L_u(p) = \prod p_i^{u_i}$ to get the MLE, which is consistent and has minimal variance, etc. The algebraists instead note that we have a set of likelihood equations, given by the likelihood function, the determinantal constraints which arise from the independence relations, and the always-present $\sum p_i = 1$. The number of (generic!) solutions to these likelihood equations is an invariant of the statistical model called the ML degree.
+Carlos Amendola and Julia Lindberg gave the talks on estimation and optimization. Both talks were centered around the ML degree and the method of moments. Say we have data which we summarize in a vector of counts $u$, with $u_i$ the number of times that the $i$th state occurs. Statisticians are taught to maximize the likelihood function $L_u(p) = \prod p_i^{u_i}$ to get the MLE, which is consistent and has minimal variance, etc. The algebraists instead note that we have a set of likelihood equations, given by the likelihood function, the determinantal constraints which arise from the independence relations, and the always-present $\sum p_i = 1$. The number of (generic!) solutions to these likelihood equations is an invariant of the statistical model called the ML degree.
 
 Under unconditional independence the ML degree is 1 – this is also something statisticians are taught, that our optimization methods for finding an MLE won't get stuck in local minima. But this is not always the case! In the soccer vs hair loss example mentioned above, Huh and Sturmfels construct the data so that the contingency table is of rank 2 – this then leads to different determinantal constraints than if it were rank 1, and thus we get more than 1 local optima for the likelihood function.
 
@@ -28,3 +28,23 @@ Uniqueness of solutions to this system in this case even has an easy statistical
 Lindberg's talk described some really fun new results as regards both these objects – notably, that mixtures of $k$ univariate Gaussians are identifiable given $3k+2$ moments. She also described the use of homotopy continuation in finding solutions to the moments system, which was totally novel and very exciting to me.
 
 Our problem solving session involved a lot of problems that the statisticians were good at – prove an estimator is consistent, unbiased, etc. Some of my theoretical stats had gotten a bit rusty but was a lot of fun to discuss and rehash the proofs with the mathematicians. One sub-question that troubled us asked you to prove that if we have a mixture of two Gaussians, then the likelihood function is unbounded unless the variances are equal and known. If anyone knows how to solve that, please let me know!
+
+## Graphical Models
+
+## Neural Networks
+
+## Algebraic Economics
+Tianren Chen and Irem Portakal discussed algebraic economics, which studies algebraic properties of the models induced by games. Lots about games is prima facie algebraic – payoff matrices are really payoff tensors, in that each player in a game has payoffs for each combination of decisions they and the other player make. The Nash equilibrium of a game is given by a zero set of a system of equations which are polynomial in the payoffs. The totally mixed Nash equilibria generalize the payoffs into probabilities, from which jumping off point you can go further in the same fashion as likelihood geometry style problems.
+
+Lots of complicated stuff about real algebraic geometry gets you to the really cool result from McKelvey & McLennan, which considers the solutions of the equilibrium polynomials geometrically. Then the number of solutions is given by (bounded by) the mixed volume of the Newton polytopes defined by the equilibrium polynomials! This kind of thing is called a BKK bound, after the result of Bernshtei Kushnirenko and Khovanskii on solutions to systems of Laurent polynomials.
+
+<img width="943" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/e0bf2ef2-7fc3-460d-a30d-750e2f2d885c">
+
+Portakal shared her really exciting result with Sturmfels on the nature of dependency equilibria. Traditionally we think about games where the players act independently. If you instead allow subsets of players to act depending on how the others will act, you induce a set of (in)dependence relations – the resulting solutions are called dependency equilibria. These dependency equilibria were first investigated by the philosopher Wolfgang Spohn, who defined them as solutions where players maximize their conditional expectation payoffs. This leads to the notion of a Spohn variety, which is given by the probability of each action for each player and their net payoffs. Irem & Portakal's result uses the Spohn variety to characterize all Nash equilibria in $n$-player, 2-strategy games as arising from some real algebraic variety.
+
+The problem solving session was excellent because we actually calculated a BKK bound and a Spohn variety. I was able to use packages produced by the authors in Julia to count the number of Nash equilibria to [the Bach or Stravinsky game](https://moblab.com/edu/games/bach-or-stravinsky#:~:text=The%20classic%20pure%2Dstrategy%20game,coordinating%20on%20a%20different%20action), which happily turned out to be 1.
+
+## Ecological Problems
+Elizabeth Gross and Neriman Tokcan discussed the application of algebraic statistics to ecological and biomedical problems, focusing on two structures: phylogenetic trees and tensors.
+
+Phylogenetic trees are models that encode evolutionary relationships among species. Given a set of species, we can use DNA data to identify the highest probability tree which describes their evolutionary history. In this way, statisticians would be more used to understanding them as 
