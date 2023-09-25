@@ -8,5 +8,9 @@ redirect_from:
   - /about.html
 ---
 
-This is Ryan A. Anderson's home on the web!
+I am a PhD student at the Department of Statistics & Data Science at UCLA working with Guido Montufar.
+
+Recent News:
+- I am attending workshops as part of the IMSI's long program ["Algebraic Statistics and Our Changing World"](https://www.imsi.institute/activities/algebraic-statistics-and-our-changing-world/) at the University of Chicago.
+- I was accepted to be part of [the G-RIPS program given by the IPAM](https://www.ipam.ucla.edu/programs/student-research-programs/graduate-level-research-in-industrial-projects-for-students-g-rips-sendai-2023/), an NSF institute at UCLA. G-RIPS took place at the Zuse Institute Berlin, located at the Freie Universität Berlin. My work with [Stefan Zachow's group](https://www.zib.de/members/zachow) and an industry sponsor, [1000Shapes GmbH](https://1000shapes.com/en/), concerned properties of statistical shape models and new approaches via neural networks including the variational autoencoder architecture introduced by [Tamaz Amiranashvili](https://www.dqbm.uzh.ch/en/research/menze/team/team-tamaz.html).
 
