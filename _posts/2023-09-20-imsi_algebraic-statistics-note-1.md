@@ -30,8 +30,31 @@ Lindberg's talk described some really fun new results as regards both these obje
 Our problem solving session involved a lot of problems that the statisticians were good at – prove an estimator is consistent, unbiased, etc. Some of my theoretical stats had gotten a bit rusty but was a lot of fun to discuss and rehash the proofs with the mathematicians. One sub-question that troubled us asked you to prove that if we have a mixture of two Gaussians, then the likelihood function is unbounded unless the variances are equal and known. If anyone knows how to solve that, please let me know!
 
 ## Graphical Models
+Seth Sullivant and Pratik Misra presented on graphical models and the connection to causal inference. Lots of this stuff was familiar from stats world – $d$-separation and Gaussian graphical models and whatnot. Sullivant presented a lot of results which depended on $t$-separation, in which we consider not just separation via an edge, but rather by treks, which are paths in the graph with no colliders. 
+
+Some of Misra's discussion included combinations of graphs via gluing, which I thought was really fascinating. He also described work on colored Gaussian graphical models, where the key property is being RCOP, where permutations on the labels preserve colorings and edge relationships. If a colored graph is RCOP then its vanishing ideal is toric, which makes all the algebraists very happy (vanishing ideals are hard to explain but easy to compute).
+
+<img width="430" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/361527d1-1e5a-4c15-a143-f7711612929b">
+
+We had a lot of fun with the problem solving session here, working on independence and intersection numbers of graphs. A result Misra presented gave that graphs with equal intersection and independence numbers live in the equivalence class of graphs of some DAG. As a result, you can take a representative of such a class and turn it into a valid DAG via correct assignation of colliders.
+
+<img width="600" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/4e03232b-b056-4519-bae4-8e0ee6dfe49c">
+
 
 ## Neural Networks
+Joe Kileel and Kathlén Kohn presented on neural networks. Much of this work was connected to topics we often discuss in the Montufar group, and indeed Guido and Kathlén collaborated on papers related to the geometry of linear convolutional networks.
+
+Kohn provided an excellent characterization of the geometry of linear convolutional networks as you vary the stride of the convolution. Here the activation function is the identity. As such, fully connected networks are unsurprisingly given by algebraic varieties – the final function we get is just the product of the weight matrices. By contrast, with some non-zero stride added to the convolution, the variety becomes a semialgebraic set, given by inequalities, not just equalities, in the defining polynomials.
+
+<img width="425" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/a771bab7-e4f9-4b81-ab2d-7ab9233349d8">
+
+Another good result describes the function computed by convolutional networks. Since products of Toeplitz matrices, which describe convolutions, are again Toeplitz (a result I want to prove for myself), we can associate the final function with a polynomial in the strides. 
+
+We spent the problem solving session struggling with an interesting question on group equivariance. Basically, we were asked to consider the space of linear maps which preserve the symmetries in the transformation that rotates a 3x3 image by 90 degrees.
+
+<img width="425" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/eace22e4-9c68-40b8-958d-51cf42514933">
+
+It was sort of easy to see that rotations would preserve it, but really hard to parametrize the linear maps themselves. Ultimately, we ended up working with a block-diagonal matrix and finding the relations which described each of the blocks. In the end, we didn't talk too much about neural networks!
 
 ## Algebraic Economics
 Tianren Chen and Irem Portakal discussed algebraic economics, which studies algebraic properties of the models induced by games. Lots about games is prima facie algebraic – payoff matrices are really payoff tensors, in that each player in a game has payoffs for each combination of decisions they and the other player make. The Nash equilibrium of a game is given by a zero set of a system of equations which are polynomial in the payoffs. The totally mixed Nash equilibria generalize the payoffs into probabilities, from which jumping off point you can go further in the same fashion as likelihood geometry style problems.
@@ -47,4 +70,10 @@ The problem solving session was excellent because we actually calculated a BKK b
 ## Ecological Problems
 Elizabeth Gross and Neriman Tokcan discussed the application of algebraic statistics to ecological and biomedical problems, focusing on two structures: phylogenetic trees and tensors.
 
-Phylogenetic trees are models that encode evolutionary relationships among species. Given a set of species, we can use DNA data to identify the highest probability tree which describes their evolutionary history. In this way, statisticians would be more used to understanding them as 
+Phylogenetic trees are models that encode evolutionary relationships among species. Given a set of species, we can use DNA data to identify the highest probability tree which describes their evolutionary history. In this way, statisticians would be more used to understanding them as graphical models. Phylogenetic trees and their extension via mixture phylogenetic networks have incredibly rich algebraic structure, and many of the participants there had recently worked on them. To be honest, this depth of structure made them very hard to get a sense for. One critical step in the evaluation of phylogenetic trees involves a discrete Fourier transformation, out of probability space and into $q$-space, which leads to toric ideals.
+
+Still in our problem solving session, we investigated the "4-sunlet" network, in which the model contains one unknown network connection. This structure gives rise to essentially a mixture model, the zero sets of whose $q$-polynomials cut out an ideal we calculated.
+
+<img width="125" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/65fc9030-2201-433b-a3bc-965c90e54f1f">
+
+The easy interpretability and familiarity that these phylogenetic trees induce did make them fun to work with, but they still feel pretty complicated to my mind!
