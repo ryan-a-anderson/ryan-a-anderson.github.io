@@ -10,7 +10,7 @@ author_profile: true  # Include author profile if applicable
 <div id="pdf-viewer" style="width: 100%; height: 800px; margin: 20px 0;"></div>
 
 <script>
-    const url = 'https://<your-username>.github.io/files/Ryan_Anderson_CV_092024.pdf'; // Update with your PDF URL
+    const url = 'https://ryan-a-anderson.github.io/files/Ryan_Anderson_CV_092024.pdf'; // Update with your PDF URL
 
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
