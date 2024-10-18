@@ -1,12 +1,13 @@
 ---
-layout: default
+layout: archive  # Use the same layout as your blog posts
 title: "My CV"
 permalink: /cv/
+author_profile: true  # Include author profile if applicable
 ---
 
 # My Curriculum Vitae
 
-<div id="pdf-viewer" style="width: 100%; height: 800px;"></div>
+<div id="pdf-viewer" style="width: 100%; height: 800px; margin: 20px 0;"></div>
 
 <script>
     const url = 'https://<your-username>.github.io/files/my-cv.pdf'; // Update with your PDF URL
