@@ -109,7 +109,7 @@ $$
 $$
 
 $$
-E[exp(X^2 / \|X\|_{\psi_2})] \leq 2
+E(exp(X^2 / \|X\|_{\psi_2})) \leq 2
 $$
 
 ### Sub-Gaussianity and Concentration Inequalities
