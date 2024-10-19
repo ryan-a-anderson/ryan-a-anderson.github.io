@@ -96,7 +96,7 @@ $$
 We will also need for basically every result the notion of a sub-Gaussian norm. The sub-Gaussian norm $\|X\|_{\psi_2}$ is given by 
 
 $$
-\|X\|_{\psi_2} = \inf(t > 0 | E[exp(\frac{X^2}{t^2}) \leq 2]).
+\|X\|_{\psi_2} = \inf(t > 0 | E(exp(\frac{X^2}{t^2}) \leq 2)).
 $$
 
 Proving this is a real norm is really hard! Need to use Fatou's lemma to obtain boundedness of the norm. But using the sub-G norm we can get good results on behavior of sub-G random variables, including the following:
@@ -105,7 +105,7 @@ P(|X| > t) \leq 2 exp(-c\frac{t^2}{\|X\|_{\psi_2}})
 $$
 
 $$
-\|X\|_p \leq C\|X\|_{\psi_2}\sqrt{p}
+|X|_p \leq C|X|_{\psi_2}\sqrt{p}
 $$
 
 $$
