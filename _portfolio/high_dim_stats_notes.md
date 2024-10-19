@@ -77,7 +77,7 @@ $$
 
 By way of illustration we can prove one of these equivalences. Let us show that the restriction on tails leads to the restriction on the moments of $X$.
 
-Let $P(|X| \geq t) \leq 2e^{-t^2}$. Then take $E[|X|^p] = \int_0^{\infty} P(|X|^p \geq u) du$. 
+Let $P(|X| \geq t) \leq 2e^{-t^2}$. Then take $E(|X|^p) = \int_0^{\infty} P(|X|^p \geq u) du$. 
 
 Let $u = t^p$ - then $du = pt^{p-1} dt$ and $|X|^p \geq u \rightarrow |X| \geq t$.
 
