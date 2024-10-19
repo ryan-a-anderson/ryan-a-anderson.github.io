@@ -5,10 +5,6 @@ date: '2023-10-02'
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Lecture 1: Euler's Method
 
 ### Setup and Estimation Error
