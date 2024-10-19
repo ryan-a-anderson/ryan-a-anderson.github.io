@@ -1,9 +1,11 @@
 ---
-title: "MATH 269A Notes"
+title: "Numerical Analysis Notes"
 author: "Ryan Anderson"
 date: '2023-10-02'
 output: html_document
 ---
+
+This page relates notes from MATH 269A at UCLA, numerical analysis.
 
 ## Lecture 1: Euler's Method
 
@@ -341,7 +343,7 @@ $$
 y_n = y_{n-1} + \frac{h}{2}f(y_{n-1}) + \frac{h}{2}f(y_{n-1}+hf(y_{n-1}))
 $$
 
-We convert to exact values of $\bar{y}_n,\bar{y}_{n-1}$ and expand around $\bar{y}_{n-1}$.
+We convert to exact values of y_n, y_n-1 and expand around $\bar{y}_{n-1}$.
 
 $$
 \bar{y}_n = \bar{y}_{n-1} + h\frac{dy}{dt}|_{t_{n-1}} + \frac{h^2}{2}\frac{d^2y}{dt^2}|_{t_{n-1}} + \frac{h^3}{6}\frac{d^3y}{dt^3}|_{t_{n-1}} + \dots
