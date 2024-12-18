@@ -1,10 +1,9 @@
 ---
-title: 'IMSI Algebraic Statistics Note #1'
-date: 2023-09-20
-permalink: /posts/2023/09/imsi-algebraic-statistics-note-1/
+title: 'Modeling a Prediction Game'
+date: 2024-12-18
+permalink: /posts/2024/12/modeling-a-prediction-game/
 tags:
-  - neural networks
-  - algebraic statistics
+  - bayesian modeling
 ---
 
 Spent the week at a workshop at the University of Chicago, "Invitation to Algebraic Statistics," part of the IMSI long program "Algebraic Statistics and our Changing World". This week's workshop featured excellent talks on the application of algebraic statistics to estimation & optimization problems, graphical models, neural networks, algebraic economics, and ecological problems.
