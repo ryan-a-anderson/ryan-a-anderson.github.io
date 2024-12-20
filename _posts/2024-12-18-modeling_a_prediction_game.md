@@ -6,73 +6,56 @@ tags:
   - bayesian modeling
 ---
 
-Spent the week at a workshop at the University of Chicago, "Invitation to Algebraic Statistics," part of the IMSI long program "Algebraic Statistics and our Changing World". This week's workshop featured excellent talks on the application of algebraic statistics to estimation & optimization problems, graphical models, neural networks, algebraic economics, and ecological problems.
+## Game Setup
+At the start of this year, a few friends and I got together to play a predictions game. We all filled out 5x5 bingo cards with predictions that had to come due in 2024 on any topic in the world, with eternal honor going to the one who got a bingo. Here's what my card looked like to start:
 
-Overall, algebraic statistics is a cool and curious field which lives at the intersection of algebraic geometry and statistics. The guiding mantra was stated by Elizabeth Gross in her talk – in brief, statistical problems give rise to statistical models, which in general are given by sets of polynomial constraints on the relations between event probabilities. These polynomial constraints then give rise to varieties, and algebraic geometers are always on the look out for more varieties.
+<img width="573" alt="image" src="https://github.com/user-attachments/assets/4920fde6-1328-4cc9-b052-3553c16f469b" />
 
-We can make this explicit – although the most fun example comes from June Huh and Bernd Sturmfels' paper ["Likelihood Geometry"](http://arxiv.org/abs/1305.7462), where they analyzed the variety arising from data on the three-level events "hair loss" and "football watching", it's simpler to consider just two-level events. 
+Now on December 18th, here's where we're at. 
 
-Consider a 2x2 contingency table, which just counts the number of times each event $X_1, X_2$ occur. The entries of this table are $p_{i,j} = P(X_1 = i, X_2 = j)$. Under (unconditional) independence, the joint probability factorizes as $p_{ij} = p_i p_j$. But also, since $p_i = 1- p_{ii}$, this matrix must have rank 1, meaning its determinant $p_{00}p_{11} - p_{01}p_{10}$ vanishes. This determinant vanishing defines a variety, which the algebraic geometers go on to study further, asking questions about its irreducibility, dimension, etc.
+<img width="573" alt="image" src="https://github.com/user-attachments/assets/d4d2eede-ef84-430c-8f45-fde28f9828b0" />
 
-## Estimation & Optimization
+Some of my misses were particularly galling --- before the 2023/24 season, Bayern Munich had won the Bundesliga 12 years running. [Then Harry Kane arrived](https://www.bundesliga.com/en/bundesliga/news/bayern-munich-bundesliga-harry-kane-england-spain-uefa-euro-2024-final-28196) and they let Leverkusen take the crown. It was probably a bit too [Ewing Theory](https://www.espn.com/espn/page2/story?page=simmons/010509a) to guess that the Los Angeles Angels would make the postseason the year after Shohei Ohtani's departure, while Nikki Haley winning 5 state primaries was a bit far-fetched.
 
-Carlos Amendola and Julia Lindberg gave the talks on estimation and optimization. Both talks were centered around the ML degree and the method of moments. Say we have data which we summarize in a vector of counts $u$, with $u_i$ the number of times that the $i$th state occurs. Statisticians are taught to maximize the likelihood function $L_u(p) = \prod p_i^{u_i}$ to get the MLE, which is consistent and has minimal variance, etc. The algebraists instead note that we have a set of likelihood equations, given by the likelihood function, the determinantal constraints which arise from the independence relations, and the always-present $\sum p_i = 1$. The number of (generic!) solutions to these likelihood equations is an invariant of the statistical model called the ML degree.
+Still, some politics, macroeconomic, and sports takes came to pass, and if we were to summarize my performance, we could say that of the 24 attempts I had, 8 came true by what is basically the end of the year (if Kourtney Kardashian announces another pregnancy for Xmas, I'll send Kris Jenner a card).
 
-Under unconditional independence the ML degree is 1 – this is also something statisticians are taught, that our optimization methods for finding an MLE won't get stuck in local minima. But this is not always the case! In the soccer vs hair loss example mentioned above, Huh and Sturmfels construct the data so that the contingency table is of rank 2 – this then leads to different determinantal constraints than if it were rank 1, and thus we get more than 1 local optima for the likelihood function.
+## Comparing Player Abilities
+Since we are not quite at the end of the year, each cell in the bingo card can either be green, red or white, excepting the free space in the middle which does not count. The ability for a cell to be white reveals that the predictions game is actually a two-stage affair: as forecasters, we first had to come up with events which would trigger and move from white to red or green, then actually make the call on which way the event would go (i.e. turn red or green). The empirical results so far for each player are represented in a table below.
 
-The method of moments is an old technique, emerging from Karl Pearson's early attempts to deal with latent variables. Consider data arising from a mixture of two Gaussians $X \sim f, f = \lambda N_1(\mu_1, \sigma_1) + (1 - \lambda)N_2(\mu_2,\sigma_2)$. For any random variable $X$ with density $f$, its $j$th moment is given by $E[X^j] = \int x^j f(x) dx$ – one foundational result is that the moments of a mixture distribution are given by the mixture of the moments of each component. Pearson's method of moments involves matching the empirical moments we observe from the data to the mixture of the moments, thereby enabling us to estimate the parameters $(\lambda,\mu_1, \sigma_1,\mu_2,\sigma_2)$. Since the moments of a Gaussian are homogeneous polynomials in $(\mu,\sigma)$, we have a very algebraic feeling problem of determining how many solutions there are to a system of polynomial equations.
+Table: Probabilities of each outcome for each player
 
-Uniqueness of solutions to this system in this case even has an easy statistical interpretation – a distribution is identifiable if the solution to its moments system is unique. Amendola's recent work has described exactly under which conditions mixtures of Gaussians are identifiable – under equal variance and known covariance matrix $\Sigma$, and with number of moments equal to the number of parameters, any mixture model is identifiable, except in a handful of cases.
+|    | Red  | Green | White |
+|:---|:----:|:-----:|:-----:|
+|RA  | 0.17 | 0.33  | 0.50  |
+|MDC | 0.29 | 0.38  | 0.33  |
+|TK  | 0.12 | 0.25  | 0.62  |
+|ZE  | 0.08 | 0.54  | 0.38  |
+|DM  | 0.08 | 0.21  | 0.71  |
 
-Lindberg's talk described some really fun new results as regards both these objects – notably, that mixtures of $k$ univariate Gaussians are identifiable given $3k+2$ moments. She also described the use of homotopy continuation in finding solutions to the moments system, which was totally novel and very exciting to me.
+As you can see, there's good spread in forecasting ability. Players MDC and ZE have roughly equal levels of trigger-occurrence at 30-40%, but vastly different correct prediction likelihoods at 38% and 54%. To be more careful, we should estimate the probabilities of correct prediction conditional on triggering as well:
 
-Our problem solving session involved a lot of problems that the statisticians were good at – prove an estimator is consistent, unbiased, etc. Some of my theoretical stats had gotten a bit rusty but was a lot of fun to discuss and rehash the proofs with the mathematicians. One sub-question that troubled us asked you to prove that if we have a mixture of two Gaussians, then the likelihood function is unbounded unless the variances are equal and known. If anyone knows how to solve that, please let me know!
+Table: Conditional probabilities of green and red given non-white
 
-## Graphical Models
-Seth Sullivant and Pratik Misra presented on graphical models and the connection to causal inference. Lots of this stuff was familiar from stats world – $d$-separation and Gaussian graphical models and whatnot. Sullivant presented a lot of results which depended on $t$-separation, in which we consider not just separation via an edge, but rather by treks, which are paths in the graph with no colliders. 
+|    | p(green &#124; non-white) | p(red &#124; non-white) |
+|:---|:-------------------------:|:-----------------------:|
+|RA  |           0.67            |          0.33           |
+|MDC |           0.56            |          0.44           |
+|TK  |           0.67            |          0.33           |
+|ZE  |           0.87            |          0.13           |
+|DM  |           0.71            |          0.29           |
 
-Some of Misra's discussion included combinations of graphs via gluing, which I thought was really fascinating. He also described work on colored Gaussian graphical models, where the key property is being RCOP, where permutations on the labels preserve colorings and edge relationships. If a colored graph is RCOP then its vanishing ideal is toric, which makes all the algebraists very happy (vanishing ideals are hard to explain but easy to compute).
+These conditional probabilities seem to have a much tighter spread, implying that trigger-occurrence is a big part of the predictions game. It would be very interesting to investigate how these conditional probabilities converge to the final unconditional probabilities at year-end!
 
-<img width="430" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/361527d1-1e5a-4c15-a143-f7711612929b">
+## Bingo Dependence on Cell Triggering
+Let's start again from first principles. In the real world, the game of bingo is played by filling in a bingo card with numbers or alphanumerics which range in a simple interval, say the integers 1 to 50. Each number has a 1/50 chance of being called, and in the event a cell has that particular number, then the cell is filled in. [In a 5x5 bingo card with free space]([url](https://www.sciencenews.org/article/probabilities-bingo)), there are 12 winning arrangements --- each of the columns, each of the rows, and two diagonals -- 8 of which do not use the free space.
 
-We had a lot of fun with the problem solving session here, working on independence and intersection numbers of graphs. A result Misra presented gave that graphs with equal intersection and independence numbers live in the equivalence class of graphs of some DAG. As a result, you can take a representative of such a class and turn it into a valid DAG via correct assignation of colliders.
+Below I show the results of some simulation of the bingo game with different probabilities of calling a cell green. This could correspond to larger intervals in the real world game (i.e., $p(green) =  0.01$ might imply we're using numbers from 1 to 100), but in our case we should interpret it more as different levels of forecaster ability. The below chart compares $p(green)$ to $p(at least one bingo)$ on the card for the unconditional case, where cells may also be white.
 
-<img width="600" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/4e03232b-b056-4519-bae4-8e0ee6dfe49c">
+![image](https://github.com/user-attachments/assets/5a5b16d3-1a5c-4dbd-9549-eb65c0f36741)
 
+Moreover, we can estimate a logistic model here, which says that a 1 unit increase in the probability of getting a cell green correspond to a 12pt increase in the log-odds of getting a bingo.
 
-## Neural Networks
-Joe Kileel and Kathlén Kohn presented on neural networks. Much of this work was connected to topics we often discuss in the Montufar group, and indeed Guido and Kathlén collaborated on papers related to the geometry of linear convolutional networks.
+<img width="526" alt="image" src="https://github.com/user-attachments/assets/a6595102-d13d-4558-8e01-a8ebd37b61e1" />
 
-Kohn provided an excellent characterization of the geometry of linear convolutional networks as you vary the stride of the convolution. Here the activation function is the identity. As such, fully connected networks are unsurprisingly given by algebraic varieties – the final function we get is just the product of the weight matrices. By contrast, with some non-zero stride added to the convolution, the variety becomes a semialgebraic set, given by inequalities, not just equalities, in the defining polynomials.
+Overall, once $p(green) > 3/8$ or so, then you have about a 1-in-2 shot of getting a bingo. 
 
-<img width="425" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/a771bab7-e4f9-4b81-ab2d-7ab9233349d8">
-
-Another good result describes the function computed by convolutional networks. Since products of Toeplitz matrices, which describe convolutions, are again Toeplitz (a result I want to prove for myself), we can associate the final function with a polynomial in the strides. 
-
-We spent the problem solving session struggling with an interesting question on group equivariance. Basically, we were asked to consider the space of linear maps which preserve the symmetries in the transformation that rotates a 3x3 image by 90 degrees.
-
-<img width="425" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/eace22e4-9c68-40b8-958d-51cf42514933">
-
-It was sort of easy to see that rotations would preserve it, but really hard to parametrize the linear maps themselves. Ultimately, we ended up working with a block-diagonal matrix and finding the relations which described each of the blocks. In the end, we didn't talk too much about neural networks!
-
-## Algebraic Economics
-Tianren Chen and Irem Portakal discussed algebraic economics, which studies algebraic properties of the models induced by games. Lots about games is prima facie algebraic – payoff matrices are really payoff tensors, in that each player in a game has payoffs for each combination of decisions they and the other player make. The Nash equilibrium of a game is given by a zero set of a system of equations which are polynomial in the payoffs. The totally mixed Nash equilibria generalize the payoffs into probabilities, from which jumping off point you can go further in the same fashion as likelihood geometry style problems.
-
-Lots of complicated stuff about real algebraic geometry gets you to the really cool result from McKelvey & McLennan, which considers the solutions of the equilibrium polynomials geometrically. Then the number of solutions is given by (bounded by) the mixed volume of the Newton polytopes defined by the equilibrium polynomials! This kind of thing is called a BKK bound, after the result of Bernshtei Kushnirenko and Khovanskii on solutions to systems of Laurent polynomials.
-
-<img width="943" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/e0bf2ef2-7fc3-460d-a30d-750e2f2d885c">
-
-Portakal shared her really exciting result with Sturmfels on the nature of dependency equilibria. Traditionally we think about games where the players act independently. If you instead allow subsets of players to act depending on how the others will act, you induce a set of (in)dependence relations – the resulting solutions are called dependency equilibria. These dependency equilibria were first investigated by the philosopher Wolfgang Spohn, who defined them as solutions where players maximize their conditional expectation payoffs. This leads to the notion of a Spohn variety, which is given by the probability of each action for each player and their net payoffs. Irem & Portakal's result uses the Spohn variety to characterize all Nash equilibria in $n$-player, 2-strategy games as arising from some real algebraic variety.
-
-The problem solving session was excellent because we actually calculated a BKK bound and a Spohn variety. I was able to use packages produced by the authors in Julia to count the number of Nash equilibria to [the Bach or Stravinsky game](https://moblab.com/edu/games/bach-or-stravinsky#:~:text=The%20classic%20pure%2Dstrategy%20game,coordinating%20on%20a%20different%20action), which happily turned out to be 1.
-
-## Ecological Problems
-Elizabeth Gross and Neriman Tokcan discussed the application of algebraic statistics to ecological and biomedical problems, focusing on two structures: phylogenetic trees and tensors.
-
-Phylogenetic trees are models that encode evolutionary relationships among species. Given a set of species, we can use DNA data to identify the highest probability tree which describes their evolutionary history. In this way, statisticians would be more used to understanding them as graphical models. Phylogenetic trees and their extension via mixture phylogenetic networks have incredibly rich algebraic structure, and many of the participants there had recently worked on them. To be honest, this depth of structure made them very hard to get a sense for. One critical step in the evaluation of phylogenetic trees involves a discrete Fourier transformation, out of probability space and into $q$-space, which leads to toric ideals.
-
-Still in our problem solving session, we investigated the "4-sunlet" network, in which the model contains one unknown network connection. This structure gives rise to essentially a mixture model, the zero sets of whose $q$-polynomials cut out an ideal we calculated.
-
-<img width="125" alt="image" src="https://github.com/ryan-a-anderson/ryan-a-anderson.github.io/assets/114775680/65fc9030-2201-433b-a3bc-965c90e54f1f">
-
-The easy interpretability and familiarity that these phylogenetic trees induce did make them fun to work with, but they still feel pretty complicated to my mind!
