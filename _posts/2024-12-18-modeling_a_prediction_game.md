@@ -59,3 +59,43 @@ Moreover, we can estimate a logistic model here, which says that a 1 unit increa
 
 Overall, once $p(green) > 3/8$ or so, then you have about a 1-in-2 shot of getting a bingo. 
 
+## Assessing Player Performance
+With the above model in mind, we can use the regression model to predict our players' performance in the prediction game. We get predicted probabilities of at least one bingo as shown below:
+
+Table: Predicted probability of at least one bingo for each player
+
+|    |  x   |
+|:---|:----:|
+|RA  | 0.33 |
+|MDC | 0.45 |
+|TK  | 0.14 |
+|ZE  | 0.88 |
+|DM  | 0.09 |
+
+We can also visualize it on the logistic curve by plotting as shown below:
+
+![image](https://github.com/user-attachments/assets/cf8eb89c-1286-4781-8fce-cb0b329c386c)
+
+All this parametric stuff is fine and good, but we can also brute-force this thing and just run some simulations! Parametric models are only useful if you're computing survival curves in the 70s. We've got machinery, let's put it to work!
+
+The below plot shows density curves estimated by kernel methods for each player's probability of getting at least one bingo. To obtain these, we start with the unconditional $p(green)$ and then generate 100 bingo cards, assembling their number of bingoes for each. We run this simulation 100 times to get enough data to run the KDEs, which allow us to better understand not only the expected performance but how each player's place in the green-bingo relationship impacts the spread of their performance distribution.
+
+![image](https://github.com/user-attachments/assets/fb51db0c-5a55-42c0-bd46-63860ff13c42)
+
+## Conclusion
+What do we make of all this? It's interesting to pull out the logistic --- and therefore highly non-linear --- relationship between our toy bingo calculations here and the chance of winning a predictions game. It's been very in vogue recently to discuss the performance of human predictors, especially the superforecasters investigated in [Philip Tetlock's research](https://thedecisionlab.com/thinkers/political-science/philip-tetlock). Moreover, people like the idea that market forces can solve the predictions problem by compelling agents to have skin in the game, which has contributed to the enormous online popularity of prediction markets like [Metaculus](https://www.metaculus.com) and [Polymarket](https://polymarket.com/ma), or especially the political betting sites like [PredictIt](https://www.predictit.org/). Hidden in the enthusiasm for this sort of thing is the idea, especially current in the Rationalist circles, that Bayesian reasoning can yield really effective thinking processes, and therefore accurate, or at least testable, predictions. If you could scale up skin-in-the-game Bayesian agents into a large market, presumably you would have solved the problem of telling the future.
+
+This quick note explores some holes in that intellectual edifice. In the first place, the non-linearity of the relationship between success in the bingo game and success in making individual predictions should give commentators who claim to be able to assess prediction performance or accuracy pause. If it's hard to distinguish between 3/8 prediction accuracy and 1/2 prediction accuracy because success lies a logistic transform away from these parameter distances, how good could we be at assessing fine differences between humans who might be making a similar number of predictions over different time scales?
+
+Moreover, a big problem with this analysis was the two-stage nature of the predictions game. Our participants were asked first to choose a set of 24 events to predict, and then secondarily to pick which way they would fall. Which question are prediction investigators more interested in knowing? 
+
+![image](https://github.com/user-attachments/assets/ebe2e97f-2be8-4fdf-98bd-093c45149d18)
+
+It's easy to see that there's less spread in the conditional probabilities than the unconditional probabilities, reflecting the fact that a large part of green performance comes in just choosing events correctly. While this question is less interesting in the 3rd week of December, this sort of thing would get very very thorny if we were trying to assess, say, mid-year performance in order to build a 2nd half of year prediction per player.
+
+This is not even to mention the problem of overlapping predictions. Myself and player TK both predicted the Federal Reserve would cut more than twice this year –-- this prediction [came true for the both of us earlier this week](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.cnbc.com/2024/12/18/fed-rate-decision-december-2024-.html&ved=2ahUKEwilqpSAxbeKAxVtMEQIHQntOjYQvOMEKAB6BAgQEAE&usg=AOvVaw17ZfX0jYP24PFuw6q2AkWu). I thought the Dodgers would win the NL pennant, while player MDC predicted the boys in blue to have the most wins in the MLB --- both hit. But the opposite situation prevailed in the case of Bob Iger leaving his 2nd stint as CEO of Disney, [who is said to be sticking around until 2026](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.cbsnews.com/news/bob-iger-disney-ceo-james-gorman-chairman/&ved=2ahUKEwjx2puwxbeKAxVAEEQIHVwKGoYQFnoECEoQAQ&usg=AOvVaw1o4k5V1__EyGW81YIz-JUk), despite the predictions of myself and player DM. I hope the point has been illustrated --- with high covariance in the $p(white)$ process, it's amazing we could distinguish among players at all.
+
+Finally, it's terribly important to mention that running a predictions game like this merely once leaves us with meagre data with which to assess true player performance. I thought a lot about what a Bayesian approach to this sort of analysis might look like, then decided against getting too much into that machinery since I thought the prior weights would have to be tuned so low as to make the whole thing uninteresting! We have essentially one sample here with which to make our estimates. Who's to say next year we won't all totally fail?
+
+
+
