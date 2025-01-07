@@ -1,7 +1,7 @@
 ---
-title: 'Modeling a Prediction Game'
-date: 2024-12-18
-permalink: /posts/2024/12/modeling-a-prediction-game/
+title: 'More on Prediction Modeling'
+date: 2025-01-07
+permalink: /posts/2025/01/more-on-prediction-modeling/
 tags:
   - bayesian modeling
 ---
