@@ -210,7 +210,7 @@ $$
 
 Instead of solving and approximating the integral as above, we can approximately evaluate the derivative here.
 
-Pick $t^{new} = t_{n-1}$. We can approximate $\frac{dy}{dt}\|_{t^{new}}$ via expressions of the form $(y_n - y_{n-1})/h$. This gives us the forward Euler method. If we instead pick $t^{new} = t_{n}$, we get the backward Euler method.
+Pick $t^{new} = t_{n-1}$. We can approximate $\frac{dy}{dt}(_{t^{new}}$ via expressions of the form $(y_n - y_{n-1})/h$. This gives us the forward Euler method. If we instead pick $t^{new} = t_{n}$, we get the backward Euler method.
 
 For backward methods, we can extend via polynomial interpolation and clever approximations thereof.
 
