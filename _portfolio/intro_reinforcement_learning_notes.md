@@ -18,9 +18,9 @@ Recall that we start with the Bellman equation for the value function: $V^{\pi} 
 We want to solve this by casting the Bellman equation as the derivative of a representation of the value function, so that we have $\frac{d}{dt}V(t) = r^{\pi} + (\gamma P^{\pi} - I)V(t)$.
 
 Then we do a quick Taylor expansion:\
-$$V(t+\delta t) \simeq V(t) = \delta t \left( r^{\pi} + \gamma \mathbb{E}[V(t+\delta t) | V(t)] - V(t) \right)$$
+$$V(t+\delta t) \simeq V(t) = \delta t \left( r^{\pi} + \gamma \mathbb{E}[V(t+\delta t) \| V(t)] - V(t) \right)$$
 
-The key here is that $V(S\_{t+1})$ is an unbiased estimate for $\mathbb{E}[V(t+\delta t) | V(t)]$, since we arrive at $V(S\_{t+1})$ by transitioning under $P^{\pi}$ and then taking the action specified by the policy, moving us to the next step of the rollout.
+The key here is that $V(S\_{t+1})$ is an unbiased estimate for $\mathbb{E}[V(t+\delta t) \| V(t)]$, since we arrive at $V(S\_{t+1})$ by transitioning under $P^{\pi}$ and then taking the action specified by the policy, moving us to the next step of the rollout.
 
 Then the _temporal difference (TD) algorithm_ obtains the successive approximations to $V(S\_t)$ via:\
 $$V\_{n+1}(S\_t) = V\_n(S\_t) + \alpha\_t\left( r\_t + \gamma V\_n(S\_{t+1}) - V\_n(S\_t) \right)$$
