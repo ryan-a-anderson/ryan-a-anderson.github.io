@@ -156,11 +156,11 @@ We can read off Euler's method directly here.
 
 To generalize here, we need to consider more past information than is represented by the line tangent to the curve at $y_n$.
 
-Consider the line tangent to the curve at $(t_{n-1},y_{n-1})$ and extend the line to a new point at $(t_n,y^*)$. Then take $f(t_n, y^*)$, which is the slope of the line tangent to $y(t)$ through the point $y^*$.
+Consider the line tangent to the curve at $(t_{n-1},y_{n-1})$ and extend the line to a new point at $(t_n,y^{new})$. Then take $f(t_n, y^{new})$, which is the slope of the line tangent to $y(t)$ through the point $y^{new}$.
 
-$y^*$ is given by $y^* = y_{n-1} + hf(t_{n-1},y_{n-1})$. Then we can obtain
+$y^{new}$ is given by $y^{new} = y_{n-1} + hf(t_{n-1},y_{n-1})$. Then we can obtain
 $$
-y_n = y_{n-1} + \frac{h}{2}(f(t_{n-1},y_{n-1})+f(t_n,y^*))
+y_n = y_{n-1} + \frac{h}{2}(f(t_{n-1},y_{n-1})+f(t_n,y^{new}))
 $$
 
 This is Huen's method, which is based on taking an average of tangents. Extensions lead you to Runge-Kutta methods. We can prove that Huen's method is an improvement over Euler's method, but not yet.
@@ -203,18 +203,18 @@ $$
 These are known as *linear multistep methods*, or LMM (sometimes also called Adam-Bashforth or Adam-Moulton methods).
 
 ### Numerical Differentiation
-Recall that for any $t^*$, the ODE tells us that
+Recall that for any $t^{new}$, the ODE tells us that
 $$
-\frac{dy}{dt}\|_{t^*} = f(t^*,y(t^*))
+\frac{dy}{dt}\|_{t^{new}} = f(t^{new},y(t^{new}))
 $$
 
 Instead of solving and approximating the integral as above, we can approximately evaluate the derivative here.
 
-Pick $t^* = t_{n-1}$. We can approximate $\frac{dy}{dt}\|_{t^*}$ via expressions of the form $(y_n - y_{n-1})/h$. This gives us the forward Euler method. If we instead pick $t^* = t_{n}$, we get the backward Euler method.
+Pick $t^{new} = t_{n-1}$. We can approximate $\frac{dy}{dt}\|_{t^{new}}$ via expressions of the form $(y_n - y_{n-1})/h$. This gives us the forward Euler method. If we instead pick $t^{new} = t_{n}$, we get the backward Euler method.
 
 For backward methods, we can extend via polynomial interpolation and clever approximations thereof.
 
-Let $t^* = t_{n}$. Then our RHS is given as $f(t_n,y_n)$. Our LHS will be given by $\frac{d}{dt}p(t)$, where $p(t)$ is a polynomial interpolant of $y(t)$.
+Let $t^{new} = t_{n}$. Then our RHS is given as $f(t_n,y_n)$. Our LHS will be given by $\frac{d}{dt}p(t)$, where $p(t)$ is a polynomial interpolant of $y(t)$.
 
 These approaches end in methods of the form
 $$
@@ -334,13 +334,13 @@ $$
 ### Huen's Method and Runge-Kutta Families
 Consider the numerical method given by
 $$
-y^* = y_{n-1} + hf(y_{n-1})
+y^{new} = y_{n-1} + hf(y_{n-1})
 $$
 $$
-y_n = y_{n-1} + \frac{h}{2}(f(y_{n-1})+f(y^*))
+y_n = y_{n-1} + \frac{h}{2}(f(y_{n-1})+f(y^{new}))
 $$
 
-We can obtain the local truncation error as follows. Consider that we can expand the method and eliminate $y^*$ as 
+We can obtain the local truncation error as follows. Consider that we can expand the method and eliminate $y^{new}$ as 
 $$
 y_n = y_{n-1} + \frac{h}{2}f(y_{n-1}) + \frac{h}{2}f(y_{n-1}+hf(y_{n-1}))
 $$
@@ -459,7 +459,7 @@ $$
 
 We obtain the local truncation error as 
 $$
-\tau_{n-1} = \frac{h^2}{2}\frac{d^2v}{dt^2}\|_{t^*}
+\tau_{n-1} = \frac{h^2}{2}\frac{d^2v}{dt^2}\|_{t^{new}}
 $$
 
 Note that since $\frac{dv}{dt} = (F_1(v(t)), F_2(v(t)), \dots)^T$, then the second derivative is given by
@@ -524,10 +524,10 @@ Obtaining the global error bound for a one step method takes three steps:
 
 As an example, we can get for the forward Euler the following: $LTE = O(h^2), e_j = O(h)$. For the Runge-Kutta 2-step method, we write out our method as 
 $$
-y^* = y_n + \alpha h f(y_n)
+y^{new} = y_n + \alpha h f(y_n)
 $$
 $$
-y_{n+1} = y_n + \frac{h\beta_1}{2}f(y_n) + \frac{h\beta_2}{2}f(y^*)
+y_{n+1} = y_n + \frac{h\beta_1}{2}f(y_n) + \frac{h\beta_2}{2}f(y^{new})
 $$
 
 Then if $\alpha \beta_2 = \frac{1}{2}$ then we have a 2nd order method.
@@ -615,7 +615,7 @@ $$
 
 Alternately, you could have $h\lambda \in \mathbb{C}$.
 
-Ex. Huen's method - $y^* = y_{n-1} + hf(y_{n-1}), y_n = y_{n-1} + \frac{h}{2}f(y^*)+\frac{h}{2}f(y_{n-1})$. Let our ODE be given by $f(y) = \lambda y$.
+Ex. Huen's method - $y^{new} = y_{n-1} + hf(y_{n-1}), y_n = y_{n-1} + \frac{h}{2}f(y^{new})+\frac{h}{2}f(y_{n-1})$. Let our ODE be given by $f(y) = \lambda y$.
 
 We know that Huen's method gives $\|y_n\| = \|(1+h\lambda+\frac{(h\lambda)^2}{2})\|\|y_{n-1}\|$.
 
@@ -658,10 +658,10 @@ This is guaranteed to give us $\tau_{n-1} = O(h^4)$, which gives 3rd-order error
 ### HW2, P2
 Consider the same ODE as above but with a method giving
 $$
-y^* = y_{n-1} + \frac{h}{2}f(y_{n-1})
+y^{new} = y_{n-1} + \frac{h}{2}f(y_{n-1})
 $$
 $$
-y_n = y_{n-1} + hf(y^*)
+y_n = y_{n-1} + hf(y^{new})
 $$
 
 We want to compute the LTE and the global error.
