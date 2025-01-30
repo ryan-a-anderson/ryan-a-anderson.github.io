@@ -2,6 +2,7 @@
 title: "High-Dimensional Statistics Notes"
 author: "Ryan Anderson"
 date: '2023-05-01'
+layout: single
 output: html_document
 ---
 
