@@ -60,11 +60,11 @@ All bounded RVs are sub-Gaussian - if $X$ takes its values in the interval $[a,b
 We can further characterize sub-Gaussian RVs via the following result: for an RV $X$, the following are equivalent for $K_1, \dots, K_4 > 0$:
 
 $$
-\text{Tails of X satisfy } P(|X| \geq t) \leq 2 exp(-\frac{t^2}{K_1^2}), \forall t \geq 0
+\text{Tails of X satisfy } P(\|X\| \geq t) \leq 2 exp(-\frac{t^2}{K_1^2}), \forall t \geq 0
 $$
 
 $$
-\text{Moments of X satisfy } \|X\|_p = (E[|X|^p])^{\frac{1}{p}} \leq K_2\sqrt{p}, \forall p \geq 1
+\text{Moments of X satisfy } \|X\|_p = (E[\|X\|^p])^{\frac{1}{p}} \leq K_2\sqrt{p}, \forall p \geq 1
 $$
 
 $$
@@ -77,20 +77,20 @@ $$
 
 By way of illustration we can prove one of these equivalences. Let us show that the restriction on tails leads to the restriction on the moments of $X$.
 
-Let $P(|X| \geq t) \leq 2e^{-t^2}$. Then take $E(|X|^p) = \int_0^{\infty} P(|X|^p \geq u) du$. 
+Let $P(\|X\| \geq t) \leq 2e^{-t^2}$. Then take $E(\|X\|^p) = \int_0^{\infty} P(\|X\|^p \geq u) du$. 
 
-Let $u = t^p$ - then $du = pt^{p-1} dt$ and $|X|^p \geq u \rightarrow |X| \geq t$.
+Let $u = t^p$ - then $du = pt^{p-1} dt$ and $\|X\|^p \geq u \rightarrow \|X\| \geq t$.
 
 Now
 
 $$
-E(|X|^p) = \int_0^{\infty} P(|X|^p \geq u) pt^{p-1} dt \leq \int_0^{\infty} 2e^{-t^2} pt^{p-1} dt \text{ by assumption.}
+E(\|X\|^p) = \int_0^{\infty} P(\|X\|^p \geq u) pt^{p-1} dt \leq \int_0^{\infty} 2e^{-t^2} pt^{p-1} dt \text{ by assumption.}
 $$
 
 But now note that our last integral on right is just the gamma function evaluated at $\frac{p}{2}$! It turns out that $p \Gamma(\frac{p}{2}) \leq 3(\frac{p}{2})^{\frac{p}{2}}$, so we have
 
 $$
-E[|X|^p] \leq 3(\frac{p}{2})^{\frac{p}{2}} \rightarrow (E[|X|^p])^{\frac{1}{p}} \leq K_1\sqrt{p}.
+E[\|X\|^p] \leq 3(\frac{p}{2})^{\frac{p}{2}} \rightarrow (E[\|X\|^p])^{\frac{1}{p}} \leq K_1\sqrt{p}.
 $$
 
 We will also need for basically every result the notion of a sub-Gaussian norm. The sub-Gaussian norm $\|X\|_{\psi_2}$ is given by 
@@ -101,11 +101,11 @@ $$
 
 Proving this is a real norm is really hard! Need to use Fatou's lemma to obtain boundedness of the norm. But using the sub-G norm we can get good results on behavior of sub-G random variables, including the following:
 $$
-P(|X| > t) \leq 2 exp(-c\frac{t^2}{\|X\|_{\psi_2}})
+P(\|X\| > t) \leq 2 exp(-c\frac{t^2}{\|X\|_{\psi_2}})
 $$
 
 $$
-|X|_p \leq C|X|_{\psi_2}\sqrt{p}
+\|X\|_p \leq C\|X\|_{\psi_2}\sqrt{p}
 $$
 
 $$
