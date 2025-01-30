@@ -127,7 +127,9 @@ $$
 y_n = y_{n-1} + \frac{dy}{dt}|_{t_{n-1}}h + \frac{d^2y}{dt^2}|_{t_{n-1}}\frac{h^2}{2} + \dots
 $$
 
-Then let $f(t_{n-1},y_{n-1}) = \frac{dy}{dt}|_{t_{n-1}}$. Then we have $y_n = y_{n-1}+hf(t_{n-1},y_{n-1})$, as desired.
+Then let $f(t_{n-1},y_{n-1}) = \frac{dy}{dt}|_{t_{n-1}}$. 
+
+Then we have $y_n = y_{n-1}+hf(t_{n-1},y_{n-1})$, as desired.
 
 We generalize by relaxing the step in which we considered all higher-order terms as $O(h^2)$. To do this, we need to calculate more derivatives of $y(t)$.
 
