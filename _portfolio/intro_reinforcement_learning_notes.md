@@ -18,13 +18,21 @@ Recall that we start with the Bellman equation for the value function: $V^{\pi} 
 We want to solve this by casting the Bellman equation as the derivative of a representation of the value function, so that we have $\frac{d}{dt}V(t) = r^{\pi} + (\gamma P^{\pi} - I)V(t)$.
 
 Then we do a quick Taylor expansion:
-```math
-V(t+\delta t) \simeq V(t) = \delta t \left( r^{\pi} + \gamma \mathcal{E}[V(t+\delta t) | V(t)] - V(t) \right)
-```
+$$
+V(t+\delta t) \simeq V(t) = \delta t \left( r^{\pi} + \gamma \mathbb{E}[V(t+\delta t) | V(t)] - V(t) \right)
+$$
 
-
+The key here is that $V(S_{t+1})$ is an unbiased estimate for $\mathbb{E}[V(t+\delta t) | V(t)]$, since we arrive at $V(S_{t+1})$ by transitioning under $P^{\pi}$ and then taking the action specified by the policy, moving us to the next step of the rollout.
 
 Then the _temporal difference (TD) algorithm_ obtains the successive approximations to $`V(S_t)`$ via:
-```math
-V(S_t) = V(S_{t-1}) + \partial_t
-```
+$$
+V_{n+1}(S_t) = V_n(S_t) + \alpha_t\left( r_t + \gamma V_n(S_{t+1}) - V_n(S_t) \right)
+$$
+
+The TD algorithm is an example of a _stochastic approximation algorithm_. Stochastic gradient descent works similarly. It's based on the idea that we can approximate a continuous ODE by taking advantage of an unbiased estimate for the term within the Taylor expansion:
+$$
+\dot{X}(t) = h(X(t)) \rightarrow X_{n+1} = X_n + \alpha_n (h(X_n) + M_{n+1}), \quad \mathbb{E}[M_{n+1} | X_n] = 0
+$$
+
+
+
