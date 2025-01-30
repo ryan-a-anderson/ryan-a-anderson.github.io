@@ -1,3 +1,9 @@
+---
+title: "High-Dimensional Statistics Notes"
+author: "Ryan Anderson"
+date: '2023-05-01'
+output: html_document
+---
 
 High-dimensional statistics is the branch of statistics concerned with obtaining bounds on how random variables differ from their expectations, especially as the number of dimensions in the data increases. These notes will tackle three topics: (1) basic concentration inequalities and properties of sub-Gaussian random variables, (2) sparse linear regression, and (3) Dudley's theorem and its applications.
 
