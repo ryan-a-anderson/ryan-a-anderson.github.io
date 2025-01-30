@@ -21,7 +21,7 @@ $$
 Given some pretty mild assumptions on $f(t,y)$ we can get good estimation results. In particular, given such a function, we know that there exists $N'$ and a constant $C$ such that $\forall N > N',$
 
 $$
-\max_{0 \leq n \leq N}(|y_n - y(t_n)|) \leq Ch
+\max_{0 \leq n \leq N}(\|y_n - y(t_n)\|) \leq Ch
 $$
 
 Thus, choosing a number of steps $N$ is equivalent to choosing a timestep $h$.
@@ -124,10 +124,10 @@ Consider a point $y_n \simeq y(t_n)$. The idea is to expand linearly around $(t_
 
 Then $y_n$ is given by
 $$
-y_n = y_{n-1} + \frac{dy}{dt}|_{t_{n-1}}h + \frac{d^2y}{dt^2}|_{t_{n-1}}\frac{h^2}{2} + \dots
+y_n = y_{n-1} + \frac{dy}{dt}\|_{t_{n-1}}h + \frac{d^2y}{dt^2}\|_{t_{n-1}}\frac{h^2}{2} + \dots
 $$
 
-Then let $f(t_{n-1},y_{n-1}) = \frac{dy}{dt}|_{t_{n-1}}$. 
+Then let $f(t_{n-1},y_{n-1}) = \frac{dy}{dt}\|_{t_{n-1}}$. 
 
 Then we have $y_n = y_{n-1}+hf(t_{n-1},y_{n-1})$, as desired.
 
@@ -149,7 +149,7 @@ $$
 Consider the line tangent to the curve at $y_{n-1}$, and compute $y_n$ via extending that line a distance of $h$. Then
 
 $$
-\frac{y_n - y_{n-1}}{h} = \frac{dy}{dt}|_{t_{n-1}} = f(t_{n-1},y_{n-1})
+\frac{y_n - y_{n-1}}{h} = \frac{dy}{dt}\|_{t_{n-1}} = f(t_{n-1},y_{n-1})
 $$
 
 We can read off Euler's method directly here.
@@ -205,12 +205,12 @@ These are known as *linear multistep methods*, or LMM (sometimes also called Ada
 ### Numerical Differentiation
 Recall that for any $t^*$, the ODE tells us that
 $$
-\frac{dy}{dt}|_{t^*} = f(t^*,y(t^*))
+\frac{dy}{dt}\|_{t^*} = f(t^*,y(t^*))
 $$
 
 Instead of solving and approximating the integral as above, we can approximately evaluate the derivative here.
 
-Pick $t^* = t_{n-1}$. We can approximate $\frac{dy}{dt}|_{t^*}$ via expressions of the form $(y_n - y_{n-1})/h$. This gives us the forward Euler method. If we instead pick $t^* = t_{n}$, we get the backward Euler method.
+Pick $t^* = t_{n-1}$. We can approximate $\frac{dy}{dt}\|_{t^*}$ via expressions of the form $(y_n - y_{n-1})/h$. This gives us the forward Euler method. If we instead pick $t^* = t_{n}$, we get the backward Euler method.
 
 For backward methods, we can extend via polynomial interpolation and clever approximations thereof.
 
@@ -233,46 +233,46 @@ $$
 
 Taking absolute values, we can obtain an inequality:
 $$
-|\bar{e}_n| \leq |\bar{e}_{n-1}| + h|f(\bar{y}_n)-f(y_{n-1})| + |\tau_{n-1}|
+\|\bar{e}_n\| \leq \|\bar{e}_{n-1}\| + h\|f(\bar{y}_n)-f(y_{n-1})\| + \|\tau_{n-1}\|
 $$
 
-Whenever trying to bound a difference of functions, recall Lipschitz condition. $\frac{df}{dy}$ bounded implies that $f$  is Lipschitz with $k = max_y |\frac{df}{dy}|$.
+Whenever trying to bound a difference of functions, recall Lipschitz condition. $\frac{df}{dy}$ bounded implies that $f$  is Lipschitz with $k = max_y \|\frac{df}{dy}\|$.
 
 Then we get
 $$
-|\bar{e}_n| \leq |\bar{e}_{n-1}| + h|k(\bar{y}_n-y_{n-1})| + |\tau_{n-1}|
+\|\bar{e}_n\| \leq \|\bar{e}_{n-1}\| + h\|k(\bar{y}_n-y_{n-1})\| + \|\tau_{n-1}\|
 $$
 
 But our error at the last step is precisely $\bar{y}_n-y_{n-1}$, so we have
 $$
-|\bar{e}_n| \leq (1+hk)|\bar{e}_{n-1}| + |\tau_{n-1}|
+\|\bar{e}_n\| \leq (1+hk)\|\bar{e}_{n-1}\| + \|\tau_{n-1}\|
 $$
 
 We can now obtain a closed form solution by stepping backwards until $e_0$.
 $$
-|\bar{e}_n| \leq (1+hk)^n|\bar{e}_{0}| + \sum_{j=0}^{n-1} (1+hk)^j|\tau_{n-(j+1)}|
+\|\bar{e}_n\| \leq (1+hk)^n\|\bar{e}_{0}\| + \sum_{j=0}^{n-1} (1+hk)^j\|\tau_{n-(j+1)}\|
 $$
 
 This holds for all single-step methods. We can eliminate the step length $h$ by noticing that $(1+hk)^n \leq e^{nhk} \leq e^{Nhk}$, where $N$ is our total number of steps. But $Nh = T - t_0$, so we get instead
 $$
-|\bar{e}_n| \leq e^{(T-t_0)k}|\bar{e}_{0}| + \sum_{j=0}^{n-1} (1+hk)^j|\tau_{n-(j+1)}|
+\|\bar{e}_n\| \leq e^{(T-t_0)k}\|\bar{e}_{0}\| + \sum_{j=0}^{n-1} (1+hk)^j\|\tau_{n-(j+1)}\|
 $$
 
 For Euler's method, we can pick $y_0 = \bar{y}_0 \rightarrow \bar{e}_0 = 0$, so the first term is just $0$.
 
 For the second term, start by noting that we can pull out the $\tau$ and obtain
 $$
-\sum_{j=0}^{n-1} (1+hk)^j|\tau_{n-(j+1)}| \leq max_{0 \leq j \leq N}|\tau_j|\sum_{j=0}^{n-1} (1+hk)^j
+\sum_{j=0}^{n-1} (1+hk)^j\|\tau_{n-(j+1)}\| \leq max_{0 \leq j \leq N}\|\tau_j\|\sum_{j=0}^{n-1} (1+hk)^j
 $$
 
 Taking the max over all $\tau_j$ gives a result of the form $mh^2$. Meanwhile, the sum is geometric, leaving us with
 $$
-\sum_{j=0}^{n-1} (1+hk)^j|\tau_{n-(j+1)}| \leq mh^2\frac{-1+(1+hk)^n}{1-(1+hk)}
+\sum_{j=0}^{n-1} (1+hk)^j\|\tau_{n-(j+1)}\| \leq mh^2\frac{-1+(1+hk)^n}{1-(1+hk)}
 $$
 
 Simplifying, we note that this bound is independent of $N$. Indeed our final bound is a statement of the form
 $$
-|\bar{e}_n| \leq Ch \rightarrow max_{0 \leq n \leq N}|y(t_n)-y_n| \leq Ch
+\|\bar{e}_n\| \leq Ch \rightarrow max_{0 \leq n \leq N}\|y(t_n)-y_n\| \leq Ch
 $$
 
 This is the *global error bound*.
@@ -281,12 +281,12 @@ This is the *global error bound*.
 ### Error Bound Estimation
 Consider the ODE given by $\frac{dy}{dt} = f(y), y(t_0) = y_0$. We obtain estimates via Euler's method with $y_n = y_{n-1} + hf(y_{n-1})$.
 
-To obtain an estimate of the error bound, we only need two conditions - (1) that $f(y)$ is $k$-Lipschitz, and (2) that $\exists m \geq 0 \text{ s.t. } \frac{1}{2}|y''(t)| \leq m$. Then
+To obtain an estimate of the error bound, we only need two conditions - (1) that $f(y)$ is $k$-Lipschitz, and (2) that $\exists m \geq 0 \text{ s.t. } \frac{1}{2}\|y''(t)\| \leq m$. Then
 $$
-\max_{0 \leq i \leq N} |y(t_i) - y_i| \leq e^{(T-t_0)k}|e_0| + \frac{mh}{k}e^{(T-t_0)k}
+\max_{0 \leq i \leq N} \|y(t_i) - y_i\| \leq e^{(T-t_0)k}\|e_0\| + \frac{mh}{k}e^{(T-t_0)k}
 $$
 
-More important is to understand the argument behind the proof. This takes place in three steps - (1) specifying the *local truncation error* or LTE, (2) obtaining the recursive relation between $e_n$ and $e_{n-1}$ and (3) proving that $|e_i| = O(h)$.
+More important is to understand the argument behind the proof. This takes place in three steps - (1) specifying the *local truncation error* or LTE, (2) obtaining the recursive relation between $e_n$ and $e_{n-1}$ and (3) proving that $\|e_i\| = O(h)$.
 
 The LTE is given by the difference between the estimated value and the true value of $y$ at step $n$. That is, we have the true value of $y$ evaluated at $t_n$ as  $\bar{y}_n = \bar{y}_{n-1} + hf(\bar{y}_{n-1}) + \tau_{n-1}$. Taylor's Theorem tells us that the error is all contained in the $\tau_{n-1}$ term.
 
@@ -306,28 +306,28 @@ $$
 \bar{y}_n = \bar{y}_{n-1} + hf(\bar{y}_{n-1}) + \tau_{n-1}
 $$
 $$
-e_n = \bar{y}_n - y_n \rightarrow |e_n| \leq |e_{n-1}| + hk|e_{n-1}|+\tau_{n-1}
+e_n = \bar{y}_n - y_n \rightarrow \|e_n\| \leq \|e_{n-1}\| + hk\|e_{n-1}\|+\tau_{n-1}
 $$
 
-Simplifying, we get that $|e_n| \leq (1+hk)|e_{n-1}| + \tau_{n-1}$.
+Simplifying, we get that $\|e_n\| \leq (1+hk)\|e_{n-1}\| + \tau_{n-1}$.
 
-Lastly, we prove that $|e_n| = O(h)$. From our above bound, we concatenate backwards to get $|e_n| \leq (1+hk)^n|e_0| + \sum_{j=0}(1+hk)^j|\tau_{n-(j+1)}|$.
+Lastly, we prove that $\|e_n\| = O(h)$. From our above bound, we concatenate backwards to get $\|e_n\| \leq (1+hk)^n\|e_0\| + \sum_{j=0}(1+hk)^j\|\tau_{n-(j+1)}\|$.
 
-$(1+hk)^n \leq e^{nhk}$, which we get by simply noting that thanks to Taylor expansion we see that $e^x \geq (1+x)$, so taking both sides to any power preserves the inequality. That means we can replace the first term with $e^{Nhk}|e_0|$.
+$(1+hk)^n \leq e^{nhk}$, which we get by simply noting that thanks to Taylor expansion we see that $e^x \geq (1+x)$, so taking both sides to any power preserves the inequality. That means we can replace the first term with $e^{Nhk}\|e_0\|$.
 
-The second term we handle by noting that we can bound the sequence of $\tau_i$ with $\max_i \tau_i$ and then extract it from the sum. $\max_i |\tau_i|$ is itself bounded by $mh^2$. This leaves
+The second term we handle by noting that we can bound the sequence of $\tau_i$ with $\max_i \tau_i$ and then extract it from the sum. $\max_i \|\tau_i\|$ is itself bounded by $mh^2$. This leaves
 $$
-\max_i |\tau_i|\sum_j (1+hk)^j \rightarrow mh^2\frac{1-(1+hk)^n}{1-(1+hk)} \leq \frac{mh}{k}(1-e^{nhk}) \leq \frac{mh}{k}(1-e^{Nhk})
+\max_i \|\tau_i\|\sum_j (1+hk)^j \rightarrow mh^2\frac{1-(1+hk)^n}{1-(1+hk)} \leq \frac{mh}{k}(1-e^{nhk}) \leq \frac{mh}{k}(1-e^{Nhk})
 $$
 
 Now we have
 $$
-|e_n| \leq e^{Nhk}|e_0| + \frac{mh}{k}(1-e^{Nhk}) = e^{Nhk}(|e_0|-\frac{mh}{k}) + \frac{mh}{k}
+\|e_n\| \leq e^{Nhk}\|e_0\| + \frac{mh}{k}(1-e^{Nhk}) = e^{Nhk}(\|e_0\|-\frac{mh}{k}) + \frac{mh}{k}
 $$
 
-Often, we can just set $|e_0| = 0$ as we're given initial values. One last simplification is to note that $Nh = T-t_0$. This makes the error bound independent of $N$ and gives
+Often, we can just set $\|e_0\| = 0$ as we're given initial values. One last simplification is to note that $Nh = T-t_0$. This makes the error bound independent of $N$ and gives
 $$
-|e_n| \leq \frac{m}{k}(1-e^{(T-t_0)k})h \rightarrow |e_n| = O(h)
+\|e_n\| \leq \frac{m}{k}(1-e^{(T-t_0)k})h \rightarrow \|e_n\| = O(h)
 $$
 
 ## Lecture 5: More Error Estimates
@@ -348,38 +348,38 @@ $$
 We convert to exact values of y_n, y_n-1 and expand around $\bar{y}_{n-1}$.
 
 $$
-\bar{y}_n = \bar{y}_{n-1} + h\frac{dy}{dt}|_{t_{n-1}} + \frac{h^2}{2}\frac{d^2y}{dt^2}|_{t_{n-1}} + \frac{h^3}{6}\frac{d^3y}{dt^3}|_{t_{n-1}} + \dots
+\bar{y}_n = \bar{y}_{n-1} + h\frac{dy}{dt}\|_{t_{n-1}} + \frac{h^2}{2}\frac{d^2y}{dt^2}\|_{t_{n-1}} + \frac{h^3}{6}\frac{d^3y}{dt^3}\|_{t_{n-1}} + \dots
 $$
 
 Then combining the expansion of $\bar{y}_n$ on the LHS with the existing RHS, we get
 $$
-\bar{y}_{n-1} + h\frac{dy}{dt}|_{t_{n-1}} + \frac{h^2}{2}\frac{d^2y}{dt^2}|_{t_{n-1}} + \frac{h^3}{6}\frac{d^3y}{dt^3}|_{t_{n-1}} + \dots = \bar{y}_{n-1} + \frac{h}{2}f(y_{n-1}) + \frac{h}{2}f(y_{n-1}+hf(y_{n-1}))
+\bar{y}_{n-1} + h\frac{dy}{dt}\|_{t_{n-1}} + \frac{h^2}{2}\frac{d^2y}{dt^2}\|_{t_{n-1}} + \frac{h^3}{6}\frac{d^3y}{dt^3}\|_{t_{n-1}} + \dots = \bar{y}_{n-1} + \frac{h}{2}f(y_{n-1}) + \frac{h}{2}f(y_{n-1}+hf(y_{n-1}))
 $$
 
 It's easier to consider by examining terms according to their power of $O(h)$.
 
 $O(1)$ term gives us $\bar{y}_{n-1} - \bar{y}_{n-1} = 0$.
 
-$O(h)$ term gives us $\frac{dy}{dt}|_{t_{n-1}} = \frac{1}{2}f(y_{n-1}) + \frac{1}{2}f(y_{n-1}+hf(y_{n-1}))$. If we Taylor expand the last $f$ term, we get
+$O(h)$ term gives us $\frac{dy}{dt}\|_{t_{n-1}} = \frac{1}{2}f(y_{n-1}) + \frac{1}{2}f(y_{n-1}+hf(y_{n-1}))$. If we Taylor expand the last $f$ term, we get
 $$
-f(y_{n-1}+hf(y_{n-1})) = f(\bar{y}_{n-1}) + hf(\bar{y}_{n-1})\frac{dy}{dt}|_{t_{n-1}} + \frac{h^2}{2}f(\bar{y}_{n-1})^2\frac{d^2y}{dt^2}|_{t_{n-1}} + O(h^3)
+f(y_{n-1}+hf(y_{n-1})) = f(\bar{y}_{n-1}) + hf(\bar{y}_{n-1})\frac{dy}{dt}\|_{t_{n-1}} + \frac{h^2}{2}f(\bar{y}_{n-1})^2\frac{d^2y}{dt^2}\|_{t_{n-1}} + O(h^3)
 $$
 
 Resubstituting, we get
 $$
-\frac{dy}{dt}|_{t_{n-1}} = \frac{1}{2}f(\bar{y}_{n-1}) + \frac{1}{2}f(\bar{y}_{n-1}) \rightarrow 0
+\frac{dy}{dt}\|_{t_{n-1}} = \frac{1}{2}f(\bar{y}_{n-1}) + \frac{1}{2}f(\bar{y}_{n-1}) \rightarrow 0
 $$
 
 $O(h^2)$ term gives us 
 $$
-\frac{1}{2}\frac{d^2y}{dt^2}|_{t_{n-1}} = \frac{1}{2}f(\bar{y}_{n-1})\frac{dy}{dt}|_{t_{n-1}}
+\frac{1}{2}\frac{d^2y}{dt^2}\|_{t_{n-1}} = \frac{1}{2}f(\bar{y}_{n-1})\frac{dy}{dt}\|_{t_{n-1}}
 $$
 
 But this holds as $\frac{d^2y}{dt^2} = \frac{d}{dt}f(y_{n-1}) = \frac{df}{dy}\frac{dy}{dt} = \frac{df}{dy}f(y_{n-1}) \rightarrow 0$.
 
 We calculate the $O(h^3)$ term and see that we need to evaluate
 $$
-\frac{1}{6}\frac{d^3y}{dt^3} - \frac{1}{4}f(\bar{y}_{n-1})^2\frac{d^2y}{dt^2}|_{t_{n-1}}
+\frac{1}{6}\frac{d^3y}{dt^3} - \frac{1}{4}f(\bar{y}_{n-1})^2\frac{d^2y}{dt^2}\|_{t_{n-1}}
 $$
 
 This works out to an expression of the form
@@ -389,9 +389,9 @@ $$
 
 Ultimately, we end up with Huen's method as having non-zero error in the $h^3$ term, meaning our LTE bound gives
 $$
-|\tau_{n-1}| \leq mh^3,
+\|\tau_{n-1}\| \leq mh^3,
 $$
-where $m = \max |-\frac{1}{12}\frac{d^2f}{dy^2}f^2 + \frac{1}{6}(\frac{df}{dy})^2f|$.
+where $m = \max \|-\frac{1}{12}\frac{d^2f}{dy^2}f^2 + \frac{1}{6}(\frac{df}{dy})^2f\|$.
 
 To obtain a global error bound, we just need to subtract $\bar{y}_n - y_n$.
 
@@ -402,21 +402,21 @@ $$
 
 Recall that when we see differences of functions, we want to convert them into differences of arguments by using Lipschitz bounds.
 
-Bounding the first term is easy: $\frac{h}{2}(f(\bar{y}_{n-1}) - f(y_{n-1}))  \leq \frac{h}{2}K|\bar{y}_{n-1}-y_{n-1}| = \frac{h}{2}K|\bar{e}_{n-1}|$.
+Bounding the first term is easy: $\frac{h}{2}(f(\bar{y}_{n-1}) - f(y_{n-1}))  \leq \frac{h}{2}K\|\bar{y}_{n-1}-y_{n-1}\| = \frac{h}{2}K\|\bar{e}_{n-1}\|$.
 
 For the second term, work from outside in: 
 $$
-|f(\bar{y}_{n-1}+hf(\bar{y}_{n-1})) - f(y_{n-1}+hf(y_{n-1}))| \leq K|\bar{y}_{n-1}+hf(\bar{y}_{n-1}) - (y_{n-1}+hf(y_{n-1}))| \leq K|\bar{y}_{n-1}-y_{n-1}| + K|hf(\bar{y}_{n-1})-hf(y_{n-1})|
+\|f(\bar{y}_{n-1}+hf(\bar{y}_{n-1})) - f(y_{n-1}+hf(y_{n-1}))\| \leq K\|\bar{y}_{n-1}+hf(\bar{y}_{n-1}) - (y_{n-1}+hf(y_{n-1}))\| \leq K\|\bar{y}_{n-1}-y_{n-1}\| + K\|hf(\bar{y}_{n-1})-hf(y_{n-1})\|
 $$
 
 For the last term, we just apply another Lipschitz bound to get
 $$
-K|hf(\bar{y}_{n-1})-hf(y_{n-1})| \leq hK^2|\bar{y}_{n-1}-y_{n-1}| = hK^2|\bar{e}_{n-1}|
+K\|hf(\bar{y}_{n-1})-hf(y_{n-1})\| \leq hK^2\|\bar{y}_{n-1}-y_{n-1}\| = hK^2\|\bar{e}_{n-1}\|
 $$
 
 Finally, we can see that we end up with
 $$
-\bar{e}_n \leq \bar{e}_{n-1} + \frac{h}{2}K|\bar{e}_{n-1}| + \frac{h}{2}hK^2|\bar{e}_{n-1}| + \tau_{n-1} = (1 + \frac{hK}{2} + \frac{h^2K^2}{2})|e_{n-1}| + \tau_{n-1}
+\bar{e}_n \leq \bar{e}_{n-1} + \frac{h}{2}K\|\bar{e}_{n-1}\| + \frac{h}{2}hK^2\|\bar{e}_{n-1}\| + \tau_{n-1} = (1 + \frac{hK}{2} + \frac{h^2K^2}{2})\|e_{n-1}\| + \tau_{n-1}
 $$
 
 ## Lecture 6: Error for Systems
@@ -454,12 +454,12 @@ Consider a system of ODEs and let $F$ be Lipschitz. All norms are the 2-norm. We
 
 The result of multidimensional Euler's method is that there exists $C$ independent of $N$ such that
 $$
-\max_{0 \leq n \leq N} \| v(t_n) - v_n \|_2 \leq Ch
+\max_{0 \leq n \leq N} \\| v(t_n) - v_n \\|_2 \leq Ch
 $$
 
 We obtain the local truncation error as 
 $$
-\tau_{n-1} = \frac{h^2}{2}\frac{d^2v}{dt^2}|_{t^*}
+\tau_{n-1} = \frac{h^2}{2}\frac{d^2v}{dt^2}\|_{t^*}
 $$
 
 Note that since $\frac{dv}{dt} = (F_1(v(t)), F_2(v(t)), \dots)^T$, then the second derivative is given by
@@ -473,7 +473,7 @@ $$
 
 We can obtain the error-timestep recurrence via Lipschitz bounds again:
 $$
-|\bar{e}_{n}| \leq |\bar{e}_{n-1}| + hK|\bar{e}_{n-1}| + \tau_{n-1} = (1+hK)|\bar{e}_{n}| + \tau_{n-1}
+\|\bar{e}_{n}\| \leq \|\bar{e}_{n-1}\| + hK\|\bar{e}_{n-1}\| + \tau_{n-1} = (1+hK)\|\bar{e}_{n}\| + \tau_{n-1}
 $$
 
 This is all obviously the same as in the 1D case - doing second-order or higher methods requires multi-dimensional Taylor expansion, which is awful.
@@ -511,7 +511,7 @@ If we have an exact solution $y$, we can compare approximations at two different
 
 Then we can construct the global errors $e_h, e_{0.5h}$ and by an argument of expanding the error we get that 
 $$
-\frac{|e_h|}{|e_{0.5h}|} = 2^p \rightarrow p = log(\frac{|e_h|}{|e_{0.5h}|})
+\frac{\|e_h\|}{\|e_{0.5h}\|} = 2^p \rightarrow p = log(\frac{\|e_h\|}{\|e_{0.5h}\|})
 $$
 
 ## Discussion 3
@@ -519,7 +519,7 @@ $$
 Obtaining the global error bound for a one step method takes three steps:
 
 1. Find the LTE of order $q+1$.
-2. Get the error relation  $e_{n+1} = |y_{n+1} - \bar{y}_{n+1}| = c(h) e_n$
+2. Get the error relation  $e_{n+1} = \|y_{n+1} - \bar{y}_{n+1}\| = c(h) e_n$
 3. Solve for global error of order $q, e_j \leq Ch^q, j \in (0,N)$.
 
 As an example, we can get for the forward Euler the following: $LTE = O(h^2), e_j = O(h)$. For the Runge-Kutta 2-step method, we write out our method as 
@@ -548,7 +548,7 @@ $$
 
 while the term in the RHS becomes
 $$
-f(\bar{y}_n) = \frac{dy}{dt}|_{t_{n-1}} =  \bar{y}_{n-1} + h\bar{y}_{n-1}''+\frac{h^2}{2}\bar{y}_{n-1}''+O(h^3)
+f(\bar{y}_n) = \frac{dy}{dt}\|_{t_{n-1}} =  \bar{y}_{n-1} + h\bar{y}_{n-1}''+\frac{h^2}{2}\bar{y}_{n-1}''+O(h^3)
 $$
 
 Resubstituting, we get
@@ -572,7 +572,7 @@ For $\theta = \frac{1}{2}$, we get that LTE is 3rd-order, which means the global
 ### Asymptotic Error Expansion
 Asymptotic error expansion allows us to approximate the global error with the result
 $$
-|y(T)-y_h(T)| \simeq C_p(T)h^p
+\|y(T)-y_h(T)\| \simeq C_p(T)h^p
 $$
 
 Asymptotic error expansion is very different from traditional error bound, which is loose.
@@ -590,7 +590,7 @@ We can restate each term as an asymptotic error expansion $C$
 
 This ends up giving us the following estimate for $p$:
 $$
-p \simeq \log(|\frac{y_{\frac{h}{2}}(t)-y_h(t)}{y_{\frac{h}{4}}(t)-y_{\frac{h}{2}}(t)}|)
+p \simeq \log(\|\frac{y_{\frac{h}{2}}(t)-y_h(t)}{y_{\frac{h}{4}}(t)-y_{\frac{h}{2}}(t)}\|)
 $$
 
 No matter what, we need $C_{p+k}h^{p+k} << C_{p}h^{p}$ in order to choose h.
@@ -602,26 +602,26 @@ Consider the model ODE $\frac{dy}{dt} = \lambda \rightarrow y(t) = e^{Re(\lambda
 
 Want to establish conditions on $h$ that govern asymptotic behavior of $y_n$.
 
-Ex.: Euler - take the numerical method $y_n = (1+h\lambda)y_{n-1} \rightarrow |y_n| = |(1+h\lambda)^n| y_0$.
+Ex.: Euler - take the numerical method $y_n = (1+h\lambda)y_{n-1} \rightarrow \|y_n\| = \|(1+h\lambda)^n\| y_0$.
 
-We can see that $\lim_{h \rightarrow \infty}|y_n| = 0 \rightarrow |1+h\lambda| \leq 1$. If $\lambda \leq 0$, we have $h\lambda \in (-2,0)$, so we need $h \leq \frac{2}{\lambda}$ in order to have $\lim |y_n| = 0$.
+We can see that $\lim_{h \rightarrow \infty}\|y_n\| = 0 \rightarrow \|1+h\lambda\| \leq 1$. If $\lambda \leq 0$, we have $h\lambda \in (-2,0)$, so we need $h \leq \frac{2}{\lambda}$ in order to have $\lim \|y_n\| = 0$.
 
-When we have $\lambda \geq 0$, $|1+h\lambda|\geq 1$ always, so we have no restriction on choice of $h$.
+When we have $\lambda \geq 0$, $\|1+h\lambda\|\geq 1$ always, so we have no restriction on choice of $h$.
 
 We are often interested in this set, which we call the *region of absolute stability*, given by
 $$
-S = \{h\lambda \in \mathbb{R} | \lim_{h \rightarrow \infty} |y_n| = 0 \text{ when method applied to model ODE}\}
+S = \{h\lambda \in \mathbb{R} \| \lim_{h \rightarrow \infty} \|y_n\| = 0 \text{ when method applied to model ODE}\}
 $$
 
 Alternately, you could have $h\lambda \in \mathbb{C}$.
 
 Ex. Huen's method - $y^* = y_{n-1} + hf(y_{n-1}), y_n = y_{n-1} + \frac{h}{2}f(y^*)+\frac{h}{2}f(y_{n-1})$. Let our ODE be given by $f(y) = \lambda y$.
 
-We know that Huen's method gives $|y_n| = |(1+h\lambda+\frac{(h\lambda)^2}{2})||y_{n-1}|$.
+We know that Huen's method gives $\|y_n\| = \|(1+h\lambda+\frac{(h\lambda)^2}{2})\|\|y_{n-1}\|$.
 
-Then we must have that $|(1+h\lambda+\frac{(h\lambda)^2}{2})| \leq 1$, which gives us our region of absolute stability:
+Then we must have that $\|(1+h\lambda+\frac{(h\lambda)^2}{2})\| \leq 1$, which gives us our region of absolute stability:
 $$
-S = \{ h\lambda \in \mathbb{R} \text{ s.t. } |(1+h\lambda+\frac{(h\lambda)^2}{2})|\leq 1\}
+S = \{ h\lambda \in \mathbb{R} \text{ s.t. } \|(1+h\lambda+\frac{(h\lambda)^2}{2})\|\leq 1\}
 $$
 
 But consider the graph of the function $y = 1 + x + 0.5*x^2$. This shows that the region is given by $x = h\lambda \in (-2,0)$, which turns out to be the exact same as we got in Euler's method.
@@ -696,22 +696,22 @@ $$
 
 To get the global error, we subtract our exact and method values for $y_n$. This gives
 $$
-|e_n| = |e_{n-1}| + h(f(\bar{y}_{n-1})-f(y_{n-1})) + \tau_{n-1}
+\|e_n\| = \|e_{n-1}\| + h(f(\bar{y}_{n-1})-f(y_{n-1})) + \tau_{n-1}
 $$
 
 $f$ is given as $K$-Lipschitz, so we can impose the below bound:
 $$
-|e_n| \leq |e_{n-1}| + hK(|e_{n-1}| + \frac{h}{2}K|e_{n-1}|) + |\tau_{n-1}| = (1+hk+\frac{h^2}{2})|e_{n-1}| + |\tau_{n-1}|
+\|e_n\| \leq \|e_{n-1}\| + hK(\|e_{n-1}\| + \frac{h}{2}K\|e_{n-1}\|) + \|\tau_{n-1}\| = (1+hk+\frac{h^2}{2})\|e_{n-1}\| + \|\tau_{n-1}\|
 $$
 
 Concatenating from $t=0,\dots,n$, we get
 $$
-|e_n| \leq (1+hk+\frac{h^2}{2})^n|e_0| + \sum_{j=0}^{n-1}(1+hk+\frac{h^2}{2})|\tau_{n-(j+1)}|
+\|e_n\| \leq (1+hk+\frac{h^2}{2})^n\|e_0\| + \sum_{j=0}^{n-1}(1+hk+\frac{h^2}{2})\|\tau_{n-(j+1)}\|
 $$
 
 Using some additional bounds, we eventually get
 $$
-|e_n| \leq e^{K(T-t_0)}|e_0| + mh^2e^{K(T-t_0)}
+\|e_n\| \leq e^{K(T-t_0)}\|e_0\| + mh^2e^{K(T-t_0)}
 $$
 
 ### HW3 P2
