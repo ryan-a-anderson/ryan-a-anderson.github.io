@@ -11,7 +11,8 @@ In RL, an agent interacts with an unknown environment and aims to maximize the t
 
 Note that in this note I will use $X \sim N(\mu, \sigma)$ for math mode.
 
-## Policy Evaluation via the Temporal Difference Algorithm
+## Lecture 1/30: Algorithms for Policy Evalation
+### Policy Evaluation via the Temporal Difference Algorithm
 
 Recall that we start with the Bellman equation for the value function: $V^{\pi} = r^{\pi} + \gamma P^{\pi}V^{\pi}$.
 
@@ -37,7 +38,7 @@ Stochastic approximation has some requirements on each of the components to guar
 
 For the TD algorithm, the first four of these are trivial -- as an example, our Lipschitz bound ends up being the $L_{\infty}$ norm of the matrix term $(\gamma P^{\pi} - I)$.
 
-## Policy Iteration via the Every Visit Monte Carlo Method
+### Policy Iteration via the Every Visit Monte Carlo Method
 Consider the formula for the value of a policy in a state:\
 $$V(s) = \mathbb{E}[r(s_t)+\gamma V(s_{t+1}\|s_t = s]$$
 
