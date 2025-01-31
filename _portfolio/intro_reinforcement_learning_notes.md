@@ -44,7 +44,17 @@ $$V(s) = \mathbb{E}[r(s_t)+\gamma V(s_{t+1}\|s_t = s]$$
 Note that we can expand this via successive steps of the rollout:\
 $$V(s) = \mathbb{E}[r(s_t)+\gamma V(s_{t+1})\|s_t = s] = \mathbb{E}[r(s_t)+\gamma r(s_{t+1})+\gamma^2 V(s_{t+2})\|s_t = s]$$.
 
-Let $G^k_t = r(s_t)+\gamma r(s_{t+1})+ \dots + \gamma^k V(s_{t+k})$. Then we can contrast different temporal difference algorithms via considering the number of rollout steps performed at each iteration. TD(1) will be the algorithm given by $V_{n+1}(S_t) = V_n(S_t) + \alpha_n G_t^1$.
+Let $G^k_t = r(s_t)+\gamma r(s_{t+1})+ \dots + \gamma^k V(s_{t+k})$. Then we can contrast different temporal difference algorithms via considering the number of rollout steps performed at each iteration. TD(1) will be the algorithm given by $V_{n+1}(S_t) = V_n(S_t) + \alpha_n G_t^1$. The _every visit Monte Carlo algorithm_ is given by $V_{n+1}(S_t) = V_n(S_t) + \alpha_n G_t^{\infty}$, where to obtain $G_t^{\infty}$ we let $k$ grow sufficiently large.
+
+Example: consider a simple MDP with 4 states. The reward structure is just that you obtain Ber(0.5) at state 3. At states 1 and 2 you can only transition to state 3, from there only to state 4 and at state 4 you can only self loop, at which point we consider the MDP to terminate. We impose an initial state distribution via $P(s_0 = 1) = 0.9, P(s_0 = 2) = 0.1$.
+
+There is only one policy since there is only one action per state. We have $V(3) = V(2) = V(1) = 0.5$, since we impose $\gamma = 1$, given this is a finite MDP.
+
+Let's solve this with TD. Start with $V_0 = (0 0 0 0)^T$. Then we have:\
+$$V_1(3) = V_0(3) + \alpha_1 \left( r_3 + V_0(4) - V_0(3) \right) =  0 + 1(r_3 + 0 - 0) = r_3$$\
+$$V_2(3) = V_1(3) + \alpha_2 \left( r_3 + V_1(4) - V_1(3) \right) = r_3 + \alpha_2(r_3^2 - r_3) = \frac{1}{2}(r_3 + r_3^2)$$\
+
+Then we have that the n-th time the agent visits state 3 as $V_n(3) = \frac{1}{n} \sum^n_i r_3^i$.
 
 
 
