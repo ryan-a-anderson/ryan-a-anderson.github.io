@@ -50,7 +50,7 @@ Example: consider a simple MDP with 4 states. The reward structure is just that 
 
 There is only one policy since there is only one action per state. We have $V(3) = V(2) = V(1) = 0.5$, since we impose $\gamma = 1$, given this is a finite MDP.
 
-Let's solve this with TD. Start with $V_0 = (0 0 0 0)^T$. Then we have:\
+Let's solve this with TD(1). Start with $V_0 = (0, 0, 0, 0)^T$. Then we have:\
 $$V_1(3) = V_0(3) + \alpha_1 \left( r_3 + V_0(4) - V_0(3) \right) =  0 + 1(r_3 + 0 - 0) = r_3$$\
 $$V_2(3) = V_1(3) + \alpha_2 \left( r_3 + V_1(4) - V_1(3) \right) = r_3 + \alpha_2(r_3^2 - r_3) = \frac{1}{2}(r_3 + r_3^2)$$.
 
@@ -58,13 +58,16 @@ Then we have that the n-th time the agent visits state 3 as $V_n(3) = \frac{1}{n
 
 Now let's consider what happens for state 2. Because of the initial state distribution, the agent won't visit state 2 until the $k$-th iteration. Then we have:\
 $$V_{k+1}(2) = V_k(2) + \alpha_k (r_2 + V_{k}(3) - V_k(2) )$$\
-$$V_{k+1}(2) = 0 + (0 + \frac{1}{k}\sum_i^k r_3^i - 0 = \frac{1}{k}\sum_i^k r_3^i$$.
+$$V_{k+1}(2) = 0 + (0 + \frac{1}{k}\sum_i^k r_3^i - 0) = \frac{1}{k}\sum_i^k r_3^i$$.
 
 This is because before arriving at state 2, the agent would have had to visit state 3 $k$ times. Then imagine the agent next arrives at state 2 on iteration $k_2$ after first arriving at iteration $k_1$. Then we have:\
 $$V_{k_2+1}(2) = V_{k_2}(2) + \alpha_{k_2} (r_2 + V_{k_2}(3) - V_{k_2}(2) )$$\
 $$V_{k_2+1}(2) = \frac{1}{k_1}\sum_i^{k_1} r_3^i + \frac{1}{2} (0 + \frac{1}{k_2}\sum_i^{k_2} r_3^i - \frac{1}{k_1}\sum_i^{k_1} r_3^i )$$\
 $$= \frac{1}{2}(\frac{1}{k_2}\sum_i^{k_2} r_3^i - \frac{1}{k_1}\sum_i^{k_1} r_3^i)$$.
 
+By contrast, we can try to solve with every state MC. We have:\
+$$V_{k_1+1}(2) = V_{k_1}(2) + \alpha_{k_1}(r_2 + r_3 + r_4) = r_3^{k_1}$$\
+$$V_{k_2+1}(2) = V_{k_2}(2) + \alpha_{k_2}(r_2 + r_3 + r_4) = \frac{1}{2}(r_3^{k_2}-r_3^{k_1})$$.
 
 
 
