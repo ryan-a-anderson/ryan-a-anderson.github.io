@@ -26,7 +26,16 @@ Then the _temporal difference (TD) algorithm_ obtains the successive approximati
 $$V_{n+1}(S_t) = V_n(S_t) + \alpha_t\left( r_t + \gamma V_n(S_{t+1}) - V_n(S_t) \right)$$
 
 The TD algorithm is an example of a _stochastic approximation algorithm_. Stochastic gradient descent works similarly. It's based on the idea that we can approximate a continuous ODE by taking advantage of an unbiased estimate for the term within the Taylor expansion:\
-$$\dot{X}(t) = h(X(t)) \rightarrow X_{n+1} = X_n + \alpha_n (h(X_n) + M_{n+1}), \quad \mathbb{E}[M_{n+1} | X_n] = 0$$
+$$\dot{X}(t) = h(X(t)) \rightarrow X_{n+1} = X_n + \alpha_n (h(X_n) + M_{n+1}), \mathbb{E}[M_{n+1} | X_n] = 0$$.
+
+Stochastic approximation has some requirements on each of the components. The most basic result is due to Robbin-Monro (1951):
+1. $h$ must be $L$-Lipschitz
+2. $x_{final}$ is a stable equilibrium
+3. $\sum \alpha_n = \infty$ but $\sum \alpha_n^2 < \infty$
+4. We want the $M$ term to be independent of the data at stage n and also to always have bounded variance, i.e. $\exists k \rightarrow \mathbb{E}[\|M_{n+1}\|^2 \| X_n] \leq k(1+\|X_n\|^2)$
+5. $\sup \|X_n\| < \infty$
+
+
 
 
 
