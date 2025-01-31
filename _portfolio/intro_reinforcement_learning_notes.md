@@ -28,7 +28,7 @@ $$V_{n+1}(S_t) = V_n(S_t) + \alpha_t\left( r_t + \gamma V_n(S_{t+1}) - V_n(S_t) 
 The TD algorithm is an example of a _stochastic approximation algorithm_. Stochastic gradient descent works similarly. It's based on the idea that we can approximate a continuous ODE by taking advantage of an unbiased estimate for the term within the Taylor expansion:\
 $$\dot{X}(t) = h(X(t)) \rightarrow X_{n+1} = X_n + \alpha_n (h(X_n) + M_{n+1}), \mathbb{E}[M_{n+1} | X_n] = 0$$.
 
-Stochastic approximation has some requirements on each of the components to guarantee convergence. The most basic result is due to Robbins-Monro (1951):
+Stochastic approximation has some requirements on each of the components to guarantee convergence. The most basic result is due to [Robbins-Monro (1951)](https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-22/issue-3/A-Stochastic-Approximation-Method/10.1214/aoms/1177729586.full):
 1. $h$ must be $L$-Lipschitz
 2. $x_{final}$ is a stable equilibrium
 3. $\sum \alpha_n = \infty$ but $\sum \alpha_n^2 < \infty$
