@@ -1,5 +1,5 @@
 ---
-title: 'Notes on Modeling POMDPs: Crites' Elevator'
+title: "Notes on Modeling POMDPs: Crites Elevator"
 date: 2025-02-03
 permalink: /posts/2025/02/crites-elevator/
 tags:
