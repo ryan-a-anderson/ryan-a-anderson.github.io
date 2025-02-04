@@ -71,4 +71,9 @@ $$V_{k_1+1}(2) = V_{k_1}(2) + \alpha_{k_1}(r_2 + r_3 + r_4) = r_3^{k_1}$$\
 $$V_{k_2+1}(2) = V_{k_2}(2) + \alpha_{k_2}(r_2 + r_3 + r_4) = \frac{1}{2}(r_3^{k_2}-r_3^{k_1})$$.
 
 
+## Lecture 2/5: More on Policy Evaluation
+### Convergence of Policy Evaluation
+Given an ODE $\dot{x} = h(x)$ we want to solve via _stochastic approximation_, that is find a sequence of estimates $x_{n+1} = x_n + \alpha_n (h(x_n) + M_{n+1})$ such that $x_n \rightarrow x_F$ where $h(x_F) = 0$ almost surely.
+
+
 
