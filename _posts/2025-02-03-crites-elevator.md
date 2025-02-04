@@ -1,7 +1,7 @@
 ---
 title: 'Notes on Modeling POMDPs: Crites' Elevator'
 date: 2025-02-03
-permalink: /posts/2023/06/grips-post-1/
+permalink: /posts/2025/02/crites-elevator/
 tags:
   - MDPs
   - POMDPs
