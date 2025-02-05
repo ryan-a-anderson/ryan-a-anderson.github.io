@@ -103,3 +103,15 @@ Then we just need to show that $\|\phi(t) - \hat{\phi}(t)\| \to 0, t \to \infty$
 
 To start, let $\epsilon > 0$ and consider $B(\epsilon)$ the $\epsilon$-neighbors of $x_F$.
 
+Consider a partition of time $T$ into components $\alpha(i)$ with $t(j) = \sim_{n=0}^j \alpha(n)$. Then let $T(n+1) = \min t(j) : t(j) > T(n)$.
+
+Then $\phi(t)$ is defined by $\phi(t_n) = X_n$ with linear interpolation on $[t(n), t(n+1)]$ and $\hat{\phi}(t)$ is piecewise continuous defined so that $\forall j \geq 0, \hat{\phi}(t)$ is the solution to our original ODE such that $\|\hat{\phi}(T(j)_l - x_F\| \leq \frac{\delta}{2}$.
+
+Then consider Lemma 1: $\|\phi(t) - \hat{\phi}(t)\| \to 0$ almost surely for $t \to \infty$.
+
+Assuming Lemma 1, we have that there exists $j_0$ such that $\|\phi(T(j)_l - \hat{\phi}(T(j)_l)\| \leq \frac{\delta}{2} \quad \forall j \geq j_0$.
+
+Then there exists $N$ such that $\|x(N) - x_F\| \leq \|x(N) - \hat{\phi}(T(j)_l)\| + \|\hat{\phi}(T(j)_l) - x_F\|$.
+
+By Lemma 1, the first norm in the RHS is less than $\frac{\delta}{2}$ while the second norm is also less than that amount by construction.
+
