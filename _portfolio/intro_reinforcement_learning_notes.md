@@ -99,6 +99,31 @@ The proof is as follows. We will construct two functions: $\phi(t)$ will be a sm
 
 $$\|\hat{\phi}(kT) - x_F\| \leq \frac{\delta}{2} \quad \forall k \in \mathbb{N}^+$$.
 
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Define time
+t = np.linspace(0, 10, 500)
+
+# Define φ(t) as a smooth interpolation (e.g., sine wave for illustration)
+phi = np.sin(t)
+
+# Define φ̂(t) as a step-wise decaying function
+phi_hat = np.heaviside(t - np.arange(1, 11), 1) * np.exp(-t)
+
+plt.plot(t, phi, label='φ(t) - Smooth Interpolation')
+plt.step(t, phi_hat, where='post', label='φ̂(t) - Step-wise Decay')
+
+plt.axhline(y=0, color='gray', linestyle='--', linewidth=0.5)
+plt.title('Visualization of φ(t) and φ̂(t)')
+plt.xlabel('Time (t)')
+plt.ylabel('Function Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
 Then we just need to show that $\|\phi(t) - \hat{\phi}(t)\| \to 0, t \to \infty$.
 
 To start, let $\epsilon > 0$ and consider $B(\epsilon)$ the $\epsilon$-neighbors of $x_F$.
