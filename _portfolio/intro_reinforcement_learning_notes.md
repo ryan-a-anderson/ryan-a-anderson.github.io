@@ -75,5 +75,15 @@ $$V_{k_2+1}(2) = V_{k_2}(2) + \alpha_{k_2}(r_2 + r_3 + r_4) = \frac{1}{2}(r_3^{k
 ### Convergence of Policy Evaluation
 Given an ODE $\dot{x} = h(x)$ we want to solve via _stochastic approximation_, that is find a sequence of estimates $x_{n+1} = x_n + \alpha_n (h(x_n) + M_{n+1})$ such that $x_n \rightarrow x_F$ where $h(x_F) = 0$ almost surely.
 
+The Robbins-Monro conditions require that (1) the learning rate decays rapidly, (2) the noise term is independent of the current estimate with bounded variance, (3) the ODE function is Lipschitz, (4) the final solution is a stable equilibrium, and (5) the sequence of estimates is bounded.
+
+An alternate set of conditions due to [Borkar and Meyn (2000)](https://epubs.siam.org/doi/abs/10.1137/S0363012997331639) require the restrictions on the learning rate, the noise term, and the Lipschitz-ness of the ODE function, but can supplant the stable equilibrium and boundedness requirements. Instead, we now need there to exist another function $h_r(x) = \frac{h(rx)}{r}$ such that $\lim_{r \to infty} h_r(x) = h_{\infty}(x) \forall x \in \mathbb{R}^d$. Then we get for free that there is an asymptotically stable solution $x_F$.
+
+To show the convergence of policy evaluation then we proceed with the Borkar-Meyn conditions and prove the following:
+1. The conditions on the learning rate, noise function, and Lipschitz-ness of the $h$ function imply the boundedness of the estimated solutions.
+2. With the above we can show that $x_n \to x_F$ almost surely.
+
+
+
 
 
