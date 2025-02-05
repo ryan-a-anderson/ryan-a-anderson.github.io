@@ -6,6 +6,13 @@ layout: single
 output: html_document
 ---
 
+# Table of Contents
+- [Lecture 1/30: Algorithms for Policy Evalation](#lecture-130-algorithms-for-policy-evalation)
+  - [Policy Evaluation via the Temporal Difference Algorithm](#policy-evaluation-via-the-temporal-difference-algorithm)
+  - [Policy Iteration via the Every Visit Monte Carlo Method](#policy-iteration-via-the-every-visit-monte-carlo-method)
+- [Lecture 2/5: More on Policy Evaluation](#lecture-25-more-on-policy-evaluation)
+  - [Convergence of Policy Evaluation](#convergence-of-policy-evaluation)
+
 Reinforcement learning is a paradigm of statistical learning which is distinguished from supervised and unsupervised learning. 
 In RL, an agent interacts with an unknown environment and aims to maximize the total rewards it obtains from interacting with the environment.
 
