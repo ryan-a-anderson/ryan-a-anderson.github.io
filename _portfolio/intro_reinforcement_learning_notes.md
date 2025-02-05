@@ -77,13 +77,16 @@ Given an ODE $\dot{x} = h(x)$ we want to solve via _stochastic approximation_, t
 
 The Robbins-Monro conditions require that (1) the learning rate decays rapidly, (2) the noise term is independent of the current estimate with bounded variance, (3) the ODE function is Lipschitz, (4) the final solution is a stable equilibrium, and (5) the sequence of estimates is bounded.
 
-An alternate set of conditions due to [Borkar and Meyn (2000)](https://epubs.siam.org/doi/abs/10.1137/S0363012997331639) require the restrictions on the learning rate, the noise term, and the Lipschitz-ness of the ODE function, but can supplant the stable equilibrium and boundedness requirements. Instead, we now need there to exist another function $h_r(x) = \frac{h(rx)}{r}$ such that $\lim_{r \to infty} h_r(x) = h_{\infty}(x) \forall x \in \mathbb{R}^d$. Then we get for free that there is an asymptotically stable solution $x_F$.
+An alternate set of conditions due to [Borkar and Meyn (2000)](https://epubs.siam.org/doi/abs/10.1137/S0363012997331639) require the restrictions on the learning rate, the noise term, and the Lipschitz-ness of the ODE function, but can supplant the stable equilibrium and boundedness requirements. Instead, we now need there to exist another function $h_r(x) = \frac{h(rx)}{r}$ such that $\lim_{r \to \infty} h_r(x) = h_{\infty}(x) \forall x \in \mathbb{R}^d$. Then we get for free that there is an asymptotically stable solution $x_F$.
 
 To show the convergence of policy evaluation then we proceed with the Borkar-Meyn conditions and prove the following:
 1. The conditions on the learning rate, noise function, and Lipschitz-ness of the $h$ function imply the boundedness of the estimated solutions.
 2. With the above we can show that $x_n \to x_F$ almost surely.
 
+Note that in the policy evaluation problem we have the following: $h(x) = \hat{r} + \gamma P x - x$. Then let $h_r(x)$ be given by
+$$h_r(x) = \frac{h(rx)}{r} = \frac{\hat{r} - \gamma P rx - rx}{r} = (\frac{1}{r})\hat{r} + (\gamma P - I)x$$.
 
+This implies $\lim_{r \to \infty} h_r(x) = h_{\infty}(x) = (\gamma P - I)x$.
 
 
 
