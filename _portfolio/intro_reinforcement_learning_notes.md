@@ -97,7 +97,7 @@ This implies $\lim_{r \to \infty} h_r(x) = h_{\infty}(x) = (\gamma P - I)x$.
 
 The proof is as follows. We will construct two functions: $\phi(t)$ will be a smooth interpolation of all the visited estimates $x_n$. Meanwhile $\hat{\phi(t)}$ will be a left-continuous piecewise decaying function (sort of like an intensity function in a point process) such that 
 
-$$\|\hat{\phi}(kT) - x_F\| \leq \delta/2 \forall k \in \mathbb{N}^+$$.
+$$\|\hat{\phi}(kT) - x_F\| \leq \frac{\delta}{2} \quad \forall k \in \mathbb{N}^+$$.
 
 Then we just need to show that $\|\phi(t) - \hat{\phi}(t)\| \to 0, t \to \infty$.
 
