@@ -117,11 +117,28 @@ Then there exists $N$ such that $\|x(N) - x_F\| \leq \|x(N) - \hat{\phi}(T(j)_l)
 By Lemma 1, the first norm in the RHS is less than $\frac{\delta}{2}$ while the second norm is also less than that amount by construction.
 
 ## Lecture 2/20: Function Approximation in RL
-### Policy Iteration in Infinite State Spaces
+### Policy Iteration Under Function Approximation
 We have reviewed the use of policy iteration to find the optimal policy in MDPs. So far these have had finite state spaces. What about infinite state spaces?
 
 As before, we want to solve the optimization problem $\max_{a \in A} Q^{\pi}(s, a),$ but now $s$ may come from an infinite space.
 
 The first trick will be to find a linear representation of the $Q$ value function, by finding an eigendecomposition parameterized by $\theta$ such that
+
 $$ Q^{\pi}(s, a) \simeq Q_{\theta}(s,a) = \sum_{i=1}^h \Psi_{i}(s,a)\theta $$.
+
+### Policy Evaluation Under Function Approximation
+Consider also an approximation to the value function $\hat{V}(s,a)$. We can perform policy evaluation with this approximation as follows.
+
+In general, we can solve an optimization problem like $\min_w J(w)$ via techniques like gradient descent:
+
+GD: $$ w_{k+1} = w_k - \eta \nabla_w J(w_k)$$
+SGD: Let $x \sim \rho_k$ and consider the problem $\min_{w} E[J(w,x)]$. Then we solve via $$ w_{k+1} = w_k - \eta \nabla_w J(w_k,x).$$
+
+In policy evaluation, we want to minimize the following:
+$$ \min_w E_s[ \| V^{\pi}(s) - \hat{V}(s,w) \|^2] $$
+
+With gradient descent, the update step looks like
+$$ w_{k+1} = w_k + \alpha_k E_s[ (V^{\pi}(s) - \hat{V}(s,w))\nabla_w \hat{V}(s,w_k)]$$
+
+
 
