@@ -131,7 +131,7 @@ Consider also an approximation to the value function $\hat{V}(s,a)$. We can perf
 
 In general, we can solve an optimization problem like $\min_w J(w)$ via techniques like gradient descent:
 
-GD: $$ w_{k+1} = w_k - \eta \nabla_w J(w_k)$$
+GD: $$ w_{k+1} = w_k - \eta \nabla_w J(w_k)$$ \\
 SGD: Let $x \sim \rho_k$ and consider the problem $\min_{w} E[J(w,x)]$. Then we solve via $$ w_{k+1} = w_k - \eta \nabla_w J(w_k,x).$$
 
 In policy evaluation, we want to minimize the following:
@@ -139,6 +139,21 @@ $$ \min_w E_s[ \| V^{\pi}(s) - \hat{V}(s,w) \|^2] $$
 
 With gradient descent, the update step looks like
 $$ w_{k+1} = w_k + \alpha_k E_s[ (V^{\pi}(s) - \hat{V}(s,w))\nabla_w \hat{V}(s,w_k)]$$
+
+Note we can continue by recognizing that the expression $\sum_{i=0}^{I} \gamma^i r_{t+i}$ is an unbiased estimate of $V^{\pi}$. Then of course note we can rewrite the expression as $\sum_{i=0}^{I} \gamma^i r_{t+i} = \alpha_k(r_t + \gamma \hat{V}(s_{t+1},w_k))$.
+
+This turns out to be the reconstruction of the _temporal difference algorithm under function approximation_.
+
+### Estimating the Bellman Residual
+A third problem we could consider is the following:
+
+$$ \min_{\theta} E_s[(r^{\pi}(s) + \gamma E[V_{\theta}^{\pi}(s_{t+1}) | s_t = s] - V^{\pi}_{\theta}(s))^2]$$
+
+The quantity inside the expectation is the _Bellman residual_. It represents the difference between the true value function and the estimation under the Bellman equation.
+
+With a true gradient descent technique, we would expand this as 
+
+$$E_s[(r^{\pi}(s) + \gamma E[V_{\theta}^{\pi}(s_{t+1}) | s_t = s] - V^{\pi}_{\theta}(s))(\gamma \nabla_{\theta}E[V_{\theta}^{\pi}(s_{t+1}) | s_t = s] - \nabla_{\theta}V^{\pi}(s))]  $$
 
 
 
