@@ -116,3 +116,12 @@ Then there exists $N$ such that $\|x(N) - x_F\| \leq \|x(N) - \hat{\phi}(T(j)_l)
 
 By Lemma 1, the first norm in the RHS is less than $\frac{\delta}{2}$ while the second norm is also less than that amount by construction.
 
+## Lecture 2/20: Function Approximation in RL
+### Policy Iteration in Infinite State Spaces
+We have reviewed the use of policy iteration to find the optimal policy in MDPs. So far these have had finite state spaces. What about infinite state spaces?
+
+As before, we want to solve the optimization problem $\max_{a \in A} Q^{\pi}(s, a),$ but now $s$ may come from an infinite space.
+
+The first trick will be to find a linear representation of the $Q$ value function, by finding an eigendecomposition parameterized by $\theta$ such that
+$$ Q^{\pi}(s, a) \simeq Q_{\theta}(s,a) = \sum_{i=1}^h \Psi_{i}(s,a)\theta $$.
+
