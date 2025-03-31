@@ -36,3 +36,10 @@ As a demonstration of tactics in this course, let's prove this. First consider $
 
 We want to show that $A = \mathbb{B}$. To start we know that $0, X \in A$. We also know that $A$ is closed under complements and under finite unions and intersections. The last note comes from the inclusion-exclusion principle: consider $E_1, E_2 \in \mathbb{B}$ with nonempty intersection. Then $\mu(E_1) + \mu(E_2) = \sup(\mu(U_1) + \mu(U_2)) = \sup(\mu(U_1 \cup U_2) - \mu(U_1 \cap U_2)) = \mu(E_1 \cup E_2) - \mu(E_1 \cap E_2)$.
 
+### Riesz Representation Theorem
+Let $X$ be LCH and $\sigma$-compact and let $\mu$ be a Radon measure. This gives us an integration functional $S-d\mu: C_c(X) \to \mathbb{C}$ which is linear and positive, i.e. $\forall f \in C_c(X), f \geq 0 \Rightarrow \int f d\mu \geq 0$.
+
+The _Riesz representation theorem_ provides a converse: let $X$ be LCH and $\sigma$-compact and let $\lambda: C_c(X) \to \mathbb{C}$ be a positive linear functional. Then there exists a unique Radon measure $\mu$ on $X$ such that $\lambda(f) = \int f d\mu$.
+
+
+
