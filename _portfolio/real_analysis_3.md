@@ -22,4 +22,8 @@ A _Radon measure_ on $X$ is a non-negative countably additive measure $\mu: \mat
 - inner regularity: $\forall \text{ Borel } E, \mu(E) = \sup (\mu(K): K \subset E \text{ compact })$
 - outer regularity: $\forall \text{ Borel } E, \mu(E) = \inf (\mu(U): E \subset U \text{ compact })$
 
-Lemma: 
+Lemma: if $X$ is LCH and $\sigma$-compact, with $\mu$ a Radon measure, then $C_c(X)$ is a dense subset of $L^p(X, \mu) \forall 1 \leq p < \infty$.
+
+As a technical note, we clarify that while $C_c(X)$ is a space of functions (those that are continuous with compact support) while $L^p(X,\mu)$ is a space of functions up to almost-everywhere equivalence. That is, $L^p(X,\mu)$ is a space of equivalence classes of functions, which we elide in the statement of this lemma.
+
+The import of this lemma is that we can approximate any $L^p$ function by a continuous function with compact support. We caveat that $C_c(X)$ is emphatically not dense in $L^{\infty}$.
