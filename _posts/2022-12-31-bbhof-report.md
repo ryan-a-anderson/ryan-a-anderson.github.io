@@ -44,7 +44,11 @@ Since then, the so-called sabermetrics community has come to dominate baseball d
 Others in the baseball statistics community work on recording and reporting in great detail historical metrics. The team at [Baseball Databank](https://github.com/chadwickbureau/baseballdatabank) maintains several data sets which were used for this project. In particular, three of their data sets were of concern here: HOF Voting, Batting Data, and People.
 
 The HOF Voting set contains records on which players were eligible in every year of voting going back to 1936, how many votes they received in that year, and whether they ever were inducted into the HOF. This per-player-year data provides our main response variable in Section X, `max_pct`, which we calculate as
-$$max\_pct_j = \max_{i \in Y_j}\left(\frac{V_{i,j}}{B_{i}}\right),$$
+
+$$
+\text{max_pct}_j = \max_{i \in Y_j}\left(\frac{V_{i,j}}{B_{i}}\right),
+$$
+
 where `max_pct` for the $j^{th}$ player is given by taking the max across all the player's eligible years, $Y_j$, of the ratio of votes received by that player in year $i$, $V_{i,j}$, to the total ballots available in that same year, $B_i$. Players who have successfully been elected into the HOF are precisely those who have $max\_pct > 0.75$.
 
 The Batting Data set contains season-wide totals for each player on a set of metrics, which we subset here: Games Played, At-Bats, Hits, and Runs. We group and total these at the player level to end up with a table we call Career Totals. Career-wide data is as described above more natural when considering HOF classification.
@@ -73,7 +77,10 @@ In Figure 2, we zoom in on the distribution of successful inductees' `max_pct`. 
 # Predicting `max_pct`
 
 With the above in mind, we fit a linear model for `max_pct` against our career batting data as covariates. The model summary can be found in Figure 3. All the batting variables are found to be significant to the 0.0001 level. The equation to estimate $\hat{max\_pct}$ is given by
-$$\hat{max\_pct} = -0.3079 - 0.00012G - 0.0001AB + 0.0003R + 0.0004H + 0.0349career\_years$$
+
+$$
+\hat{\text{max_pct}} = -0.3079 - 0.00012G - 0.0001AB + 0.0003R + 0.0004H + 0.0349career\_years
+$$
 
 However, we note that the residuals of this model exhibit quite differently to what we would expect under standard homoscedasticity assumptions. The residuals vs fitted and normal Q-Q plots are depicted in Figure 4. With such uneven residual plots, we conclude that linear models may not be well suited to prediction of the `max_pct` variable.
 
