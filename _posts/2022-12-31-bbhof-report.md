@@ -1,7 +1,13 @@
-# STAT 202B HW 1
-
-**Author:** Ryan Anderson
-**Date:** Jan 29, 2023
+---
+title: "Modeling Players' Chances of Entering the BBHOF"
+date: 2022-12-31
+permalink: /posts/2022/12/bbhof-model/
+tags:
+  - baseball
+  - classification
+  - linear models
+  - random forests
+---
 
 This report describes an attempt to model using different statistical techniques the selection process for the Baseball Hall of Fame (HOF). We describe the history and election procedures of the Hall of Fame, and also the appropriateness of kernel estimation and machine learning methods to the problem of predicting which players will make it in.
 
