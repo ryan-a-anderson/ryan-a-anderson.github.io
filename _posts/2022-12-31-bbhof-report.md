@@ -76,7 +76,7 @@ In Figure 2, we zoom in on the distribution of successful inductees' `max_pct`. 
 
 # Predicting `max_pct`
 
-With the above in mind, we fit a linear model for `max_pct` against our career batting data as covariates. The model summary can be found in Figure 3. All the batting variables are found to be significant to the 0.0001 level. The equation to estimate $\hat{max\_pct}$ is given by
+With the above in mind, we fit a linear model for `max_pct` against our career batting data as covariates. The model summary can be found in Figure 3. All the batting variables are found to be significant to the 0.0001 level. The equation to estimate $\hat{\text{max_pct}}$ is given by
 
 $$
 \hat{\text{max_pct}} = -0.3079 - 0.00012G - 0.0001AB + 0.0003R + 0.0004H + 0.0349career\_years
