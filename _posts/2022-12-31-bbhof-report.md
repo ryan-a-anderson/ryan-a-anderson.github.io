@@ -108,36 +108,36 @@ Another limitation is historical. Some of the greatest baseball players from a s
 
 **(Figure 1)** Histogram and KDE for All Players
 * (a) Histogram
-    ![Histogram for All Players](images/histogram_max_pct_all.png)
+    ![Histogram for All Players](/images/histogram_max_pct_all.png)
 * (b) KDE
-    ![KDE for All Players](images/kde_max_pct_all.png)
+    ![KDE for All Players](/images/kde_max_pct_all.png)
 
 **(Figure 2)** Histogram and KDE for Successful Inductees
 * (a) Histogram
-    ![Histogram for Inductees](images/histogram_inductees.png)
+    ![Histogram for Inductees](/images/histogram_inductees.png)
 * (b) KDE
-    ![KDE for Inductees](images/kde_inductees.png)
+    ![KDE for Inductees](/images/kde_inductees.png)
 
 **(Figure 3)** Linear model summary for `max_pct`
-![Linear model for max_pct](images/max_pct_lm.png)
+![Linear model for max_pct](/images/max_pct_lm.png)
 
 **(Figure 4)** Residual plots for linear model of `max_pct`
-![Residual plots for max_pct linear model](images/max_pct_resid.png)
+![Residual plots for max_pct linear model](/images/max_pct_resid.png)
 
 **(Figure 5)** Kernel Regression of `max_pct` Against Career Years and Hits
 * (a) Kernel Regression vs Career Years
-    ![Kernel Regression vs Career Years](images/max_pct_kreg1.png)
+    ![Kernel Regression vs Career Years](/images/max_pct_kreg1.png)
 * (b) Kernel Regression vs Hits
-    ![Kernel Regression vs Hits](images/max_pct_kreg2.png)
+    ![Kernel Regression vs Hits](/images/max_pct_kreg2.png)
 
 **(Figure 6)** Accuracy from Confusion Matrices for Different ML Approaches
-![Accuracy from Confusion Matrices](images/ml_accuracy.png)
+![Accuracy from Confusion Matrices](/images/ml_accuracy.png)
 
 **(Figure 7)** Regression Tree Branching Points
 * (a) Regression Tree 1
-    ![Regression Tree 1](images/reg_tree1.png)
+    ![Regression Tree 1](/images/reg_tree1.png)
 * (b) Regression Tree 2 (Cross-Validated)
-    ![Regression Tree 2](images/reg_tree2.png)
+    ![Regression Tree 2](/images/reg_tree2.png)
 
 # Code
 
