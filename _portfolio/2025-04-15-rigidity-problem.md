@@ -20,7 +20,7 @@ Trivially, the complete graph on $n$ nodes $K_n$ is globally rigid for all choic
 Let $R(G,p)$ be the _rigidity matrix_ of $(G,p)$, i.e. half the Jacobian of the distance map at $p$.
 A _stress_ is a vector $w \in \mathbb{R}^{E(G)}$ such that $wR(G,p) = 0$.
 
-The corresponding _stress matrix_ $\Omega$ is the matrix such that $\Omega_{i, j} = w_{ij} \forall ij \in E(G)$, with $\Omega{i,j} = 0$ if $i \neq j$ and $ij \not \in E(G)$, and $\Omega{i,j} = \sum_{ij \in E} -w_{ij}$.
+The corresponding _stress matrix_ $\Omega$ is the matrix such that $\Omega_{i, j} = w_{ij} \forall ij \in E(G)$, with $\Omega_{i,j} = 0$ if $i \neq j$ and $ij \not \in E(G)$, and $\Omega_{i,j} = \sum_{ij \in E} -w_{ij}$.
 
 Note: the rank of a stress matrix is at most $n-d-1$. In fact, the existence of a stress matrix of maximal rank is equivalent to the framework being globally rigid! However, this relation only works for each choice of embedding map $p$. To get the relation generically, we need another condition, as shown below.
 
