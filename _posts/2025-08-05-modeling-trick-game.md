@@ -34,50 +34,31 @@ I asked this question to a few different SOTA models and thought it'd be interes
 OpenAI just released a new open source model today – it's called GPT OSS and comes in 120B parameter and 20B parameter versions.
 
 > **Answer (≈ 33 %)**  
-
-> If you have at least one king *or* one queen in your 7‑card hand, **but none of them is already paired with its mate**, the probability that the three‑card kitty contains a card that will complete a king‑queen pair (i.e. the queen of a king you own, or the king of a queen you own) is  
-
-> \[ \boxed{\displaystyle \frac{11\,877}{35\,836}\;\approx\;0.331\;\;(33.1\%)} .\]
-
+> If you have at least one king *or* one queen in your 7‑card hand, **but none of them is already paired with its mate**, the probability that the three‑card kitty contains a card that will complete a king‑queen pair (i.e. the queen of a king you own, or the king of a queen you own) is
+\[ \boxed{\displaystyle \frac{11\,877}{35\,836}\;\approx\;0.331\;\;(33.1\%)} .\]
+> 
 > ---
-
 > ## How the number is obtained  
-
 > ### 1.  The deck and the situation  
-
 > * 24 cards in total: 4 K, 4 Q, and 16 other cards (9, 10, J, A of each suit).  
 > * You are dealt 7 cards, then a 3‑card “kitty’’ is dealt from the remaining 17 cards.  
-
 > We condition on the event  
-
 > **H** : *your hand contains at least one king or one queen, but never a king and the queen of the same suit.*
-
 > In other words, the suits of the kings you hold are all different from the suits of the queens you hold.
-
 > ### 2.  Counting admissible hands  
-
 > Let  
-
 > * \(k\) = number of kings in the hand,  
 > * \(q\) = number of queens in the hand,  
-
 > with \(k+q=t\) (the total number of royal cards you hold).  
 > Because the suit of each king must be different from the suit of each queen, the \(t\) cards must all be of **different suits**.
-
 > * Choose the \(t\) suits that will appear: \(\displaystyle\binom{4}{t}\).
 > * Choose which of those \(t\) suits belong to kings: \(\displaystyle\binom{t}{k}\) (the remaining \(q=t-k\) suits become queens).
 > * Fill the remaining \(7-t\) spots with any of the 16 non‑royal cards: \(\displaystyle\binom{16}{7-t}\).
-
 > Hence the number of admissible hands with a given \((k,q)\) is  
-
 > \[ N_{k,q}= \binom{4}{t}\binom{t}{k}\binom{16}{7-t},\qquad t=k+q\le 4 . \]
-
 > Only the total \(t\) matters for the probability we will need later, so we can collect the terms for each possible \(t\):
-
 > \[ H_t=\binom{4}{t}\,2^{t}\,\binom{16}{7-t}\qquad(t=1,2,3,4). \]
-
 > (The factor \(2^{t}=\sum_{k=0}^{t}\binom{t}{k}\) accounts for all ways to split the \(t\) suits between kings and queens.)
-
 > Evaluating:
 > | \(t\) | \(\displaystyle H_t\) |
 > |------|------------------------|
@@ -85,19 +66,13 @@ OpenAI just released a new open source model today – it's called GPT OSS and c
 > | 2 | \(6\cdot4\cdot\binom{16}{5}=104\,832\) |
 > | 3 | \(4\cdot8\cdot\binom{16}{4}=58\,240\) |
 > | 4 | \(1\cdot16\cdot\binom{16}{3}=8\,960\) |
-
 > Total admissible hands
 > \[ H_{\text{tot}}=\sum_{t=1}^{4}H_t = 236\,096 . \]
-
 > ### 3.  “Missing‑mate’’ cards that could finish a pair  
-
 > If you hold \(t\) royal cards (any mixture of kings and queens, all of different suits), the **matching mates** that are still missing are exactly the \(t\) cards of opposite rank with the same suits.  
 > All \(t\) of those mates are still among the 17 undealt cards (because none of them is in your hand).
-
 > Therefore, after your hand is fixed, the kitty (3 cards drawn from the remaining 17) contains at least one matching mate with probability
-
 > \[ p_t = 1-\frac{\binom{17-t}{3}}{\binom{17}{3}}, \qquad\text{where }\binom{17}{3}=680 .\]
-
 > Evaluating for each possible \(t\):
 > | \(t\) | \(\displaystyle \binom{17-t}{3}\) | \(p_t = 1-\frac{\binom{17-t}{3}}{680}\) |
 > |------|-------------------|------------------------------------------|
@@ -105,11 +80,8 @@ OpenAI just released a new open source model today – it's called GPT OSS and c
 > | 2 | 455 | \(\displaystyle\frac{225}{680}= \frac{45}{136}\approx0.3309\) |
 > | 3 | 364 | \(\displaystyle\frac{316}{680}= \frac{79}{170}\approx0.4647\) |
 > | 4 | 286 | \(\displaystyle\frac{394}{680}= \frac{197}{340}\approx0.5794\) |
-
 > ### 4.  Combine hand‑count and conditional probability  
-
 > The overall probability is the weighted average of the \(p_t\)’s, weights being the numbers of admissible hands \(H_t\):
-
 > \[
 \begin{aligned}
 P
@@ -120,31 +92,23 @@ P
         {H_{\text{tot}}}.
 \end{aligned}
 \]
-
 > Carrying out the arithmetic (details in the analysis) gives  
-
 > \[
 \sum_{t=1}^{4} H_t\binom{17-t}{3}=107\,336\,320,
 \qquad
 H_{\text{tot}}=236\,096.
 \]
-
 > Hence  
-
 > \[
 P = \frac{236\,096\;-\; \dfrac{107\,336\,320}{680}}{236\,096}
    = \frac{11\,877}{35\,836}
    \approx 0.3314 .
 \]
-
+> 
 > ---
-
 > ## 5.  Interpretation  
-
 > * **≈ 33 %** of the time the kitty will hand you at least one card that lets you complete a king‑queen pair of the same suit, provided your starting hand already contains a king **or** a queen (or several of them) but none of them is already paired.  
-
 > * If you have **only one** king (or only one queen) the chance is lower (≈ 18 %).  
 > * The chance rises as you hold more royal cards (≈ 58 % if you already have three or four of them), because there are more “missing‑mate’’ cards that could appear in the kitty.
-
 > That is the probability you were looking for.
 
