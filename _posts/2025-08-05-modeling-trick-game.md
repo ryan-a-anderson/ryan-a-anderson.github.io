@@ -29,6 +29,62 @@ Now what if you have more than one potential meldunek-forming card in your hand?
 
 ## Evaluation via Simulation
 
+Note to start that you can only have 4 "outs" in the setup above – if you have 5 kings and queens in your hand then you must have a matching pair somehow. 
+
+We simulated the probability of getting a meldunek in the kitty conditional on not having one in the player's hand. Our 90% credible intervals were $(0.096, 0.171)$ for the 1-out case, $(0.209, 0.267)$ for the 2-out case, $(0.287, 0.382)$ for the 3-out case, and $(0.276, 0.581)$ for the 4-out case.
+
+<img width="1258" height="894" alt="image" src="https://github.com/user-attachments/assets/191fb87f-74f6-48c5-a6f9-5b1bc5caf3f2" />
+
+The coding was kind of fun, just because it was important to code the 24-card deck in a faithful way, and checking for meldunek possibilities was a bit funky. My R code is below. It is not very tidyverse, which I should feel bad about because I was just TAing for UCLA's STATS 102A this summer session, but it was rather late at night when this came together!
+
+```
+cards <- 1:24
+n_iter <- 100
+results_by_out <- matrix(0,nrow=n_iter,ncol=4)
+for(j in 1:n_iter){
+  kitty_has_meldunek_results <- c()
+  for(i in 1:1000){
+    kitty_has_meldunek <- 0
+    curr_hand_has_K_Q <- FALSE
+    hand_has_meldunek <- TRUE
+    
+    curr_deck <- sample(cards, 24, replace = FALSE)
+    hand_1 <- curr_deck[1:7]
+    hand_2 <- curr_deck[8:14]
+    hand_3 <- curr_deck[15:21]
+    kitty <- curr_deck[22:24]
+    K_Q_vector <- c(4, 5, 10, 11, 16, 17, 22, 23)
+    
+    if(!(1 %in% dist(K_Q_vector[K_Q_vector %in% hand_1]))) {
+      hand_has_meldunek <- FALSE
+      valid_checks <- K_Q_vector[K_Q_vector %in% hand_1]
+      for(card in valid_checks) {
+        if((card - 1) %in% K_Q_vector){
+          if((card - 1) %in% kitty) {
+            kitty_has_meldunek <- kitty_has_meldunek + 1
+          }
+        }
+        else if((card + 1) %in% K_Q_vector) {
+          if((card + 1) %in% kitty) {
+            kitty_has_meldunek <- kitty_has_meldunek + 1
+          }
+        }
+      }
+    }
+    hand_has_meldunek_results <- c(hand_has_meldunek_results, hand_has_meldunek)
+    kitty_has_meldunek_results <- rbind(kitty_has_meldunek_results, c(length(valid_checks),kitty_has_meldunek))
+  }
+  out_1 <- mean(kitty_has_meldunek_results[kitty_has_meldunek_results[,1] == 1,2] > 0)
+  out_2 <- mean(kitty_has_meldunek_results[kitty_has_meldunek_results[,1] == 2,2] > 0)
+  out_3 <- mean(kitty_has_meldunek_results[kitty_has_meldunek_results[,1] == 3,2] > 0)
+  out_4 <- mean(kitty_has_meldunek_results[kitty_has_meldunek_results[,1] == 4,2] > 0)
+  results_by_out[j,] <- c(out_1, out_2, out_3, out_4)
+}
+
+```
+
+Anyway, it was a fun little simulation to try out!
+
 ## LLM Evaluation
 
 I asked this question to a few different SOTA models and thought it'd be interesting to reproduce their answers here.
