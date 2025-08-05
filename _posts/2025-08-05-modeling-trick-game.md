@@ -25,13 +25,35 @@ He asked if we could think about the probability of making a meldunek conditiona
 
 The easy calculation is to start with having one king or queen of any suit in your hand. Then the probability of making a meldunek by taking the kitty is simply $1 - (\frac{16}{17} * \frac{15}{16} * \frac{14}{15})$. That is, the first card in the kitty has a $\frac{16}{17}$ chance of not having the card you need, the second card has a $\frac{15}{16}$ chance, the third card has a $\frac{14}{15}$ chance, etc. That implies the chance of making a meldunek is 17.6%.
 
+Now what if you have more than one potential meldunek-forming card in your hand? Say you have the king of hearts, queen of diamonds, and king of spades. How does that change the probability of getting a meldunek in the kitty? We wanted to take a look at how your probabilities evolved with extra "outs".
+
+## Evaluation via Simulation
+
 ## LLM Evaluation
 
 I asked this question to a few different SOTA models and thought it'd be interesting to reproduce their answers here.
 
+### Claude 4 Sonnet
+
+Claude got the idea basically done quickly. It took a sec for me to confirm we needed the _matching_ K/Q, not only any K/Q, but then its reasoning was very good.
+
+> Ah, you're absolutely right! I misunderstood the pairing rule. You need the queen of the **same suit** as your king, not just any queen.
+> 
+> Let me recalculate:
+> **Setup:**
+> - You have one king of a specific suit (say King of Hearts)
+> - You need the Queen of Hearts specifically to make a pair
+> - After your 7-card hand, there are 17 cards remaining
+> - Only **1 card** (Queen of Hearts) out of those 17 can help you
+> - The kitty contains 3 of those 17 cards**Answer:** The probability that the kitty contains the matching queen (same suit as your king) is **17.6%** or about **3/17**.
+>
+> Your original calculation was exactly right: **P(at least one matching queen) = 1 - (16/17 × 15/16 × 14/15) = 17.6%**
+> This makes much more sense - you're looking for 1 specific card out of the 17 remaining cards, and the kitty gives you 3 chances to find it. The probability simplifies to 3/17 since you're essentially asking "what's the probability that 1 specific card is among these 3 randomly chosen cards?"
+> Much lower odds than my initial incorrect calculation, but that's the nature of needing a specific suited match rather than any card of the same rank!
+
 ### OpenAI's New Open Source Model – GPT OSS
 
-OpenAI just released a new open source model today – it's called GPT OSS and comes in 120B parameter and 20B parameter versions.
+OpenAI just released a new open source model today – it's called [GPT OSS](https://openai.com/open-models/) and comes in 120B parameter and 20B parameter versions. The response was not as focused, but because the model is tiny, the inference was essentially instantaneous. Pretty fun to play around with and definitely something I could see using in an OLLama type workflow.
 
 > **Answer (≈ 33 %)**  
 > If you have at least one king *or* one queen in your 7‑card hand, **but none of them is already paired with its mate**, the probability that the three‑card kitty contains a card that will complete a king‑queen pair (i.e. the queen of a king you own, or the king of a queen you own) is
