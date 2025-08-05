@@ -112,7 +112,7 @@ Claude got the idea basically done quickly. It took a sec for me to confirm we n
 OpenAI just released a new open source model today – it's called [GPT OSS](https://openai.com/open-models/) and comes in 120B parameter and 20B parameter versions. The response was not as focused, but because the model is tiny, the inference was essentially instantaneous. Pretty fun to play around with and definitely something I could see using in an OLLama type workflow.
 
 > **Answer (≈ 33 %)**  
-> If you have at least one king *or* one queen in your 7‑card hand, **but none of them is already paired with its mate**, the probability that the three‑card kitty contains a card that will complete a king‑queen pair (i.e. the queen of a king you own, or the king of a queen you own) is $\frac{11\,877}{35\,836}\;\approx\;0.331\;\;(33.1\%)$.
+> If you have at least one king *or* one queen in your 7‑card hand, **but none of them is already paired with its mate**, the probability that the three‑card kitty contains a card that will complete a king‑queen pair (i.e. the queen of a king you own, or the king of a queen you own) is $\frac{11\,877}{35\,836}\;\approx\;0.331$.
 > 
 > ---
 > ## How the number is obtained  
@@ -168,7 +168,7 @@ OpenAI just released a new open source model today – it's called [GPT OSS](htt
 > 
 > ### 4.  Combine hand‑count and conditional probability  
 > The overall probability is the weighted average of the $p_t$’s, weights being the numbers of admissible hands $H_t$:
-> $$
+> 
 \begin{aligned}
 P
 &= \frac{ \displaystyle\sum_{t=1}^{4} H_t\,p_t}{H_{\text{tot}}}
@@ -177,7 +177,6 @@ P
         \sum_{t=1}^{4} H_t\binom{17-t}{3}}
         {H_{\text{tot}}}.
 \end{aligned}
-$$
 > 
 > Carrying out the arithmetic (details in the analysis) gives $\sum_{t=1}^{4} H_t\binom{17-t}{3}=107\,336\,320,H_{\text{tot}}=236\,096$.
 > 
