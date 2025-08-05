@@ -112,22 +112,23 @@ Claude got the idea basically done quickly. It took a sec for me to confirm we n
 OpenAI just released a new open source model today – it's called [GPT OSS](https://openai.com/open-models/) and comes in 120B parameter and 20B parameter versions. The response was not as focused, but because the model is tiny, the inference was essentially instantaneous. Pretty fun to play around with and definitely something I could see using in an OLLama type workflow.
 
 > **Answer (≈ 33 %)**  
-> If you have at least one king *or* one queen in your 7‑card hand, **but none of them is already paired with its mate**, the probability that the three‑card kitty contains a card that will complete a king‑queen pair (i.e. the queen of a king you own, or the king of a queen you own) is
-\[ \boxed{\displaystyle \frac{11\,877}{35\,836}\;\approx\;0.331\;\;(33.1\%)} .\]
+> If you have at least one king *or* one queen in your 7‑card hand, **but none of them is already paired with its mate**, the probability that the three‑card kitty contains a card that will complete a king‑queen pair (i.e. the queen of a king you own, or the king of a queen you own) is $\frac{11\,877}{35\,836}\;\approx\;0.331\;\;(33.1\%)$.
 > 
 > ---
 > ## How the number is obtained  
 > ### 1.  The deck and the situation  
 > * 24 cards in total: 4 K, 4 Q, and 16 other cards (9, 10, J, A of each suit).  
-> * You are dealt 7 cards, then a 3‑card “kitty’’ is dealt from the remaining 17 cards.  
-> We condition on the event  
-> **H** : *your hand contains at least one king or one queen, but never a king and the queen of the same suit.*
+> * You are dealt 7 cards, then a 3‑card “kitty’’ is dealt from the remaining 17 cards.
+> 
+> We condition on the event **H** : *your hand contains at least one king or one queen, but never a king and the queen of the same suit.*
+> 
 > In other words, the suits of the kings you hold are all different from the suits of the queens you hold.
+> 
 > ### 2.  Counting admissible hands  
 > Let  
 > * $k$ = number of kings in the hand,  
-> * $q$ = number of queens in the hand,  
-> with $k+q=t$ (the total number of royal cards you hold).
+> * $q$ = number of queens in the hand,
+> * with $k+q=t$ (the total number of royal cards you hold).
 > 
 > Because the suit of each king must be different from the suit of each queen, the $t$ cards must all be of **different suits**.
 > * Choose the $t$ suits that will appear: $\displaystyle\binom{4}{t}$.
@@ -135,8 +136,8 @@ OpenAI just released a new open source model today – it's called [GPT OSS](htt
 > * Fill the remaining $7-t$ spots with any of the 16 non‑royal cards: $\displaystyle\binom{16}{7-t}$.
 > 
 > Hence the number of admissible hands with a given $(k,q)$ is  $ N_{k,q}= \binom{4}{t}\binom{t}{k}\binom{16}{7-t},\qquad t=k+q\le 4$.
-> Only the total $t$ matters for the probability we will need later, so we can collect the terms for each possible $t$:
-> \[ H_t=\binom{4}{t}\,2^{t}\,\binom{16}{7-t}\qquad(t=1,2,3,4). \]
+> Only the total $t$ matters for the probability we will need later, so we can collect the terms for each possible $t$: $H_t=\binom{4}{t}\,2^{t}\,\binom{16}{7-t}\qquad(t=1,2,3,4)$.
+> 
 > (The factor $2^{t}=\sum_{k=0}^{t}\binom{t}{k}$ accounts for all ways to split the $t$ suits between kings and queens.)
 > 
 > Evaluating:
@@ -167,7 +168,7 @@ OpenAI just released a new open source model today – it's called [GPT OSS](htt
 > 
 > ### 4.  Combine hand‑count and conditional probability  
 > The overall probability is the weighted average of the $p_t$’s, weights being the numbers of admissible hands $H_t$:
-> \[
+> $$
 \begin{aligned}
 P
 &= \frac{ \displaystyle\sum_{t=1}^{4} H_t\,p_t}{H_{\text{tot}}}
@@ -176,7 +177,7 @@ P
         \sum_{t=1}^{4} H_t\binom{17-t}{3}}
         {H_{\text{tot}}}.
 \end{aligned}
-\]
+$$
 > 
 > Carrying out the arithmetic (details in the analysis) gives $\sum_{t=1}^{4} H_t\binom{17-t}{3}=107\,336\,320,H_{\text{tot}}=236\,096$.
 > 
