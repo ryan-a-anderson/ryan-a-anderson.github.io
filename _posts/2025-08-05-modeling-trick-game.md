@@ -168,15 +168,14 @@ OpenAI just released a new open source model today – it's called [GPT OSS](htt
 > 
 > ### 4.  Combine hand‑count and conditional probability  
 > The overall probability is the weighted average of the $p_t$’s, weights being the numbers of admissible hands $H_t$:
-> 
-\begin{aligned}
+> $ \begin{aligned}
 P
 &= \frac{ \displaystyle\sum_{t=1}^{4} H_t\,p_t}{H_{\text{tot}}}
    =\frac{ \displaystyle\sum_{t=1}^{4} H_t\Bigl(1-\frac{\binom{17-t}{3}}{680}\Bigr)}{H_{\text{tot}}}\\
 &= \frac{H_{\text{tot}} - \displaystyle\frac{1}{680}
         \sum_{t=1}^{4} H_t\binom{17-t}{3}}
         {H_{\text{tot}}}.
-\end{aligned}
+\end{aligned}$
 > 
 > Carrying out the arithmetic (details in the analysis) gives $\sum_{t=1}^{4} H_t\binom{17-t}{3}=107\,336\,320,H_{\text{tot}}=236\,096$.
 > 
