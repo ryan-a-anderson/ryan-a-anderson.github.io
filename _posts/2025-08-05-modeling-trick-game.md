@@ -125,63 +125,62 @@ OpenAI just released a new open source model today – it's called [GPT OSS](htt
 > In other words, the suits of the kings you hold are all different from the suits of the queens you hold.
 > ### 2.  Counting admissible hands  
 > Let  
-> * \(k\) = number of kings in the hand,  
-> * \(q\) = number of queens in the hand,  
-> with \(k+q=t\) (the total number of royal cards you hold).  
-> Because the suit of each king must be different from the suit of each queen, the \(t\) cards must all be of **different suits**.
-> * Choose the \(t\) suits that will appear: \(\displaystyle\binom{4}{t}\).
-> * Choose which of those \(t\) suits belong to kings: \(\displaystyle\binom{t}{k}\) (the remaining \(q=t-k\) suits become queens).
-> * Fill the remaining \(7-t\) spots with any of the 16 non‑royal cards: \(\displaystyle\binom{16}{7-t}\).
-> Hence the number of admissible hands with a given \((k,q)\) is  
-> \[ N_{k,q}= \binom{4}{t}\binom{t}{k}\binom{16}{7-t},\qquad t=k+q\le 4 . \]
-> Only the total \(t\) matters for the probability we will need later, so we can collect the terms for each possible \(t\):
+> * $k$ = number of kings in the hand,  
+> * $q$ = number of queens in the hand,  
+> with $k+q=t$ (the total number of royal cards you hold).
+> 
+> Because the suit of each king must be different from the suit of each queen, the $t$ cards must all be of **different suits**.
+> * Choose the $t$ suits that will appear: $\displaystyle\binom{4}{t}$.
+> * Choose which of those $t$ suits belong to kings: $\displaystyle\binom{t}{k}$ (the remaining $q=t-k$ suits become queens).
+> * Fill the remaining $7-t$ spots with any of the 16 non‑royal cards: $\displaystyle\binom{16}{7-t}$.
+> 
+> Hence the number of admissible hands with a given $(k,q)$ is  $ N_{k,q}= \binom{4}{t}\binom{t}{k}\binom{16}{7-t},\qquad t=k+q\le 4$.
+> Only the total $t$ matters for the probability we will need later, so we can collect the terms for each possible $t$:
 > \[ H_t=\binom{4}{t}\,2^{t}\,\binom{16}{7-t}\qquad(t=1,2,3,4). \]
-> (The factor \(2^{t}=\sum_{k=0}^{t}\binom{t}{k}\) accounts for all ways to split the \(t\) suits between kings and queens.)
+> (The factor $2^{t}=\sum_{k=0}^{t}\binom{t}{k}$ accounts for all ways to split the $t$ suits between kings and queens.)
+> 
 > Evaluating:
-> | \(t\) | \(\displaystyle H_t\) |
+> 
+> | $t$ | $\displaystyle H_t$ |
 > |------|------------------------|
-> | 1 | \(4\cdot2\cdot\binom{16}{6}=64\,064\) |
-> | 2 | \(6\cdot4\cdot\binom{16}{5}=104\,832\) |
-> | 3 | \(4\cdot8\cdot\binom{16}{4}=58\,240\) |
-> | 4 | \(1\cdot16\cdot\binom{16}{3}=8\,960\) |
-> Total admissible hands
-> \[ H_{\text{tot}}=\sum_{t=1}^{4}H_t = 236\,096 . \]
+> | 1 | $4\cdot2\cdot\binom{16}{6}=64\,064$ |
+> | 2 | $6\cdot4\cdot\binom{16}{5}=104\,832$ |
+> | 3 | $4\cdot8\cdot\binom{16}{4}=58\,240$ |
+> | 4 | $1\cdot16\cdot\binom{16}{3}=8\,960$ |
+> 
+> Total admissible hands: $ H_{\text{tot}}=\sum_{t=1}^{4}H_t = 236\,096 $.
 > ### 3.  “Missing‑mate’’ cards that could finish a pair  
-> If you hold \(t\) royal cards (any mixture of kings and queens, all of different suits), the **matching mates** that are still missing are exactly the \(t\) cards of opposite rank with the same suits.  
-> All \(t\) of those mates are still among the 17 undealt cards (because none of them is in your hand).
-> Therefore, after your hand is fixed, the kitty (3 cards drawn from the remaining 17) contains at least one matching mate with probability
-> \[ p_t = 1-\frac{\binom{17-t}{3}}{\binom{17}{3}}, \qquad\text{where }\binom{17}{3}=680 .\]
-> Evaluating for each possible \(t\):
-> | \(t\) | \(\displaystyle \binom{17-t}{3}\) | \(p_t = 1-\frac{\binom{17-t}{3}}{680}\) |
+> If you hold $t$ royal cards (any mixture of kings and queens, all of different suits), the **matching mates** that are still missing are exactly the $t$ cards of opposite rank with the same suits.
+> 
+> All $t$ of those mates are still among the 17 undealt cards (because none of them is in your hand).
+> 
+> Therefore, after your hand is fixed, the kitty (3 cards drawn from the remaining 17) contains at least one matching mate with probability $p_t = 1-\frac{\binom{17-t}{3}}{\binom{17}{3}}, \qquad\text{where }\binom{17}{3}=680$.
+> 
+> Evaluating for each possible $t$:
+> 
+> | $t$ | $\displaystyle \binom{17-t}{3}$ | $p_t = 1-\frac{\binom{17-t}{3}}{680}$ |
 > |------|-------------------|------------------------------------------|
-> | 1 | 560 | \(\displaystyle\frac{120}{680}= \frac{3}{17}\approx0.1765\) |
-> | 2 | 455 | \(\displaystyle\frac{225}{680}= \frac{45}{136}\approx0.3309\) |
-> | 3 | 364 | \(\displaystyle\frac{316}{680}= \frac{79}{170}\approx0.4647\) |
-> | 4 | 286 | \(\displaystyle\frac{394}{680}= \frac{197}{340}\approx0.5794\) |
+> | 1 | 560 | $\displaystyle\frac{120}{680}= \frac{3}{17}\approx0.1765$ |
+> | 2 | 455 | $\displaystyle\frac{225}{680}= \frac{45}{136}\approx0.3309$ |
+> | 3 | 364 | $\displaystyle\frac{316}{680}= \frac{79}{170}\approx0.4647$ |
+> | 4 | 286 | $\displaystyle\frac{394}{680}= \frac{197}{340}\approx0.5794$ |
+> 
 > ### 4.  Combine hand‑count and conditional probability  
-> The overall probability is the weighted average of the \(p_t\)’s, weights being the numbers of admissible hands \(H_t\):
+> The overall probability is the weighted average of the $p_t$’s, weights being the numbers of admissible hands $H_t$:
 > \[
 \begin{aligned}
 P
 &= \frac{ \displaystyle\sum_{t=1}^{4} H_t\,p_t}{H_{\text{tot}}}
-   =\frac{ \displaystyle\sum_{t=1}^{4} H_t\Bigl(1-\frac{\binom{17-t}{3}}{680}\Bigr)}{H_{\text{tot}}}\\[4pt]
+   =\frac{ \displaystyle\sum_{t=1}^{4} H_t\Bigl(1-\frac{\binom{17-t}{3}}{680}\Bigr)}{H_{\text{tot}}}\\
 &= \frac{H_{\text{tot}} - \displaystyle\frac{1}{680}
         \sum_{t=1}^{4} H_t\binom{17-t}{3}}
         {H_{\text{tot}}}.
 \end{aligned}
 \]
-> Carrying out the arithmetic (details in the analysis) gives  
-> \[
-\sum_{t=1}^{4} H_t\binom{17-t}{3}=107\,336\,320,
-\qquad
-H_{\text{tot}}=236\,096.
-\]
-> Hence  
-> \[
-P = \frac{236\,096\;-\; \dfrac{107\,336\,320}{680}}{236\,096}
-   = \frac{11\,877}{35\,836}
-   \approx 0.3314 .
-\]
+> 
+> Carrying out the arithmetic (details in the analysis) gives $\sum_{t=1}^{4} H_t\binom{17-t}{3}=107\,336\,320,H_{\text{tot}}=236\,096$.
+> 
+> Hence  $P = \frac{236\,096\;-\; \dfrac{107\,336\,320}{680}}{236\,096} = \frac{11\,877}{35\,836} \approx 0.3314$.
 > 
 > ---
 > ## 5.  Interpretation  
