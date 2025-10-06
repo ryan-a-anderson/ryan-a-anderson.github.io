@@ -8,12 +8,9 @@ tags:
   - sports data
 ---
 
-We have a dataset of NFL player tracking coordinates: $$x_t, y_t$$ over time.  
-The goal is to **forecast** where each player will be a few frames ahead.  
-That’s the whole game: predict motion.
+We have a dataset of NFL player tracking coordinates: $$x_t, y_t$$ over time.  The goal is to **forecast** where each player will be a few frames ahead.  That’s the whole game: predict motion.
 
-At first glance this sounds like a classic machine learning task — just feed it to a model, right? But there’s a strong prior already hiding in the data: players don’t teleport.  
-They move continuously, with bounded acceleration. They obey something close to physics.
+At first glance this sounds like a classic machine learning task — just feed it to a model, right? But there’s a strong prior already hiding in the data: players don’t teleport.  They move continuously, with bounded acceleration. They obey something close to physics.
 
 That’s what a **Kalman filter** formalizes. It’s an algorithm that says: *assume the world moves smoothly, then update your belief as you observe it.*
 
@@ -21,16 +18,14 @@ That’s what a **Kalman filter** formalizes. It’s an algorithm that says: *as
 
 ## 1. The core idea
 
-The Kalman filter dates back to 1960, originally used in aerospace navigation and control.  
-But at heart it’s a simple recursive algorithm for estimating a hidden state when both motion and measurements are noisy.
+The Kalman filter dates back to 1960, originally used in aerospace navigation and control.  But at heart it’s a simple recursive algorithm for estimating a hidden state when both motion and measurements are noisy.
 
 It does two things, over and over:
 
 1. **Predict** what happens next using a motion model.  
 2. **Correct** that prediction when a noisy measurement arrives.
 
-That’s it. The math hides inside the update equations, but the idea is intuitive:  
-you carry forward what you think is happening, then nudge that belief toward the data.
+That’s it. The math hides inside the update equations, but the idea is intuitive:  you carry forward what you think is happening, then nudge that belief toward the data.
 
 ---
 
@@ -119,8 +114,7 @@ $$
 P_{t|t} = (I - K_t H) P_{t|t-1}.
 $$
 
-You repeat this for each frame.  
-When you run out of data, you keep applying the predict step — that’s forecasting.
+You repeat this for each frame.  When you run out of data, you keep applying the predict step — that’s forecasting.
 
 ---
 
@@ -132,8 +126,7 @@ The filter is deceptively powerful. It encodes a handful of good assumptions:
 - Errors are approximately Gaussian.
 - Uncertainty accumulates over time.
 
-That’s often *enough*.  
-You get smoother trajectories, less jitter, and short-horizon forecasts that behave physically — no teleporting receivers, no zigzagging defenders.
+That’s often *enough*.  You get smoother trajectories, less jitter, and short-horizon forecasts that behave physically — no teleporting receivers, no zigzagging defenders.
 
 ---
 
@@ -149,11 +142,7 @@ $$
 \Delta y_t = y_{t,\text{true}} - y_{t,\text{kalman}},
 $$
 
-you’ll see clear patterns.
-
-Receivers overshoot in the direction of the route.  
-Defenders lag slightly behind, then catch up.  
-Acceleration correlates with play direction and role.
+you’ll see clear patterns: receivers overshoot in the direction of the route, defenders lag slightly behind, then catch up, acceleration correlates with play direction and role.
 
 The residuals are the signal of what the physics model misses — and that’s exactly what makes them learnable.
 
@@ -190,35 +179,11 @@ The hybrid keeps the Kalman’s structure — smoothness, uncertainty, physical 
 
 ## 7. Results and intuition
 
-You can plot RMSE versus forecast horizon.  
-The picture is almost always the same:
+You can plot RMSE versus forecast horizon.  The picture is almost always the same:
 
 - For horizons of 1–2 frames (≈0.1–0.2s), the Kalman filter alone is nearly optimal.  
 - As you move to 5–10 frames (≈0.5–1s), errors from unmodeled acceleration dominate — and the hybrid wins.  
 - Past a second, everything blows up; even the hybrid struggles.
 
-This pattern mirrors how far your inductive bias carries you.  
-The Kalman filter is great for the linear regime; machine learning takes over when the manifold bends.
-
----
-
-## 8. Why this matters
-
-What I like about this approach is that it doesn’t throw away structure.  
-You start with a model that *believes* in continuity and inertia.  
-Then you let data tell you how reality deviates.
-
-It’s the same principle that underlies a lot of good modeling:  
-geometry first, correction later.
-
-In my rigidity work, I often think about how constraints define what’s possible.  
-A Kalman filter is the same story: it defines a manifold of plausible motion, then projects noisy observations onto it.  
-The residual model learns the flex — the ways the system bends while staying consistent with those constraints.
-
-That’s where the interesting behavior lives.
-
----
-
-**Code:** [link to your GitHub repo, if public]  
-**Further reading:** Kalman (1960), Brown & Hwang (1997), Welch & Bishop (2006), and [Modeling a Prediction Game](https://ryan-a-anderson.github.io/posts/2024/12/modeling-a-prediction-game/).
+This pattern mirrors how far your inductive bias carries you.  The Kalman filter is great for the linear regime; machine learning takes over when the manifold bends.
 
