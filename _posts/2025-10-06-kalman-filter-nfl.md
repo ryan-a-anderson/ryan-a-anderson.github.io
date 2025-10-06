@@ -242,14 +242,92 @@ $$
   P_{t|t} = (I - K_t H) P_{t|t-1}.
   $$
 
----
-
 ### 6. Notes
 
 - This derivation applies to any linear Gaussian system—constant velocity, constant acceleration, or higher-order motion.  
 - Only \(F, Q, H, R\) change depending on how you model dynamics.
 - The algebra is the same: Gaussian prior × Gaussian likelihood → Gaussian posterior.  
 That’s the essence of the Kalman filter.
+
+### 7. Conditioning View and the Schur Complement
+
+The Kalman update can be seen as nothing more mysterious than the **conditional mean and covariance** of a joint Gaussian.  
+
+Write the joint distribution of the predicted state and measurement as:
+
+$$
+\begin{pmatrix}
+x_t \\[3pt] z_t
+\end{pmatrix}
+\sim
+\mathcal{N}\!\left(
+\begin{pmatrix}
+\hat{x}_{t|t-1} \\[3pt] H \hat{x}_{t|t-1}
+\end{pmatrix},
+\begin{pmatrix}
+P_{t|t-1} & P_{t|t-1} H^\top \\[3pt]
+H P_{t|t-1} & H P_{t|t-1} H^\top + R
+\end{pmatrix}
+\right).
+$$
+
+Then conditioning on an observed \(z_t\) is a simple linear algebra fact:
+
+$$
+x_t \mid z_t \;\sim\;
+\mathcal{N}\!\left(
+\hat{x}_{t|t-1} + P_{t|t-1} H^\top (H P_{t|t-1} H^\top + R)^{-1}(z_t - H \hat{x}_{t|t-1}),
+\;
+P_{t|t-1} - P_{t|t-1} H^\top (H P_{t|t-1} H^\top + R)^{-1} H P_{t|t-1}
+\right).
+$$
+
+The second term — the covariance update — is just the **Schur complement** of the measurement block in the joint covariance matrix:
+
+$$
+P_{t|t} = P_{t|t-1} - P_{t|t-1} H^\top (H P_{t|t-1} H^\top + R)^{-1} H P_{t|t-1}.
+$$
+
+In matrix algebra terms, this is:
+
+$$
+\Sigma_{xx|z} = \Sigma_{xx} - \Sigma_{xz}\Sigma_{zz}^{-1}\Sigma_{zx},
+$$
+
+the standard formula for the conditional covariance of a partitioned Gaussian.  
+So the Kalman update isn’t “derived” as much as it’s *read off* from the blockwise inversion of a joint covariance matrix.
+
+### 8. Geometric Interpretation
+
+There’s a deeper way to see it.  
+
+The Kalman filter performs an **orthogonal projection** in the geometry defined by the covariance (or precision) matrix.  
+Each update step says:
+
+> take the prior mean \( \hat{x}_{t|t-1} \),  
+> move it as little as possible (in the Mahalanobis norm defined by \(P_{t|t-1}^{-1}\))  
+> so that the measurement constraint \( Hx_t \approx z_t \) is satisfied up to noise \(R\).
+
+Formally, it’s the minimizer of the quadratic cost
+
+$$
+J(x_t) =
+(x_t - \hat{x}_{t|t-1})^\top P_{t|t-1}^{-1}(x_t - \hat{x}_{t|t-1})
++ (z_t - Hx_t)^\top R^{-1}(z_t - Hx_t).
+$$
+
+That’s exactly the **least-squares projection** of the prior estimate onto the affine subspace consistent with the new measurement.  
+The Mahalanobis metric weights that projection according to your uncertainty.
+
+So the update rule
+
+$$
+\hat{x}_{t|t} = \hat{x}_{t|t-1} + K_t (z_t - H \hat{x}_{t|t-1})
+$$
+
+is the closed-form solution to a **weighted orthogonal projection problem**.  
+In that sense, the Kalman filter is the probabilistic version of a projection algorithm: it finds the closest state (in uncertainty-weighted distance) that aligns with the new observation.
+
 ---
 
 ## 4. Why it works so well
