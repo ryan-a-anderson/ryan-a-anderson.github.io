@@ -8,195 +8,217 @@ tags:
   - sports data
 ---
 
-When we track NFL players over time, we observe noisy positions \( (x_t, y_t) \).  
-We’d like to **forecast** their future positions: not just smooth what we saw, but predict what’s coming next.  
-In this post I’ll show how a **Kalman filter** can serve as a principled baseline — and how we can overlay a learned residual correction to capture “what the physics model misses.”
+We have a dataset of NFL player tracking coordinates: $$x_t, y_t$$ over time.  
+The goal is to **forecast** where each player will be a few frames ahead.  
+That’s the whole game: predict motion.
 
-This is a story of **inductive structure + data correction** — something I often come back to in thinking about prediction and geometry.
+At first glance this sounds like a classic machine learning task — just feed it to a model, right? But there’s a strong prior already hiding in the data: players don’t teleport.  
+They move continuously, with bounded acceleration. They obey something close to physics.
 
----
-
-## 1. Why Kalman? A bit of historical and conceptual grounding
-
-The Kalman filter has a storied history (Joseph Kalman 1960), but its core is simple: given a *model of motion* and *noisy observations*, maintain a Gaussian belief over state and update it over time.[...]
-
-- It embodies **Bayesian filtering** (predict-update) in linear–Gaussian settings.  
-- It’s minimum-variance among linear estimators (i.e. it’s the optimal linear filter).  
-- It naturally handles **uncertainty propagation**: you don’t just predict a point, you carry covariance.  
-- It can **forecast ahead** — once you exhaust measurements, you keep applying the motion model to predict future states.
-
-In many tracking pipelines — radar, navigation, robotics — it’s a default first-line tool. In sports analytics, it’s less common than deep nets, but it makes a compelling baseline: simple, int[...]
+That’s what a **Kalman filter** formalizes. It’s an algorithm that says: *assume the world moves smoothly, then update your belief as you observe it.*
 
 ---
 
-## 2. Model setup: state, dynamics, and measurement models
+## 1. The core idea
 
-### 2.1 The state vector and motion assumptions
+The Kalman filter dates back to 1960, originally used in aerospace navigation and control.  
+But at heart it’s a simple recursive algorithm for estimating a hidden state when both motion and measurements are noisy.
 
-I model each player’s instantaneous **state** as:
+It does two things, over and over:
+
+1. **Predict** what happens next using a motion model.  
+2. **Correct** that prediction when a noisy measurement arrives.
+
+That’s it. The math hides inside the update equations, but the idea is intuitive:  
+you carry forward what you think is happening, then nudge that belief toward the data.
+
+---
+
+## 2. The model
+
+We’ll track each player with a state vector containing position and velocity:
 
 $$
 \mathbf{x}_t = 
 \begin{pmatrix}
-x_t \\ y_t \\ v_{x,t} \\ v_{y,t}
-\end{pmatrix},
+x_t \\
+y_t \\
+v_{x,t} \\
+v_{y,t}
+\end{pmatrix}.
 $$
 
-so that position + velocity is tracked. We assume **constant velocity + Gaussian noise**:
+### Dynamics
+
+We assume constant velocity plus Gaussian noise:
 
 $$
-\mathbf{x}_{t+1} = F \, \mathbf{x}_t + \mathbf{w}_t, \quad \mathbf{w}_t \sim \mathcal{N}(0, Q).
+\mathbf{x}_{t+1} = F \mathbf{x}_t + \mathbf{w}_t, \quad \mathbf{w}_t \sim \mathcal{N}(0, Q),
 $$
 
-Here
+where
 
 $$
-F = \begin{pmatrix}
+F =
+\begin{pmatrix}
 1 & 0 & \Delta t & 0 \\
 0 & 1 & 0 & \Delta t \\
 0 & 0 & 1 & 0 \\
 0 & 0 & 0 & 1
-\end{pmatrix},
+\end{pmatrix}.
 $$
 
-and \( Q \) is the *process noise covariance*, often taken as a block that models (uncorrelated) acceleration variance. The intuition: we don’t expect perfectly constant velocity — players acceler[...]
+The matrix $$Q$$ encodes uncertainty about acceleration: how much we expect velocity to change between frames.
 
-### 2.2 Observations and measurement noise
+### Measurements
 
-We **observe only positions**:
+We only observe positions, not velocities:
 
 $$
-\mathbf{z}_t = H \, \mathbf{x}_t + \mathbf{v}_t, \quad \mathbf{v}_t \sim \mathcal{N}(0, R),
+\mathbf{z}_t = H \mathbf{x}_t + \mathbf{v}_t, \quad \mathbf{v}_t \sim \mathcal{N}(0, R),
 $$
 
 with
 
 $$
-H = \begin{pmatrix}
+H =
+\begin{pmatrix}
 1 & 0 & 0 & 0 \\
 0 & 1 & 0 & 0
 \end{pmatrix}.
 $$
 
-Thus the measurement noise covariance \( R \) encodes how confident we are in the raw tracking positions. If vision tracking is jittery, \( R \) is large; if it’s smooth, \( R \) is small.
-
-### 2.3 Initialization
-
-We need an initial prior \((\hat{\mathbf{x}}_0, P_0)\).  
-A typical strategy:
-
-- Use the first two observed frames to approximate initial velocity:
-  $$
-  v_{x,0} \approx \frac{x_1 - x_0}{\Delta t}, \quad v_{y,0} \approx \frac{y_1 - y_0}{\Delta t}.
-  $$
-- Set \(P_0 = \operatorname{diag}(\sigma_x^2, \sigma_y^2, \sigma_{v_x}^2, \sigma_{v_y}^2)\) with suitably large variances to reflect uncertainty.
+So $$R$$ is the measurement noise covariance — basically, how much we trust the observed tracking points.
 
 ---
 
-## 3. The Kalman filter algorithm
+## 3. The recursion
 
-At each time step:
+The Kalman filter alternates between prediction and correction.
 
-1. **Prediction**  
-   $$
-   \hat{\mathbf{x}}_{t|t-1} = F \, \hat{\mathbf{x}}_{t-1|t-1}, \qquad
-   P_{t|t-1} = F P_{t-1|t-1} F^\top + Q.
-   $$
-
-2. **Update** (if we have measurement \( \mathbf{z}_t \))  
-   $$
-   y_t = \mathbf{z}_t - H\,\hat{\mathbf{x}}_{t|t-1}, \quad
-   S = H\,P_{t|t-1}\,H^\top + R, \quad
-   K = P_{t|t-1} H^\top S^{-1}
-   $$
-   $$
-   \hat{\mathbf{x}}_{t|t} = \hat{\mathbf{x}}_{t|t-1} + K\,y_t, \qquad
-   P_{t|t} = (I - K H)\,P_{t|t-1}.
-   $$
-
-If there’s no measurement (e.g. during forecasting), you skip the update and just carry the prediction forward.
-
-Over time, the filter smooths out measurement jitter, fills in short gaps, and maintains a belief over velocity.
-
----
-
-## 4. Forecasting: extending into the future
-
-Once the measurement window ends (you run out of observed frames), you can keep applying the **predict** step:
+**Prediction:**
 
 $$
-\hat{\mathbf{x}}_{t+1|T} = F\,\hat{\mathbf{x}}_{t|T}, \quad
-P_{t+1|T} = F\,P_{t|T}\,F^\top + Q.
+\hat{\mathbf{x}}_{t|t-1} = F \hat{\mathbf{x}}_{t-1|t-1}, \qquad
+P_{t|t-1} = F P_{t-1|t-1} F^\top + Q.
 $$
 
-These are your forecasts for \( x,y \) (and velocity) into unseen frames.  
-Naturally, uncertainty grows as you go further out.  
-The covariance \( P \) tells you how “sure” the model is at each forecast step.
+**Update:**
+
+$$
+y_t = \mathbf{z}_t - H \hat{\mathbf{x}}_{t|t-1}, \qquad
+S_t = H P_{t|t-1} H^\top + R,
+$$
+
+$$
+K_t = P_{t|t-1} H^\top S_t^{-1}, \qquad
+\hat{\mathbf{x}}_{t|t} = \hat{\mathbf{x}}_{t|t-1} + K_t y_t,
+$$
+
+$$
+P_{t|t} = (I - K_t H) P_{t|t-1}.
+$$
+
+You repeat this for each frame.  
+When you run out of data, you keep applying the predict step — that’s forecasting.
 
 ---
 
-## 5. But Kalman isn’t magic (and you’ll see where it errs)
+## 4. Why it works so well
 
-The constant-velocity assumption is just an approximation. In real NFL motion:
+The filter is deceptively powerful. It encodes a handful of good assumptions:
 
-- Players accelerate or decelerate (not constant velocity).
-- They change direction sharply (cuts, pivots).  
-- They react to other players, plays, blocking schemes, defensive pressure.
+- Motion is approximately linear over short windows.
+- Errors are approximately Gaussian.
+- Uncertainty accumulates over time.
 
-Those deviations show up in **residuals**:
-
-$$
-\Delta x_t = x_{\text{true}, t} - x_{\text{kalman}, t}, \qquad
-\Delta y_t = y_{\text{true}, t} - y_{\text{kalman}, t}.
-$$
-
-The residuals are **not noise** — not wholly random — but structured, informed by role, play progression, direction changes, and anticipation.
-
-It’s precisely those *predictable deviations* that the Kalman model misses that we can attempt to learn.
+That’s often *enough*.  
+You get smoother trajectories, less jitter, and short-horizon forecasts that behave physically — no teleporting receivers, no zigzagging defenders.
 
 ---
 
-## 6. Residual learning: marrying physics + ML
+## 5. Where it fails (and what that tells us)
 
-Here’s the recipe:
+Of course, the constant-velocity model breaks down constantly.
 
-1. Run the Kalman filter + forecasting on many plays, producing per-frame predictions and residuals \((\Delta x, \Delta y)\).
-2. Engineer features that might explain the residuals:
-   - Forecast horizon (how far ahead you are)
-   - Player side / position / role
-   - Predicted velocities \( v_x, v_y \)
-   - Frame index, play direction
-   - Field-level features (yardline, ball landing position, etc.)
-3. Train two regression models (e.g. XGBoost) to predict \(\Delta x\) and \(\Delta y\) from those features.
-4. During inference, for each forecasted point:
-   $$
-   \hat{x}_{\text{hybrid}} = x_{\text{kalman}} + \widehat{\Delta x}, \qquad
-   \hat{y}_{\text{hybrid}} = y_{\text{kalman}} + \widehat{\Delta y}.
-   $$
+Players cut, accelerate, stop, react. The model interprets that as noise, but it’s not random.  
+If you look at the **residuals** — the difference between what the Kalman filter predicted and what actually happened —
 
-This hybrid approach *retains the smooth structure and uncertainty reasoning of Kalman*, but allows **data-driven correction** for non-linear motion.
+$$
+\Delta x_t = x_{t,\text{true}} - x_{t,\text{kalman}}, \qquad
+\Delta y_t = y_{t,\text{true}} - y_{t,\text{kalman}},
+$$
 
-One virtue: because you start from a structured prior (Kalman), the residual model only needs to learn the *departure* — not the whole motion.
+you’ll see clear patterns.
+
+Receivers overshoot in the direction of the route.  
+Defenders lag slightly behind, then catch up.  
+Acceleration correlates with play direction and role.
+
+The residuals are the signal of what the physics model misses — and that’s exactly what makes them learnable.
 
 ---
 
-## 7. Code sketch (conceptual)
+## 6. Learning the residuals
 
-```python
-# After running Kalman and obtaining predictions & actuals:
-df["residual_x"] = df.actual_x - df.predicted_x
-df["residual_y"] = df.actual_y - df.predicted_y
+The next step is to learn those systematic errors.
 
-# Feature engineering:
-df = add_prediction_features(df, dt)  # yields predicted_vx, predicted_vy
-# plus features like frame_id, horizon, side, role, etc.
+You can collect many plays, compute residuals, and train a regression model (say, XGBoost) to predict them as a function of contextual features:
 
-X = encode_features(df, spec=FeatureSpec)
-model_x = XGBRegressor(...).fit(X, df["residual_x"])
-model_y = XGBRegressor(...).fit(X, df["residual_y"])
+- Player role, side (offense/defense)
+- Predicted velocity components
+- Frame index or forecast horizon
+- Absolute yardline, play direction
+- Maybe even interactions between players later on
 
-# In inference loop:
-resid_pred = model_x.predict(X_inf)
-df_inf["predicted_x_hybrid"] = df_inf["predicted_x"] + resid_pred
+Formally:
 
-```
+$$
+\widehat{\Delta x} = f(\text{features}), \quad \widehat{\Delta y} = g(\text{features}).
+$$
+
+Then you build a **hybrid model**:
+
+$$
+\hat{x}_{\text{hybrid}} = x_{\text{kalman}} + \widehat{\Delta x}, \qquad
+\hat{y}_{\text{hybrid}} = y_{\text{kalman}} + \widehat{\Delta y}.
+$$
+
+The hybrid keeps the Kalman’s structure — smoothness, uncertainty, physical plausibility — but corrects its systematic bias using data.
+
+---
+
+## 7. Results and intuition
+
+You can plot RMSE versus forecast horizon.  
+The picture is almost always the same:
+
+- For horizons of 1–2 frames (≈0.1–0.2s), the Kalman filter alone is nearly optimal.  
+- As you move to 5–10 frames (≈0.5–1s), errors from unmodeled acceleration dominate — and the hybrid wins.  
+- Past a second, everything blows up; even the hybrid struggles.
+
+This pattern mirrors how far your inductive bias carries you.  
+The Kalman filter is great for the linear regime; machine learning takes over when the manifold bends.
+
+---
+
+## 8. Why this matters
+
+What I like about this approach is that it doesn’t throw away structure.  
+You start with a model that *believes* in continuity and inertia.  
+Then you let data tell you how reality deviates.
+
+It’s the same principle that underlies a lot of good modeling:  
+geometry first, correction later.
+
+In my rigidity work, I often think about how constraints define what’s possible.  
+A Kalman filter is the same story: it defines a manifold of plausible motion, then projects noisy observations onto it.  
+The residual model learns the flex — the ways the system bends while staying consistent with those constraints.
+
+That’s where the interesting behavior lives.
+
+---
+
+**Code:** [link to your GitHub repo, if public]  
+**Further reading:** Kalman (1960), Brown & Hwang (1997), Welch & Bishop (2006), and [Modeling a Prediction Game](https://ryan-a-anderson.github.io/posts/2024/12/modeling-a-prediction-game/).
+
