@@ -1,5 +1,5 @@
 ---
-title: “Forecasting NFL Player Motion: Kalman Filters, Residuals, and Inductive Bias”
+title: 'Forecasting NFL Player Motion: Kalman Filters, Residuals, and Inductive Bias'
 date: 2025-10-06
 permalink: /posts/2025/10/kalman-filter-nfl/
 tags: 
