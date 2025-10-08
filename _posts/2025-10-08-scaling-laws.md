@@ -10,187 +10,187 @@ tags:
   - compute
 ---
 
-People say a model “**scales**” when the loss keeps dropping predictably as you feed it more data, parameters, or compute. Below we describe a story of how scaling laws were developed in the past 8 years or so:
-
-1) start with a **linear model** we can analyze to the end;  
-2) translate that lens to **power-law** behavior in modern models;  
-3) show how to **trade off** parameters vs. data for a target loss;  
-4) derive the **compute-optimal** balance (the “Chinchilla-ish” result).
+People say a model “**scales**” when the loss keeps dropping predictably as you feed it more data, parameters, or compute. 
 
 ---
 
-## Part I — A clean derivation in the linear world
+## Scaling Laws in the Classical Sense
 
-Consider OLS with $D$ data points and $N$ features:
-$$
-y_i = x_i^\top \theta^* + \varepsilon_i,\qquad
-\varepsilon_i \stackrel{iid}{\sim}\mathcal N(0,\sigma^2),\qquad
-X\in\mathbb R^{D\times N},\quad
-\hat\theta = (X^\top X)^{-1}X^\top y.
-$$
+In classical statistics, scaling laws characterize how a model’s generalization error depends on the number of data points and parameters.  
 
-We care about **generalization** on a fresh point $x_{\text{test}}\sim \mathcal N(0,\Sigma)$,
-with $y_{\text{test}} = x_{\text{test}}^\top \theta^\* + \varepsilon_{\text{test}}, \varepsilon_{\text{test}}\sim\mathcal N(0,\sigma^2)$.
-Define $\hat y = x_{\text{test}}^\top\hat\theta$.
-We want $\mathbb E[(y_{\text{test}}-\hat y)^2]$, averaging over both $X$ and $x_{\text{test}}$.
+Consider a linear model with \(D\) datapoints and \(N\) covariates:
 
-**Step 1 (condition on $X,x_{\text{test}}$).**
-OLS is unbiased given $X$ and
-$\operatorname{Var}(\hat\theta\mid X)=\sigma^2 (X^\top X)^{-1}$, so
-$$
-\mathbb E\!\left[(\hat y-y_{\text{test}})^2\mid X,x_{\text{test}}\right]
-= \sigma^2\!\left(1 + x_{\text{test}}^\top (X^\top X)^{-1} x_{\text{test}}\right).
-$$
-
-**Step 2 (average over $x_{\text{test}}$).**
-Using $\mathbb E[x^\top A x] = \operatorname{tr}(A\Sigma)$ for $x\sim\mathcal N(0,\Sigma)$,
-$$
-\mathbb E\!\left[(\hat y-y_{\text{test}})^2\mid X\right]
-= \sigma^2\!\left(1 + \operatorname{tr}\big((X^\top X)^{-1}\Sigma\big)\right).
-$$
-
-**Step 3 (average over $X$).**
-Let $X=Z\Sigma^{1/2}$ with $Z_{ij}\sim\mathcal N(0,1)$. Then
-$(X^\top X)^{-1}=\Sigma^{-1/2}(Z^\top Z)^{-1}\Sigma^{-1/2}$ and
-$\operatorname{tr}((X^\top X)^{-1}\Sigma)=\operatorname{tr}((Z^\top Z)^{-1})$.
-With $Z^\top Z\sim \text{Wishart}_N(I,D)$ and $D>N+1$,
-$$
-\mathbb E\!\left[\operatorname{tr}((Z^\top Z)^{-1})\right]=\frac{N}{D-N-1}.
-$$
-
-**Put together:**
-$$
-\boxed{
-\mathbb E\!\left[(y_{\text{test}}-\hat y)^2\right]
-= \sigma^2\!\left(1+\frac{N}{D-N-1}\right),\quad D>N+1.
-}
-$$
-
-Two things drop out immediately:
-
-- **Scaling in $D$.** For fixed $N$, the *excess* error above noise is
-  $$\mathbb E[(y_{\text{test}}-\hat y)^2]-\sigma^2 \;=\; \sigma^2\,\frac{N}{D-N-1} \;\sim\; \sigma^2\,\frac{N}{D}.$$
-  That “$\sim 1/D$” decay is the first, simplest **scaling law**.
-- **Samples needed for a target error.** If $E_\star$ is your target test MSE, let
-  $\rho \equiv E_\star/\sigma^2 - 1>0$. Then
-  $$\rho=\frac{N}{D-N-1}\;\Longrightarrow\; D = N+1+\frac{N}{\rho}\;\approx\; N\!\left(1+\frac{1}{\rho}\right).$$
-
-> **Regime change warning.** As $D\downarrow N{+}1$ the denominator shrinks and the error spikes (ill-conditioning). Regularization tames this. In highly over-parameterized regimes one often sees **double descent**: behavior improves again beyond the interpolation threshold when using the minimum-norm interpolant.
-
----
-
-## Part II — What “scaling laws” mean for modern models
-
-In deep learning we often fit **empirical power laws** for the test loss:
-$$
-L(N,D) \approx L^\* + c_N\,N^{-\alpha} + c_D\,D^{-\beta}.
-$$
-
-- $L^\*$ is a **Bayes/irreducible floor** (you can’t beat it without changing the task/data).
-- The **approximation** term $c_N N^{-\alpha}$ reflects model capacity & architecture.
-- The **estimation** term $c_D D^{-\beta}$ reflects data coverage, optimization noise, etc.
-
-This mirrors OLS conceptually—noise floor + (something that shrinks with data) + (something that shrinks with capacity)—but the exponents $\alpha,\beta$ and constants $c_N,c_D$ are **empirical** and **setup-dependent**.
-
-A few immediate consequences (and these are useful in practice):
-
-- **Iso-loss tradeoff (fixed target loss).** For a target $L_{\text{target}}>L^\*$,
-  $$c_N N^{-\alpha} + c_D D^{-\beta} = L_{\text{target}}-L^\* \;\equiv\; \Delta.$$
-  Given $N$, the required data is
-  $$D(N) = \left(\frac{\Delta - c_N N^{-\alpha}}{c_D}\right)^{-1/\beta},\quad \Delta>c_N N^{-\alpha}.$$
-  These curves are your **“how much more data do I need if I double parameters?”** plots.
-
-- **Marginal returns.** The slopes $ \partial L/\partial \log N = -\alpha c_N N^{-\alpha}$ and
-  $ \partial L/\partial \log D = -\beta c_D D^{-\beta}$ tell you where more bang-for-buck lives right now (bigger magnitude = better).
-
----
-
-## Part III — Compute-optimal allocation (the Chinchilla-type result)
-
-Training a transformer-like model costs roughly proportional to **parameters × tokens**,
-so let a budget constraint be $ \text{Compute} \propto N D = B $.
-Then we’d like to **minimize** the power-law loss subject to that budget:
-$$
-\min_{N,D>0}\; c_N N^{-\alpha} + c_D D^{-\beta}
-\quad \text{s.t.}\quad N D = B.
-$$
-
-Use a Lagrange multiplier $ \lambda $ for the constraint:
 \[
-\mathcal L = c_N N^{-\alpha} + c_D D^{-\beta} + \lambda(ND - B).
-\]
-First-order conditions:
-\[
--\alpha c_N N^{-\alpha-1} + \lambda D = 0,
-\qquad
--\beta c_D D^{-\beta-1} + \lambda N = 0.
+y_i = x_i^\top\theta + \epsilon_i, \quad X \in \mathbb{R}^{D \times N}, \quad \epsilon_i \sim_{iid} N(0, \sigma^2)
 \]
 
-Eliminate $ \lambda $:
-\[
-\alpha c_N N^{-\alpha-1}/D \;=\; \beta c_D D^{-\beta-1}/N
-\;\Longrightarrow\;
-\boxed{\;\alpha c_N\,N^{-\alpha} \;=\; \beta c_D\,D^{-\beta}\;}
-\]
-(“balance the two error terms at optimum”).
+The estimator is given by the ordinary least squares solution:
 
-Write $ D = k\,N^{\alpha/\beta} $ with $ k = \big(\tfrac{\beta c_D}{\alpha c_N}\big)^{1/\beta} $.
-Combine with $ N D = B $ to solve:
 \[
-N^\* \;=\; \Big(\frac{B}{k}\Big)^{\frac{\beta}{\alpha+\beta}},
-\qquad
-D^\* \;=\; k^{\frac{\beta}{\alpha+\beta}}\, B^{\frac{\alpha}{\alpha+\beta}}.
+\hat{\theta} = (X^\top X)^{-1} X^\top y
 \]
 
-**Interpretation.**
-- If $\alpha \approx \beta$, both $N^\*$ and $D^\*$ scale like $B^{1/2}$: **“scale data and parameters together.”**
-- If $\alpha > \beta$ (capacity helps faster), spend relatively **more** on $N$.
-- If $\beta > \alpha$ (data helps faster), spend relatively **more** on $D$.
-- The **ratio at optimum** is fixed by the constants:
-  \[
-  \frac{c_N N^{-\alpha}}{c_D D^{-\beta}} = \frac{\beta}{\alpha}
-  \quad\Longrightarrow\quad
-  \text{at the optimum, the two error terms contribute in proportion } \beta:\alpha.
-  \]
+For a new test point \(x_{\text{test}} \sim N(0, \Sigma)\), with \(y_{\text{test}} = x_{\text{test}}^\top \theta + \epsilon_{\text{test}}\), we can compute the expected generalization error \(E[(y_{\text{test}} - \hat{y})^2]\).  
 
-This is the algebraic core behind the “Chinchilla”-style guidance. Once you have empirical $(\alpha,\beta,c_N,c_D)$ for your setup, these formulas tell you how to **rebalance** model size and dataset size under a fixed training budget.
+After marginalizing over \(x_{\text{test}}\) and \(X\), the expression becomes:
 
----
+\[
+E[(y_{\text{test}} - \hat{y})^2] = \sigma^2 \left( 1 + \frac{N}{D - N - 1} \right), \quad D > N - 1
+\]
 
-## Part IV — A few regime changes & limits you should expect
+Defining \(\rho = \frac{E[(y_{\text{test}} - \hat{y})^2]}{\sigma^2} - 1\), we find that for a fixed generalization error, the optimal relationship between datapoints and features is roughly linear:
 
-- **Ill-conditioning & double descent (linear intuition).** When $D$ approaches $N$, OLS variance blows up; with over-parameterization and minimum-norm solutions, loss can improve again (double descent). In deep nets, you see **bends** and **breaks** in scaling curves when you cross analogous regime boundaries (optimization, regularization, context length).
+\[
+D \simeq N \left(1 + \frac{1}{\rho}\right)
+\]
 
-- **Data quality changes the “constants.”** Even if $\alpha,\beta$ look stable, swapping data mixtures, tokenizers, dedup strategies, or cleaning pipelines often moves $c_N,c_D$ substantially—shifting the whole scaling surface.
-
-- **Synthetic data & feedback loops.** As the fraction of model-generated data grows, observed exponents may **flatten** (plateaus) and the additive form itself can **degrade**. Watch your scaling plots over training; regime changes are the signal.
+This gives a simple baseline: to maintain a certain level of generalization, data and parameters should scale linearly with each other.
 
 ---
 
-## Part V — Training vs. inference “scaling”
+## Empirical Scaling Laws for Modern Architectures
 
-The budgeted tradeoff above is about **training**. For **inference**, the constraint is different (latency, memory, tokens at query time). In many workloads, you get more utility from **smaller models used more/longer** (e.g., longer contexts, reranking, or multi-step inference) than from a single pass through a huge model. The math is the same—just swap the constraint to your inference budget and re-solve.
+The simplicity of this linear scaling doesn’t hold for modern deep networks. Researchers have sought to empirically measure how generalization error depends on data and parameters in more complex models.
+
+Arora *et al.* (2023) observed that large language models exhibit *emergent behaviors*—new capabilities that appear only once both the dataset size and parameter count cross certain thresholds. This observation led to the now-famous mantra: *“scaling is all you need.”*
+
+Earlier, Hestness *et al.* (2017) found that error in deep learning models follows a **power law** in dataset size:
+
+\[
+\text{error} \propto D^\beta, \quad \beta \in [-2, 0]
+\]
+
+Moreover, the number of parameters required to achieve a given level of error grows *sublinearly* with dataset size. Their empirical curves, such as those from language transformer experiments, supported this pattern.
+
+![Language Transformer Scaling (Hestness et al. 2017)](images/hestness_language_transformer.png)
+
+---
+
+## Kaplan-Type Scaling Laws
+
+Kaplan *et al.* (2020) rigorously verified that both dataset size and parameter count exhibit power-law relationships with generalization error. Their influential work quantified this relationship and even offered a heuristic for model scaling:
+
+> “Every time we increase the model size by 8×, we only need to increase the data by roughly 5× to avoid a performance penalty.”
+
+This insight reframed scaling laws as a *recipe* for training large transformer models efficiently—balancing parameters, data, and compute.  
+
+They estimated that, for fixed datasets with \(N\) parameters, the error scales as:
+
+\[
+\text{error} \propto N^{-0.076}
+\]
+
+and for fixed parameters with dataset size \(D\):
+
+\[
+\text{error} \propto D^{-0.095}
+\]
+
+They also linked performance more closely to **FLOPs**—the number of floating-point operations required—since a transformer with \(N\) parameters needs roughly \(6N\) computations per token. Crucially, their work highlighted transformers’ superiority over other architectures.
+
+![Kaplan Scaling Laws](images/kaplan_scaling.png)
+![Transformer Performance (Kaplan et al. 2020)](images/kaplan_transformers.png)
 
 ---
 
-## Cheat sheet (copy/paste)
+## The Chinchilla Scaling Laws
 
-- **OLS test MSE (random design):**
-  $$
-  \mathbb E[(y_{\text{test}}-\hat y)^2]
-  = \sigma^2\!\left(1+\frac{N}{D-N-1}\right),\quad D>N+1.
-  $$
-- **Samples needed for target test MSE $E_\star$:**
-  $ \rho \equiv E_\star/\sigma^2 - 1 \Rightarrow D = N+1+N/\rho $.
-- **Power-law fit (empirical):** $ L(N,D) \approx L^\* + c_N N^{-\alpha} + c_D D^{-\beta} $.
-- **Iso-loss curve:** for target $ \Delta=L_{\text{target}}-L^\*>0 $,
-  $ D(N) = \big( \tfrac{\Delta - c_N N^{-\alpha}}{c_D} \big)^{-1/\beta} $.
-- **Compute-optimal (budget $ND=B$):**
-  \[
-  N^\* = \Big(\frac{B}{k}\Big)^{\frac{\beta}{\alpha+\beta}},\quad
-  D^\* = k^{\frac{\beta}{\alpha+\beta}} B^{\frac{\alpha}{\alpha+\beta}},\quad
-  k = \Big(\frac{\beta c_D}{\alpha c_N}\Big)^{1/\beta},\quad
-  \alpha c_N N^{-\alpha} = \beta c_D D^{-\beta}.
-  \]
+Hoffmann *et al.* (2022) later revisited Kaplan’s findings and proposed what became known as the **Chinchilla scaling laws**. Their central result was elegantly simple:
+
+> “As compute budget increases, model size and the amount of training data should be increased in approximately equal proportions.”
+
+In other words, optimal scaling is *balanced*: if you double your compute, you should roughly double both model parameters and dataset size.
+
+![Chinchilla Optimal Scaling (Hoffmann et al. 2022)](images/hoffmann_optimal.png)
 
 ---
+
+## A Theoretical Framework for Power-Law Scaling
+
+Building on Hoffmann *et al.* (2022), we can formalize the intuition behind power-law scaling.
+
+Suppose we have a sequence of past tokens \(X_0^{s_{\max}} = [x_0, \dots, x_{s_{\max}}]\), where each token \(x_i\) comes from an alphabet \(\mathbb{A}\). A predictor model \(f: X_0^{s_{\max}} \to P(\mathbb{A})\) outputs probabilities over the next token.  
+
+Let \(L(f)\) denote the expected generalization error (cross-entropy loss), and \(f^*\) the Bayes-optimal predictor minimizing \(L(f)\).
+
+Now, suppose our predictor model is limited to \(N\) parameters, forming a hypothesis class \(\mathbb{H}_N\). The best possible model within this class is:
+
+\[
+f_N = \arg\min_{f \in \mathbb{H}_N} L(f)
+\]
+so that \(L(f_N) > L(f^*)\).
+
+If we train using only \(D\) datapoints, the learned model \(f_{N,D}\) further minimizes the empirical loss \(L_D(f)\), giving:
+
+\[
+L(f_{N,D}) > L(f_N) > L(f^*)
+\]
+
+We can decompose the total loss as:
+
+\[
+L(N, D) = L(f_{N,D}) = L(f^*) + [L(f_N) - L(f^*)] + [L(f_{N,D}) - L(f_N)]
+\]
+
+These three components correspond to:
+1. **Bayes-optimal risk** (irreducible error),
+2. **Function approximation error** (finite model capacity),
+3. **Dataset approximation error** (finite data).
+
+Hoffmann *et al.* showed that these terms collectively drive the observed scaling laws.
+
+---
+
+### Empirical Form of the Scaling Relationship
+
+In practice, the second term scales roughly as \(N^{-0.5}\) and depends on the model architecture, while the third term scales as \(D^{-0.5}\) and depends on data smoothness.  
+
+Empirically, Hoffmann *et al.* estimated:
+
+\[
+L(N, D) = 1.69 + \frac{406.4}{N^{0.34}} + \frac{410.7}{D^{0.28}}
+\]
+
+They concluded that future models should aim to *increase these coefficients*—in other words, to make models and datasets more efficient at reducing loss through scaling.
+
+---
+
+## The Limits of Scaling Laws
+
+Recent research has also explored where scaling laws break down. Dohmatob *et al.* (2024) demonstrated that **model collapse** can occur when scaling laws shift during training.  
+
+In experiments training linear models on synthetic data, test error eventually plateaued rather than continuing to shrink with \(N/d\). As the proportion of synthetic data increased, performance degraded instead of improving.  
+
+“Model collapse” broadly refers to situations where models deteriorate during training—either by overfitting synthetic data or losing diversity in learned representations (Shumailov *et al.*, 2024).
+
+![Model Collapse (Dohmatob et al. 2024)](images/dohmatob_scaling_laws.png)
+
+---
+
+## Scaling Laws for Inference
+
+So far, the discussion has focused on training. But what about **inference**?
+
+Recent studies by Wu *et al.* (2025) and Sardana *et al.* (2025) suggest a different rule of thumb. For inference, it’s better to go *smaller for longer*—in contrast to Hoffmann *et al.*’s principle of scaling model and data equally. This implies that the optimal trade-off for deployment and serving efficiency might deviate from that of training optimization.
+
+![Inference Scaling (Wu et al. 2025)](images/wu_inference_scaling.png)
+
+---
+
+## Conclusion
+
+From simple linear regressions to multi-billion-parameter transformers, scaling laws have revealed consistent mathematical structures in how models learn. They provide both a theoretical framework and practical heuristics for balancing model size, dataset scale, and compute resources.  
+
+Yet, as recent work shows, these relationships are not immutable. Understanding when and why scaling laws bend—or break—may be the key to the next leap in AI efficiency and capability.
+
+---
+
+### References
+- Arora et al. (2023). *Theory of Emergence and Complexity in LLMs.*  
+- Hestness et al. (2017). *Deep Learning Scaling Laws.*  
+- Kaplan et al. (2020). *Scaling Laws for Neural Language Models.*  
+- Hoffmann et al. (2022). *Training Compute-Optimal Large Language Models.*  
+- Dohmatob et al. (2024). *Model Collapse Demystified.*  
+- Shumailov et al. (2024). *AI Models Collapse: A Survey.*  
+- Wu et al. (2025). *Inference Scaling Laws.*  
+- Sardana et al. (2025). *Chinchilla Optimal Accounting for Inference.*
