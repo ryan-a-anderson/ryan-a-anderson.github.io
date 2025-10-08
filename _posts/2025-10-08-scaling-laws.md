@@ -18,31 +18,31 @@ People say a model “**scales**” when the loss keeps dropping predictably as 
 
 In classical statistics, scaling laws characterize how a model’s generalization error depends on the number of data points and parameters.  
 
-Consider a linear model with \(D\) datapoints and \(N\) covariates:
+Consider a linear model with $D$ datapoints and $N$ covariates:
 
-\[
+$$
 y_i = x_i^\top\theta + \epsilon_i, \quad X \in \mathbb{R}^{D \times N}, \quad \epsilon_i \sim_{iid} N(0, \sigma^2)
-\]
+$$
 
 The estimator is given by the ordinary least squares solution:
 
-\[
+$$
 \hat{\theta} = (X^\top X)^{-1} X^\top y
-\]
+$$
 
-For a new test point \(x_{\text{test}} \sim N(0, \Sigma)\), with \(y_{\text{test}} = x_{\text{test}}^\top \theta + \epsilon_{\text{test}}\), we can compute the expected generalization error \(E[(y_{\text{test}} - \hat{y})^2]\).  
+For a new test point $x_{\text{test}} \sim N(0, \Sigma)$, with $y_{\text{test}} = x_{\text{test}}^\top \theta + \epsilon_{\text{test}}$, we can compute the expected generalization error $E[(y_{\text{test}} - \hat{y})^2]$.  
 
-After marginalizing over \(x_{\text{test}}\) and \(X\), the expression becomes:
+After marginalizing over $x_{\text{test}}$ and $X$, the expression becomes:
 
-\[
+$$
 E[(y_{\text{test}} - \hat{y})^2] = \sigma^2 \left( 1 + \frac{N}{D - N - 1} \right), \quad D > N - 1
-\]
+$$
 
-Defining \(\rho = \frac{E[(y_{\text{test}} - \hat{y})^2]}{\sigma^2} - 1\), we find that for a fixed generalization error, the optimal relationship between datapoints and features is roughly linear:
+Defining $\rho = \frac{E[(y_{\text{test}} - \hat{y})^2]}{\sigma^2} - 1$, we find that for a fixed generalization error, the optimal relationship between datapoints and features is roughly linear:
 
-\[
+$$
 D \simeq N \left(1 + \frac{1}{\rho}\right)
-\]
+$$
 
 This gives a simple baseline: to maintain a certain level of generalization, data and parameters should scale linearly with each other.
 
@@ -56,9 +56,9 @@ Arora *et al.* (2023) observed that large language models exhibit *emergent beha
 
 Earlier, Hestness *et al.* (2017) found that error in deep learning models follows a **power law** in dataset size:
 
-\[
+$$
 \text{error} \propto D^\beta, \quad \beta \in [-2, 0]
-\]
+$$
 
 Moreover, the number of parameters required to achieve a given level of error grows *sublinearly* with dataset size. Their empirical curves, such as those from language transformer experiments, supported this pattern.
 
@@ -74,19 +74,19 @@ Kaplan *et al.* (2020) rigorously verified that both dataset size and parameter 
 
 This insight reframed scaling laws as a *recipe* for training large transformer models efficiently—balancing parameters, data, and compute.  
 
-They estimated that, for fixed datasets with \(N\) parameters, the error scales as:
+They estimated that, for fixed datasets with $N$ parameters, the error scales as:
 
-\[
+$$
 \text{error} \propto N^{-0.076}
-\]
+$$
 
-and for fixed parameters with dataset size \(D\):
+and for fixed parameters with dataset size $D$:
 
-\[
+$$
 \text{error} \propto D^{-0.095}
-\]
+$$
 
-They also linked performance more closely to **FLOPs**—the number of floating-point operations required—since a transformer with \(N\) parameters needs roughly \(6N\) computations per token. Crucially, their work highlighted transformers’ superiority over other architectures.
+They also linked performance more closely to **FLOPs**—the number of floating-point operations required—since a transformer with $N$ parameters needs roughly $6N$ computations per token. Crucially, their work highlighted transformers’ superiority over other architectures.
 
 ![Kaplan Scaling Laws](images/kaplan_scaling.png)
 ![Transformer Performance (Kaplan et al. 2020)](images/kaplan_transformers.png)
@@ -109,28 +109,28 @@ In other words, optimal scaling is *balanced*: if you double your compute, you s
 
 Building on Hoffmann *et al.* (2022), we can formalize the intuition behind power-law scaling.
 
-Suppose we have a sequence of past tokens \(X_0^{s_{\max}} = [x_0, \dots, x_{s_{\max}}]\), where each token \(x_i\) comes from an alphabet \(\mathbb{A}\). A predictor model \(f: X_0^{s_{\max}} \to P(\mathbb{A})\) outputs probabilities over the next token.  
+Suppose we have a sequence of past tokens $X_0^{s_{\max}} = [x_0, \dots, x_{s_{\max}}]$, where each token $x_i$ comes from an alphabet $\mathbb{A}$. A predictor model $f: X_0^{s_{\max}} \to P(\mathbb{A})$ outputs probabilities over the next token.  
 
-Let \(L(f)\) denote the expected generalization error (cross-entropy loss), and \(f^*\) the Bayes-optimal predictor minimizing \(L(f)\).
+Let $L(f)$ denote the expected generalization error (cross-entropy loss), and $f^*$ the Bayes-optimal predictor minimizing $L(f)$.
 
-Now, suppose our predictor model is limited to \(N\) parameters, forming a hypothesis class \(\mathbb{H}_N\). The best possible model within this class is:
+Now, suppose our predictor model is limited to $N$ parameters, forming a hypothesis class $\mathbb{H}_N$. The best possible model within this class is:
 
-\[
+$$
 f_N = \arg\min_{f \in \mathbb{H}_N} L(f)
-\]
-so that \(L(f_N) > L(f^*)\).
+$$
+so that $L(f_N) > L(f^*)$.
 
-If we train using only \(D\) datapoints, the learned model \(f_{N,D}\) further minimizes the empirical loss \(L_D(f)\), giving:
+If we train using only $D$ datapoints, the learned model $f_{N,D}$ further minimizes the empirical loss $L_D(f)$, giving:
 
-\[
+$$
 L(f_{N,D}) > L(f_N) > L(f^*)
-\]
+$$
 
 We can decompose the total loss as:
 
-\[
+$$
 L(N, D) = L(f_{N,D}) = L(f^*) + [L(f_N) - L(f^*)] + [L(f_{N,D}) - L(f_N)]
-\]
+$$
 
 These three components correspond to:
 1. **Bayes-optimal risk** (irreducible error),
@@ -143,13 +143,13 @@ Hoffmann *et al.* showed that these terms collectively drive the observed scalin
 
 ### Empirical Form of the Scaling Relationship
 
-In practice, the second term scales roughly as \(N^{-0.5}\) and depends on the model architecture, while the third term scales as \(D^{-0.5}\) and depends on data smoothness.  
+In practice, the second term scales roughly as $N^{-0.5}$ and depends on the model architecture, while the third term scales as $D^{-0.5}$ and depends on data smoothness.  
 
 Empirically, Hoffmann *et al.* estimated:
 
-\[
+$$
 L(N, D) = 1.69 + \frac{406.4}{N^{0.34}} + \frac{410.7}{D^{0.28}}
-\]
+$$
 
 They concluded that future models should aim to *increase these coefficients*—in other words, to make models and datasets more efficient at reducing loss through scaling.
 
@@ -159,7 +159,7 @@ They concluded that future models should aim to *increase these coefficients*—
 
 Recent research has also explored where scaling laws break down. Dohmatob *et al.* (2024) demonstrated that **model collapse** can occur when scaling laws shift during training.  
 
-In experiments training linear models on synthetic data, test error eventually plateaued rather than continuing to shrink with \(N/d\). As the proportion of synthetic data increased, performance degraded instead of improving.  
+In experiments training linear models on synthetic data, test error eventually plateaued rather than continuing to shrink with $N/d$. As the proportion of synthetic data increased, performance degraded instead of improving.  
 
 “Model collapse” broadly refers to situations where models deteriorate during training—either by overfitting synthetic data or losing diversity in learned representations (Shumailov *et al.*, 2024).
 
