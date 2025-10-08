@@ -52,9 +52,9 @@ This gives a simple baseline: to maintain a certain level of generalization, dat
 
 The simplicity of this linear scaling doesn’t hold for modern deep networks. Researchers have sought to empirically measure how generalization error depends on data and parameters in more complex models.
 
-Arora *et al.* (2023) observed that large language models exhibit *emergent behaviors*—new capabilities that appear only once both the dataset size and parameter count cross certain thresholds. This observation led to the now-famous mantra: *“scaling is all you need.”*
+[Arora *et al.* (2023)](https://arxiv.org/pdf/2307.15936) observed that large language models exhibit *emergent behaviors*—new capabilities that appear only once both the dataset size and parameter count cross certain thresholds. This observation led to the now-famous mantra: *“scaling is all you need.”*
 
-Earlier, Hestness *et al.* (2017) found that error in deep learning models follows a **power law** in dataset size:
+Earlier, [Hestness *et al.* (2017)](https://arxiv.org/pdf/1712.00409) found that error in deep learning models follows a **power law** in dataset size:
 
 $$
 \text{error} \propto D^\beta, \quad \beta \in [-2, 0]
@@ -68,7 +68,7 @@ Moreover, the number of parameters required to achieve a given level of error gr
 
 ## Kaplan-Type Scaling Laws
 
-Kaplan *et al.* (2020) rigorously verified that both dataset size and parameter count exhibit power-law relationships with generalization error. Their influential work quantified this relationship and even offered a heuristic for model scaling:
+[Kaplan *et al.* (2020)](https://arxiv.org/pdf/2001.08361) rigorously verified that both dataset size and parameter count exhibit power-law relationships with generalization error. Their influential work quantified this relationship and even offered a heuristic for model scaling:
 
 > “Every time we increase the model size by 8×, we only need to increase the data by roughly 5× to avoid a performance penalty.”
 
@@ -95,7 +95,7 @@ They also linked performance more closely to **FLOPs**—the number of floating-
 
 ## The Chinchilla Scaling Laws
 
-Hoffmann *et al.* (2022) later revisited Kaplan’s findings and proposed what became known as the **Chinchilla scaling laws**. Their central result was elegantly simple:
+[Hoffmann *et al.* (2022)](https://arxiv.org/pdf/2203.15556) later revisited Kaplan’s findings and proposed what became known as the **Chinchilla scaling laws**. Their central result was elegantly simple:
 
 > “As compute budget increases, model size and the amount of training data should be increased in approximately equal proportions.”
 
@@ -157,11 +157,11 @@ They concluded that future models should aim to *increase these coefficients*—
 
 ## The Limits of Scaling Laws
 
-Recent research has also explored where scaling laws break down. Dohmatob *et al.* (2024) demonstrated that **model collapse** can occur when scaling laws shift during training.  
+Recent research has also explored where scaling laws break down. [Dohmatob *et al.* (2024)](https://arxiv.org/pdf/2402.07712) demonstrated that **model collapse** can occur when scaling laws shift during training.  
 
 In experiments training linear models on synthetic data, test error eventually plateaued rather than continuing to shrink with $N/d$. As the proportion of synthetic data increased, performance degraded instead of improving.  
 
-“Model collapse” broadly refers to situations where models deteriorate during training—either by overfitting synthetic data or losing diversity in learned representations (Shumailov *et al.*, 2024).
+“Model collapse” broadly refers to situations where models deteriorate during training—either by overfitting synthetic data or losing diversity in learned representations ([Shumailov *et al.*, 2024](https://www.nature.com/articles/s41586-024-07566-y#citeas)).
 
 ![Model Collapse (Dohmatob et al. 2024)](images/dohmatob_scaling_laws.png)
 
@@ -171,7 +171,7 @@ In experiments training linear models on synthetic data, test error eventually p
 
 So far, the discussion has focused on training. But what about **inference**?
 
-Recent studies by Wu *et al.* (2025) and Sardana *et al.* (2025) suggest a different rule of thumb. For inference, it’s better to go *smaller for longer*—in contrast to Hoffmann *et al.*’s principle of scaling model and data equally. This implies that the optimal trade-off for deployment and serving efficiency might deviate from that of training optimization.
+Recent studies by [Wu *et al.* (2025)](https://arxiv.org/pdf/2408.00724) and [Sardana *et al.* (2025)](https://arxiv.org/pdf/2401.00448) suggest a different rule of thumb. For inference, it’s better to go *smaller for longer*—in contrast to Hoffmann *et al.*’s principle of scaling model and data equally. This implies that the optimal trade-off for deployment and serving efficiency might deviate from that of training optimization.
 
 ![Inference Scaling (Wu et al. 2025)](images/wu_inference_scaling.png)
 
@@ -189,8 +189,8 @@ Yet, as recent work shows, these relationships are not immutable. Understanding 
 - Arora et al. (2023). *Theory of Emergence and Complexity in LLMs.*  
 - Hestness et al. (2017). *Deep Learning Scaling Laws.*  
 - Kaplan et al. (2020). *Scaling Laws for Neural Language Models.*  
-- Hoffmann et al. (2022). *Training Compute-Optimal Large Language Models.*  
-- Dohmatob et al. (2024). *Model Collapse Demystified.*  
+- [Hoffmann et al. (2022). *Training Compute-Optimal Large Language Models.*](https://arxiv.org/pdf/2203.15556)
+- [Dohmatob et al. (2024). *Model Collapse Demystified.*  ](https://arxiv.org/pdf/2402.07712)
 - Shumailov et al. (2024). *AI Models Collapse: A Survey.*  
-- Wu et al. (2025). *Inference Scaling Laws.*  
-- Sardana et al. (2025). *Chinchilla Optimal Accounting for Inference.*
+- [Wu et al. (2025). *Inference Scaling Laws.*  ](https://arxiv.org/pdf/2408.00724)
+- [Sardana et al. (2025). *Chinchilla Optimal Accounting for Inference.*](https://arxiv.org/pdf/2401.00448)
