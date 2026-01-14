@@ -94,7 +94,7 @@ git add .
 git commit -m "Add blog post about X"
 
 # Push to GitHub (triggers automatic deployment)
-git push origin main
+git push origin master
 ```
 
 Your site will be live at https://ryan-a-anderson.github.io in a few minutes!

@@ -205,7 +205,7 @@ bundle exec jekyll serve --livereload
 # 6. When satisfied, commit and push
 git add _posts/2026-01-14-my-new-post.md
 git commit -m "Add new blog post"
-git push origin main
+git push origin master
 
 # 7. Stop the server
 # Press Ctrl+C in the terminal running Jekyll

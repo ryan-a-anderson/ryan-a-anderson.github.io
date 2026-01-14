@@ -371,7 +371,7 @@ git add .
 git commit -m "Add new blog post about X"
 
 # Push to GitHub (triggers GitHub Pages rebuild)
-git push origin main
+git push origin master
 ```
 
 Your site will automatically rebuild and deploy via GitHub Pages within a few minutes.
