@@ -4,7 +4,8 @@ date: 2026-01-18
 permalink: /personal/2026-mlk-pub-crawl/
 excerpt: "Like the Gulf War, the 2025 edition of the RAWMLKPCE did not take place. Will 2026 be different? The answer lies in your heart, reader."
 header:
-  image: pub-crawl/friends_beer.jpeg
+  overlay_image: pub-crawl/friends_beer.jpeg
+  overlay_filter: 0.3
   teaser: pub-crawl/friends_beer.jpeg
 ---
 
@@ -49,7 +50,7 @@ Or did it? By the start of March 1991, a poststructuralist fop teaching at the U
 
 By 1991, Baudrillard had become famous for his book "Simulacra and Simulation," which presented the contemporary world as a place where the line between reality and simulation had blurred sufficiently as to make them indistinct: mass entertainment, fiat currency, globalized capitalism, urbanization, English as the global lingua franca. For Baudrillard, the drama of the war, the months of buildup and UN votes and coalition building and sabrerattling on the part of HW Bush and the concomitant defiance and threats from Saddam, the promises to castigate the civilian population and deploy his dread shock troops in the form of the Republican Guard – all of which made for excellent TV fodder in an age where Ted Turner became legend for birthing CNN – was the event. That Coalition aircraft were reported to have chased the massed Iraqi army back from Kuwait is not sufficient to evince a war. Saddam endured, chastened but, in Baudrillard's view, played perfectly to role as a foil for the all-knowing all-conquering all-staging American presidency.
 
-![Time Magazine Covers the Gulf War](/Users/ryananderson/Documents/Programming/Website/images/pub-crawl/gulf_war_media.jpeg)
+![Time Magazine Covers the Gulf War](/images/pub-crawl/gulf_war_media.jpeg)
 
 Like the Gulf War, the 2025 edition of the Ryan Anderson Williamsburg MLK Pub Crawl Extravaganza did not take place. There was no Skinny Dennis swingtime, nor any soggy traipses through the flurries on the way to McCarren Park. A drinking holiday in Williamsburg remained at least for your author a comfortable image with which to distract himself while the important business of life took precedence, but it did not self-realize. To reverse our forebears, we can scry the sacrificial bones for causes, to understand what went wrong – a simple answer is that a good 75% of the regulars at this event got married last year – and yet no answer will ever be complete. The map and the territory, for 7 years established in at least a stable relationship, diverged catastrophically.
 

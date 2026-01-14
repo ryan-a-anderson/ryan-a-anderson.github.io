@@ -4,7 +4,8 @@ date: 2023-01-21
 permalink: /personal/2023-mlk-pub-crawl/
 excerpt: "When unremarkable Virginians conducted a raiding mission under George Washington's leadership, the world could not have foreseen what would come. Here we sit at the same distance from the first RAWMLKPCE."
 header:
-  image: pub-crawl/friends_beer.jpeg
+  overlay_image: pub-crawl/friends_beer.jpeg
+  overlay_filter: 0.3
   teaser: pub-crawl/friends_beer.jpeg
 ---
 
