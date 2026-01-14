@@ -14,7 +14,9 @@ excerpt: "When unremarkable Virginians conducted a raiding mission under George 
 
 # Map
 
-[Google Maps Route](https://www.google.com/maps/d/u/0/embed?mid=1p_7KZkT9keBuU3Rezi28YD4RJs6sPGDm&ehbc=2E312F)
+<iframe src="https://www.google.com/maps/d/embed?mid=1p_7KZkT9keBuU3Rezi28YD4RJs6sPGDm&ehbc=2E312F" width="100%" height="480"></iframe>
+
+[Open in Google Maps](https://www.google.com/maps/d/u/0/embed?mid=1p_7KZkT9keBuU3Rezi28YD4RJs6sPGDm&ehbc=2E312F)
 
 # Schedule
 

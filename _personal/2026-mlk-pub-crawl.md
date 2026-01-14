@@ -14,7 +14,9 @@ excerpt: "Like the Gulf War, the 2025 edition of the RAWMLKPCE did not take plac
 
 # Map
 
-[Google Maps Route](https://www.google.com/maps/d/u/0/edit?mid=164eCynkZ82VK7-r9aBfNVPM8kswIrIY&usp=sharing)
+<iframe src="https://www.google.com/maps/d/embed?mid=164eCynkZ82VK7-r9aBfNVPM8kswIrIY" width="100%" height="480"></iframe>
+
+[Open in Google Maps](https://www.google.com/maps/d/u/0/edit?mid=164eCynkZ82VK7-r9aBfNVPM8kswIrIY&usp=sharing)
 
 # Schedule
 
