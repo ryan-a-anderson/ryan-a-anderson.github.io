@@ -49,6 +49,8 @@ Or did it? By the start of March 1991, a poststructuralist fop teaching at the U
 
 By 1991, Baudrillard had become famous for his book "Simulacra and Simulation," which presented the contemporary world as a place where the line between reality and simulation had blurred sufficiently as to make them indistinct: mass entertainment, fiat currency, globalized capitalism, urbanization, English as the global lingua franca. For Baudrillard, the drama of the war, the months of buildup and UN votes and coalition building and sabrerattling on the part of HW Bush and the concomitant defiance and threats from Saddam, the promises to castigate the civilian population and deploy his dread shock troops in the form of the Republican Guard – all of which made for excellent TV fodder in an age where Ted Turner became legend for birthing CNN – was the event. That Coalition aircraft were reported to have chased the massed Iraqi army back from Kuwait is not sufficient to evince a war. Saddam endured, chastened but, in Baudrillard's view, played perfectly to role as a foil for the all-knowing all-conquering all-staging American presidency.
 
+![Time Magazine Covers the Gulf War](/Users/ryananderson/Documents/Programming/Website/images/pub-crawl/gulf_war_media.jpeg)
+
 Like the Gulf War, the 2025 edition of the Ryan Anderson Williamsburg MLK Pub Crawl Extravaganza did not take place. There was no Skinny Dennis swingtime, nor any soggy traipses through the flurries on the way to McCarren Park. A drinking holiday in Williamsburg remained at least for your author a comfortable image with which to distract himself while the important business of life took precedence, but it did not self-realize. To reverse our forebears, we can scry the sacrificial bones for causes, to understand what went wrong – a simple answer is that a good 75% of the regulars at this event got married last year – and yet no answer will ever be complete. The map and the territory, for 7 years established in at least a stable relationship, diverged catastrophically.
 
 Will the 2026 RAWMLKPCE take place? The answer lies in your heart, reader. Take the red pill.
@@ -59,7 +61,7 @@ Here's a groupme link if you want lmao: [https://groupme.com/join_group/84245095
 
 Advisory guidance is max 2 beers per bar unless it's really fun! Especially early on. Not only is this day not a sprint, it's no mere marathon – this is the Pheidippides running to announce the victory at Marathon of beer drinking events.
 
-![Merson's Pheidippides Giving Word of Victory After the Battle of Marathon, 1869](/images/pub-crawl/Untitled.png)
+![Merson's Pheidippides Giving Word of Victory After the Battle of Marathon, 1869](/images/pub-crawl/Untitled 3.png)
 
 *Merson's "Pheidippides Giving Word of Victory After the Battle of Marathon," 1869*
 
@@ -71,4 +73,4 @@ Here's what happens when you fail to plan (you plan to fail):
 
 As Deng advised, 韬光养晦 (bide your time, hide your strength), for the marquee hours at Skinny Dennis and Radegast!
 
-![Deng Xiaoping](/images/pub-crawl/Untitled%201.png)
+![Deng Xiaoping](/images/pub-crawl/Untitled 4.png)
