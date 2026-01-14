@@ -4,8 +4,8 @@ date: 2022-01-16
 permalink: /personal/2022-mlk-pub-crawl/
 excerpt: "First crawl of the Biden admin so you know we're doing it Scranton-style."
 header:
-  image: pub-crawl/Untitled.png
-  teaser: pub-crawl/Untitled.png
+  image: pub-crawl/friends_beer.jpeg
+  teaser: pub-crawl/friends_beer.jpeg
 ---
 
 # TL;DR
