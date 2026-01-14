@@ -3,6 +3,9 @@ title: "Return of the Ryan Anderson Williamsburg MLK Pub Crawl Extravaganza"
 date: 2026-01-18
 permalink: /personal/2026-mlk-pub-crawl/
 excerpt: "Like the Gulf War, the 2025 edition of the RAWMLKPCE did not take place. Will 2026 be different? The answer lies in your heart, reader."
+header:
+  image: /images/pub-crawl/image.png
+  teaser: /images/pub-crawl/image.png
 ---
 
 # TL;DR
