@@ -146,6 +146,11 @@ exclude:
   - package.json
   - tmp
   - vendor
+  - BLOG_GUIDE.md
+  - LOCAL_PREVIEW.md
+  - QUICK_START.md
+  - new-post.sh
+  - serve.sh
 keep_files:
   - .git
   - .svn
