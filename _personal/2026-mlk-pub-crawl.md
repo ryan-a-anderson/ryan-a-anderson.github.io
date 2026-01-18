@@ -31,8 +31,9 @@ Sunday Sunday Sunday at 1pm
 3. (all-star role player looking for more minutes) Horses and Divorces
 4. (chasing sixth ring) Skinny Dennis
 5. (hall of fame) Radegast Hall
-6. (promising sophomore) George & Jack's Tap Room
-7. (hall of very good) Turkey Nest
+6. (beloved glue guy) The Charleston
+7. (promising sophomore) George & Jack's Tap Room
+8. (hall of very good) Turkey Nest
 
 # Overview
 
