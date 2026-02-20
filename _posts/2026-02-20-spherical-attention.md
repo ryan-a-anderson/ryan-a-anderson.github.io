@@ -103,7 +103,7 @@ This recovers a spherical analogue of local window attention, trading some expre
 
 ## Positional Embedding via Spherical Harmonics
 
-On a flat domain, sinusoidal positional embeddings encode position by frequency. On the sphere, the natural analogue is **spherical harmonics**—the eigenfunctions of the Laplace-Beltrami operator on $S^2$ ([Brandstetter et al., 2023](https://arxiv.org/pdf/2310.06743)).
+On a flat domain, sinusoidal positional embeddings encode position by frequency. On the sphere, the natural analogue is **spherical harmonics**—the eigenfunctions of the Laplace-Beltrami operator on $S^2$ ([Russwurm et al., 2023](https://arxiv.org/pdf/2310.06743)).
 
 Spherical harmonics form a complete orthonormal basis for $L^2(S^2)$, and they transform predictably under rotations (via Wigner D-matrices). Using them as positional embeddings preserves the rotational structure of the architecture end-to-end.
 
@@ -111,12 +111,12 @@ Spherical harmonics form a complete orthonormal basis for $L^2(S^2)$, and they t
 
 ## Why This Matters
 
-Many real-world datasets are naturally spherical: global climate and weather data, omnidirectional images, 3D molecular structure, cosmological surveys. For these domains, standard Euclidean transformers impose incorrect geometric assumptions. Spherical attention ([Kaba et al., 2023](https://openreview.net/pdf?id=UCloKhbOvP)) offers a principled solution: full transformer expressiveness—learning both local and global relationships—with the correct inductive bias for spherical geometry.
+Many real-world datasets are naturally spherical: global climate and weather data, omnidirectional images, 3D molecular structure, cosmological surveys. For these domains, standard Euclidean transformers impose incorrect geometric assumptions. Spherical attention ([Bonev et al., 2025](https://arxiv.org/pdf/2505.11157)) offers a principled solution: full transformer expressiveness—learning both local and global relationships—with the correct inductive bias for spherical geometry.
 
 ---
 
 ### References
 
 - [Dosovitskiy et al. (2020). *An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale.*](https://arxiv.org/pdf/2010.11929)
-- [Kaba et al. (2023). *Spherical Transformer for LiDAR Point Clouds.*](https://openreview.net/pdf?id=UCloKhbOvP)
-- [Brandstetter et al. (2023). *Geometric Clifford Algebra Networks.*](https://arxiv.org/pdf/2310.06743)
+- [Bonev et al. (2023). *Attention on the Sphere.*](https://arxiv.org/pdf/2505.11157)
+- [Russwurm et al. (2023). *Geographic Location Encoding with Spherical Harmonics and Sinusoidal Representation Networks.*](https://arxiv.org/pdf/2310.06743)
