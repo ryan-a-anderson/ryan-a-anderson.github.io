@@ -62,7 +62,7 @@ $$
 
 Moreover, the number of parameters required to achieve a given level of error grows *sublinearly* with dataset size. Their empirical curves, such as those from language transformer experiments, supported this pattern.
 
-![Language Transformer Scaling (Hestness et al. 2017)](~/images/hestness_language_transformer.png)
+![Language Transformer Scaling (Hestness et al. 2017)](../images/hestness_language_transformer.png)
 
 ---
 
@@ -89,7 +89,7 @@ $$
 They also linked performance more closely to **FLOPs**—the number of floating-point operations required—since a transformer with $N$ parameters needs roughly $6N$ computations per token. Crucially, their work highlighted transformers’ superiority over other architectures.
 
 ![Kaplan Scaling Laws](images/kaplan_scaling.png)
-![Transformer Performance (Kaplan et al. 2020)](images/kaplan_transformers.png)
+![Transformer Performance (Kaplan et al. 2020)](../images/kaplan_transformers.png)
 
 ---
 
@@ -101,7 +101,7 @@ They also linked performance more closely to **FLOPs**—the number of floating-
 
 In other words, optimal scaling is *balanced*: if you double your compute, you should roughly double both model parameters and dataset size.
 
-![Chinchilla Optimal Scaling (Hoffmann et al. 2022)](images/hoffmann_optimal.png)
+![Chinchilla Optimal Scaling (Hoffmann et al. 2022)](../images/hoffmann_optimal.png)
 
 ---
 
@@ -163,7 +163,7 @@ In experiments training linear models on synthetic data, test error eventually p
 
 “Model collapse” broadly refers to situations where models deteriorate during training—either by overfitting synthetic data or losing diversity in learned representations ([Shumailov *et al.*, 2024](https://www.nature.com/articles/s41586-024-07566-y#citeas)).
 
-![Model Collapse (Dohmatob et al. 2024)](images/dohmatob_scaling_laws.png)
+![Model Collapse (Dohmatob et al. 2024)](../images/dohmatob_scaling_laws.png)
 
 ---
 
@@ -173,7 +173,7 @@ So far, the discussion has focused on training. But what about **inference**?
 
 Recent studies by [Wu *et al.* (2025)](https://arxiv.org/pdf/2408.00724) and [Sardana *et al.* (2025)](https://arxiv.org/pdf/2401.00448) suggest a different rule of thumb. For inference, it’s better to go *smaller for longer*—in contrast to Hoffmann *et al.*’s principle of scaling model and data equally. This implies that the optimal trade-off for deployment and serving efficiency might deviate from that of training optimization.
 
-![Inference Scaling (Wu et al. 2025)](images/wu_inference_scaling.png)
+![Inference Scaling (Wu et al. 2025)](../images/wu_inference_scaling.png)
 
 ---
 
