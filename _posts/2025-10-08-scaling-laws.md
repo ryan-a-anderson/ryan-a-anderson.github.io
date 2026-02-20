@@ -62,7 +62,7 @@ $$
 
 Moreover, the number of parameters required to achieve a given level of error grows *sublinearly* with dataset size. Their empirical curves, such as those from language transformer experiments, supported this pattern.
 
-![Language Transformer Scaling (Hestness et al. 2017)](./images/hestness_language_transformer.png)
+![Language Transformer Scaling (Hestness et al. 2017)](~/images/hestness_language_transformer.png)
 
 ---
 
