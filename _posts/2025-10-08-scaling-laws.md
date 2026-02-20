@@ -88,7 +88,7 @@ $$
 
 They also linked performance more closely to **FLOPs**—the number of floating-point operations required—since a transformer with $N$ parameters needs roughly $6N$ computations per token. Crucially, their work highlighted transformers’ superiority over other architectures.
 
-![Kaplan Scaling Laws](images/kaplan_scaling.png)
+![Kaplan Scaling Laws](../images/kaplan_scaling.png)
 ![Transformer Performance (Kaplan et al. 2020)](../images/kaplan_transformers.png)
 
 ---
